@@ -1,7 +1,20 @@
 # voice
 
-由 FID 确定性生成声音的工具。设计见 [../docs/FID声音.md](../docs/FID声音.md)。
+由 FID 确定性生成声音。设计见 [../docs/FID声音.md](../docs/FID声音.md)。
 
-状态：引擎待选（Kokoro 原型 → CosyVoice 对比）。
+## 安装
 
-模型权重下载到 `voice/models/`（不入库），其 SHA256 记录在规范里。
+```bash
+cd voice
+uv sync
+# 下载锁定版本的模型（约 330MB，不入库）
+.venv/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download('hexgrad/Kokoro-82M-v1.1-zh', revision='01e7505bd6a7a2ac4975463114c3a7650a9f7218', local_dir='models/kokoro-v1.1-zh', allow_patterns=['config.json','kokoro-v1_1-zh.pth','voices/z*.pt'])"
+```
+
+## 使用
+
+```bash
+.venv/bin/python freer_voice.py --fid <FID> --params                 # 查看推导出的参数
+.venv/bin/python freer_voice.py --fid <FID> --text "你好" --out a.wav  # 合成
+.venv/bin/python make_samples.py [FID ...]                            # 生成试听页 out/index.html
+```
