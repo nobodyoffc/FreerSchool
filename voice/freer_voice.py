@@ -47,6 +47,11 @@ LEXICON = {
     'FID': 'ˌɛfˌIdˈi',  # spelled out, like CID
 }
 
+# Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
+READINGS = {
+    '靓': '亮',  # liàng, not jìng
+}
+
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 FID_VERSION = 0x23  # the version byte every FID starts with ('F')
 
@@ -169,6 +174,8 @@ class Synthesizer:
             k = 1.0 if n <= 83 else max(0.8, 1 - (n - 83) / 500)
             return p.speed * k * 1.1
 
+        for word, reading in READINGS.items():
+            text = text.replace(word, reading)
         self.pitch_ratio = 2 ** (p.pitch / 12)
         self.torch.manual_seed(p.seed)
         parts = [r.audio.numpy() for r in self.pipeline(text, voice=style, speed=speed) if r.audio is not None]

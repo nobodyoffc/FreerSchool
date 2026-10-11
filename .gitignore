@@ -24,3 +24,4 @@ voice/models/
 .idea/
 .vscode/
 voice/out/
+episodes/**/build/
