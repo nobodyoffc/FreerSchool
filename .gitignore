@@ -1,0 +1,25 @@
+# 媒体产物
+recordings/
+renders/
+*.mp4
+*.mov
+*.wav
+!assets/music/*.wav
+
+# 密钥：任何形式都不得入库
+*.key
+*prikey*
+*private*
+keys/
+candidates/
+
+# 工具
+node_modules/
+video/out/
+.remotion/
+__pycache__/
+.venv/
+voice/models/
+.DS_Store
+.idea/
+.vscode/
