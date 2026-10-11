@@ -1,20 +1,26 @@
 """FreerVoice: derive a unique, reproducible voice from an FID.
 
-A Kokoro style vector has two halves: [:128] is timbre (fed to the decoder),
-[128:] is prosody (fed to the duration and pitch predictor). v1 draws them
-from different base voices and scales the predicted pitch curve inside the
-model, so neither half is averaged away.
+v1 keeps one base voice dominant, scales the predicted pitch curve inside the
+model, and pushes the result away from the gender's average voice, so the
+voices are not averaged into one another.
+
+Prosody (the [128:] half of a Kokoro style, which shapes tones) is never taken
+from another voice: some base voices carry a foreign-sounding tone pattern,
+and borrowing it makes Mandarin tones sound wrong. Such voices are listed in
+EXCLUDED and are skipped.
 
 v1  h = SHA256("FreerVoice/v1/" + FID)
     byte 0       gender: even → female (zf_*), odd → male (zm_*)
-    bytes 1–2    timbre voice A, from that gender's sorted list
-    bytes 3–4    timbre voice B, same list, different from A
-    byte 5       timbre weight w ∈ [0, 0.3]; timbre = (1 - w)·A + w·B
-    bytes 6–7    prosody voice C, same list (may equal A)
+    bytes 1–2    voice A, from that gender's sorted list
+    bytes 3–4    voice B, same list without A
+    byte 5       weight w ∈ [0, 0.3]; style = (1 - w)·A + w·B
     byte 8       pitch ∈ [-3, +3] semitones, applied to the predicted F0
     byte 9       speed ∈ [0.9, 1.1]
     bytes 16–23  torch seed for the vocoder's noise
     then         style += CARICATURE · (style − mean of that gender's base voices)
+
+    A pick that lands on an EXCLUDED voice is redrawn from SHA256(h ‖ byte ‖ n),
+    n = 0, 1, …, so excluding a voice moves only the FIDs that had picked it.
 
 v0  h = SHA256("FreerVoice/v0/" + FID); kept for comparison only
     byte 0 gender, bytes 1–2 A, bytes 3–4 B, byte 5 w ∈ [0.2, 0.8] over the
@@ -41,6 +47,14 @@ SAMPLE_RATE = 24000
 # v1 only. At 0.3 the voices are as far apart as the base voices themselves
 # (ECAPA, compare.py); higher sounds no more distinct to the ear.
 CARICATURE = 0.3
+
+# Base voices with foreign-sounding Mandarin tones, found by ear with screen_voices.py;
+# never picked (v1). Many more voices turn a sentence-final 员 (yuán) into yuǎn; that
+# looks like a model limitation rather than a bad voice, so they are kept (docs/FID声音.md).
+EXCLUDED = {
+    'zm_010', 'zm_013', 'zm_014', 'zm_016', 'zm_030', 'zm_035', 'zm_058', 'zm_062', 'zm_068',
+    'zf_060', 'zf_090',
+}
 
 # English words inside Chinese text go through the English G2P; these override it.
 LEXICON = {
@@ -74,10 +88,9 @@ class VoiceParams:
     fid: str
     version: str
     gender: str
-    timbre_a: str
-    timbre_b: str
-    weight: float  # share of timbre_b
-    prosody: str | None  # None: prosody mixes like timbre (v0)
+    voice_a: str
+    voice_b: str
+    weight: float  # share of voice_b
     pitch: float  # semitones
     speed: float
     seed: int
@@ -88,12 +101,13 @@ def base_voices(gender: str) -> list[str]:
     return sorted(p.stem for p in (MODEL_DIR / 'voices').glob(f'{prefix}_*.pt'))
 
 
-def _pick_two(h: bytes, voices: list[str]) -> tuple[str, str]:
-    a = int.from_bytes(h[1:3], 'big') % len(voices)
-    b = int.from_bytes(h[3:5], 'big') % (len(voices) - 1)
-    if b >= a:
-        b += 1
-    return voices[a], voices[b]
+def _pick(h: bytes, at: int, voices: list[str], excluded: set[str]) -> str:
+    """Pick by h[at:at+2]; redraw from SHA256(h ‖ at ‖ n) while the pick is excluded."""
+    k, n = int.from_bytes(h[at:at + 2], 'big'), 0
+    while voices[k % len(voices)] in excluded:
+        k = int.from_bytes(hashlib.sha256(h + bytes([at, n])).digest()[:2], 'big')
+        n += 1
+    return voices[k % len(voices)]
 
 
 def derive(fid: str, version: str = VERSION) -> VoiceParams:
@@ -101,21 +115,21 @@ def derive(fid: str, version: str = VERSION) -> VoiceParams:
     h = hashlib.sha256(f'FreerVoice/{version}/{fid}'.encode()).digest()
     gender = 'female' if h[0] % 2 == 0 else 'male'
     voices = base_voices(gender)
-    a, b = _pick_two(h, voices)
+    excluded = EXCLUDED if version == 'v1' else set()
+    a = _pick(h, 1, voices, excluded)
+    b = _pick(h, 3, [v for v in voices if v != a], excluded)
     if version == 'v0':
         return VoiceParams(
-            fid=fid, version=version, gender=gender, timbre_a=a, timbre_b=b,
+            fid=fid, version=version, gender=gender, voice_a=a, voice_b=b,
             weight=round(0.2 + 0.6 * h[5] / 255, 4),
-            prosody=None,
             pitch=0.0,
             speed=round(0.92 + 0.16 * h[6] / 255, 4),
             seed=int.from_bytes(h[8:16], 'big') & 0x7FFF_FFFF_FFFF_FFFF,
         )
     if version == 'v1':
         return VoiceParams(
-            fid=fid, version=version, gender=gender, timbre_a=a, timbre_b=b,
+            fid=fid, version=version, gender=gender, voice_a=a, voice_b=b,
             weight=round(0.3 * h[5] / 255, 4),
-            prosody=voices[int.from_bytes(h[6:8], 'big') % len(voices)],
             pitch=round(-3 + 6 * h[8] / 255, 3),
             speed=round(0.9 + 0.2 * h[9] / 255, 4),
             seed=int.from_bytes(h[16:24], 'big') & 0x7FFF_FFFF_FFFF_FFFF,
@@ -157,10 +171,9 @@ class Synthesizer:
         return self.torch.load(MODEL_DIR / 'voices' / f'{name}.pt', weights_only=True)
 
     def style(self, p: VoiceParams):
-        mixed = (1 - p.weight) * self._load(p.timbre_a) + p.weight * self._load(p.timbre_b)
-        if p.prosody is None:
-            return mixed
-        style = self.torch.cat([mixed[..., :128], self._load(p.prosody)[..., 128:]], dim=-1)
+        style = (1 - p.weight) * self._load(p.voice_a) + p.weight * self._load(p.voice_b)
+        if p.version == 'v0':
+            return style
         mean = self.torch.stack([self._load(v) for v in base_voices(p.gender)]).mean(0)
         return style + CARICATURE * (style - mean)
 

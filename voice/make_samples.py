@@ -64,19 +64,18 @@ def main():
             f'<tr><td><img src="{fid}.png" width="96"></td>'
             f'<td><code>{fid}</code><br><b>{tag}</b></td>'
             f'<td>{"男" if p.gender == "male" else "女"}</td>'
-            f'<td>{p.timbre_a} × {1 - p.weight:.2f}<br>{p.timbre_b} × {p.weight:.2f}</td>'
-            f'<td>{p.prosody}</td>'
+            f'<td>{p.voice_a} × {1 - p.weight:.2f}<br>{p.voice_b} × {p.weight:.2f}</td>'
             f'<td>{p.pitch:+.1f}</td>'
             f'<td>{p.speed:.3f}</td>'
             f'<td><audio controls preload="none" src="{fid}.wav"></audio></td></tr>'
         )
-        print(fid, p.gender, p.timbre_a, p.timbre_b, p.weight, p.prosody, p.pitch, p.speed)
+        print(fid, p.gender, p.voice_a, p.voice_b, p.weight, p.pitch, p.speed)
     (OUT / 'index.html').write_text(
         '<!doctype html><meta charset="utf-8"><title>FID 声音试听</title>'
         '<style>body{font-family:-apple-system,"PingFang SC",sans-serif;margin:24px}'
         'td{padding:8px 12px;border-bottom:1px solid #ddd;vertical-align:middle}code{font-size:13px}</style>'
         f'<h1>FID 声音试听</h1><p>{html.escape(TEXT)}</p>'
-        '<table><tr><th>头像</th><th>FID</th><th>性别</th><th>音色</th><th>韵律</th><th>音高（半音）</th><th>语速</th><th>试听</th></tr>'
+        '<table><tr><th>头像</th><th>FID</th><th>性别</th><th>音色</th><th>音高（半音）</th><th>语速</th><th>试听</th></tr>'
         + ''.join(rows) + '</table>',
         encoding='utf-8',
     )

@@ -13,5 +13,6 @@ dependencies = [
 
 [dependency-groups]
 analysis = [
+    "librosa==0.11.0",
     "speechbrain==1.1.1",
 ]

@@ -6,7 +6,6 @@ For each set of voices, embed one sentence with ECAPA and report, within each ge
 
     uv run --group analysis python compare.py [N]
 """
-import dataclasses
 import sys
 
 import numpy as np
@@ -38,13 +37,12 @@ def main():
         return ecapa.encode_batch(resample(synth.speak(p, TEXT))).squeeze().numpy()
 
     def base(name: str, gender: str) -> VoiceParams:
-        return VoiceParams('', 'base', gender, name, name, 0.0, None, 0.0, 1.0, 0)
+        return VoiceParams('', 'v0', gender, name, name, 0.0, 0.0, 1.0, 0)
 
     fids = test_fids(n)
     sets = {
         'base（100 个原始音色）': [base(v, g) for g in ('female', 'male') for v in base_voices(g)],
         'v0': [derive(f, 'v0') for f in fids],
-        'v1 仅音色（无韵律、无音高）': [dataclasses.replace(derive(f, 'v1'), prosody=None, pitch=0.0) for f in fids],
         'v1': [derive(f, 'v1') for f in fids],
     }
     print(f'{"":28}{"女 mean":>9}{"女 near":>9}{"男 mean":>9}{"男 near":>9}')
