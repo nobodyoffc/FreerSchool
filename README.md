@@ -18,7 +18,8 @@
 docs/         原则、集目、领航员设定、FID 声音设计
 episodes/     每集一个目录：script.md 是唯一源头
   _template/  新建一集时复制这里
-voice/        FID → 声音 的生成工具（原型阶段）
+voice/        FID → 声音、旁白合成、声调自检
+music/        主题音乐，用代码作曲
 video/        Remotion 工程：组件与每集合成
 assets/       品牌、音乐、字体、领航员形象
 recordings/   应用原始录屏（不入库）
@@ -51,9 +52,12 @@ cd .. && tools/record.sh U1-02 S3
 # 3. 把旁白与录屏同步进视频工程
 cd video && npm run sync -- "../episodes/U1/U1-02-你的第一个身份"
 
-# 4. 预览或导出
-npm run studio
-npx remotion render src/index.ts U1-02 ../renders/U1-02.mp4
+# 4. 主题音乐（只需一次；曲目在 school.json 里选，换曲后重跑）
+cd ../music && ../voice/.venv/bin/python compose.py --theme
+
+# 5. 预览，或导出成片（响度统一到 -16 LUFS）→ renders/U1-02.mp4
+cd ../video && npm run studio
+cd .. && tools/finalize.sh U1-02
 ```
 
 新的一集要在 `video/src/Root.tsx` 的 `EPISODES` 里登记；概念动画在 `video/src/animations/` 里按"集号/场景"登记。

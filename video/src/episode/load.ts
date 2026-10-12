@@ -9,6 +9,7 @@ export const loadEpisode: CalculateMetadataFunction<EpisodeProps> = async ({prop
   const base = `episodes/${props.episode}`;
   const timeline = await fetch(staticFile(`${base}/timeline.json`)).then((r) => r.json());
   const manifest = await fetch(staticFile(`${base}/manifest.json`)).then((r) => r.json());
+  const music = await fetch(staticFile('music/music.json')).then((r) => r.json());
   const {width, height, fps} = /Android/i.test(timeline.app ?? '') ? PORTRAIT : VIDEO;
-  return {width, height, fps, durationInFrames: planEpisode(timeline, fps).total, props: {...props, timeline, manifest}};
+  return {width, height, fps, durationInFrames: planEpisode(timeline, fps).total, props: {...props, timeline, manifest, musicLoop: music.loop}};
 };

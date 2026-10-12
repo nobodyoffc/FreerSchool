@@ -16,3 +16,6 @@ analysis = [
     "librosa==0.11.0",
     "speechbrain==1.1.1",
 ]
+music = [
+    "scipy==1.18.1",
+]

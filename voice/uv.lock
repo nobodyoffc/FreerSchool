@@ -434,6 +434,9 @@ analysis = [
     { name = "librosa" },
     { name = "speechbrain" },
 ]
+music = [
+    { name = "scipy" },
+]
 
 [package.metadata]
 requires-dist = [
@@ -449,6 +452,7 @@ analysis = [
     { name = "librosa", specifier = "==0.11.0" },
     { name = "speechbrain", specifier = "==1.1.1" },
 ]
+music = [{ name = "scipy", specifier = "==1.18.1" }]
 
 [[package]]
 name = "fsspec"

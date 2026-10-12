@@ -17,7 +17,7 @@ export const Root: React.FC = () => (
         id={id}
         component={Episode}
         calculateMetadata={loadEpisode}
-        defaultProps={{episode: id, timeline: null, manifest: null} satisfies EpisodeProps}
+        defaultProps={{episode: id, timeline: null, manifest: null, musicLoop: 1} satisfies EpisodeProps}
         durationInFrames={1}
         {...VIDEO}
       />

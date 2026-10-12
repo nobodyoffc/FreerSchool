@@ -5,13 +5,14 @@ import {Caption} from '../components/Caption';
 import {TitleCard} from '../components/TitleCard';
 import {theme} from '../theme';
 import {CardScene} from './CardScene';
+import {Music} from './Music';
 import {NavigatorScene} from './NavigatorScene';
 import {Outro} from './Outro';
 import {type PlannedScene, planEpisode} from './plan';
 import {RecordingScene} from './RecordingScene';
 import type {Manifest, Timeline} from './types';
 
-export type EpisodeProps = {episode: string; timeline: Timeline | null; manifest: Manifest | null};
+export type EpisodeProps = {episode: string; timeline: Timeline | null; manifest: Manifest | null; musicLoop: number};
 
 const SceneVisual: React.FC<{scene: PlannedScene; props: EpisodeProps; base: string}> = ({scene, props, base}) => {
   const {timeline, manifest, episode} = props;
@@ -39,6 +40,7 @@ export const Episode: React.FC<EpisodeProps> = (props) => {
   const plan = planEpisode(timeline, fps);
   return (
     <AbsoluteFill style={{background: theme.bg}}>
+      <Music plan={plan} loopSeconds={props.musicLoop} />
       <Sequence durationInFrames={plan.intro}>
         <TitleCard id={timeline.id} title={timeline.title} />
       </Sequence>

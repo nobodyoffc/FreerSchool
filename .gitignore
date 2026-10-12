@@ -26,3 +26,5 @@ voice/models/
 voice/out/
 episodes/**/build/
 video/public/episodes/
+music/out/
+video/public/music/
