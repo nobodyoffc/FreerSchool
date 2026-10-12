@@ -3,7 +3,8 @@
 Reads episodes/<...>/script.md, synthesizes every "> " line, and writes to <episode>/build/:
     narration.wav   all lines, with pauses between lines and scenes
     lines/*.wav     one file per line
-    timeline.json   scene and line timings, in seconds, for the video and captions
+    timeline.json   the episode for the video: id and title, and per scene its type, points,
+                    operations, callouts and lines with timings in seconds
 
     python narrate.py ../episodes/U1/U1-02-你的第一个身份
 """
@@ -30,14 +31,29 @@ PAUSE_SCALE = 0.75
 SCENE = re.compile(r'^### (S\d+) \[(.+?)\]\s*(.*)$')
 
 
-def parse(script: str) -> list[dict]:
+def parse(script: str) -> tuple[dict, list[dict]]:
+    """Front matter fields, and the scenes under "## 场景"."""
+    front = {}
+    if script.startswith('---'):
+        for raw in script.split('---')[1].splitlines():
+            if ':' in raw:
+                key, value = raw.split(':', 1)
+                front[key.strip()] = value.split('#')[0].strip()
     scenes = []
     for raw in script.splitlines():
         if m := SCENE.match(raw):
-            scenes.append({'id': m[1], 'type': m[2], 'title': m[3], 'lines': []})
-        elif raw.startswith('> ') and scenes:
+            scenes.append({'id': m[1], 'type': m[2], 'title': m[3], 'points': [], 'ops': [], 'notes': [], 'lines': []})
+        elif not scenes:
+            continue
+        elif raw.startswith('> '):
             scenes[-1]['lines'].append(raw[2:].strip())
-    return scenes
+        elif raw.startswith('- '):
+            scenes[-1]['points'].append(raw[2:].strip())
+        elif raw.startswith('操作：'):
+            scenes[-1]['ops'] += [op.strip() for op in raw[3:].split('→')]
+        elif raw.startswith('标注：'):
+            scenes[-1]['notes'] += [n.strip() for n in raw[3:].split('；')]
+    return front, scenes
 
 
 def tighten(wav: np.ndarray, threshold: float = 0.01, hop: int = 240) -> np.ndarray:
@@ -63,7 +79,7 @@ def tighten(wav: np.ndarray, threshold: float = 0.01, hop: int = 240) -> np.ndar
 
 def main():
     episode = Path(sys.argv[1]).resolve()
-    scenes = parse((episode / 'script.md').read_text(encoding='utf-8'))
+    front, scenes = parse((episode / 'script.md').read_text(encoding='utf-8'))
     navigator = json.loads((ROOT / 'school.json').read_text(encoding='utf-8'))['navigator']
     params = derive(navigator['fid'])
 
@@ -77,11 +93,16 @@ def main():
         audio.append(np.zeros(int(seconds * SAMPLE_RATE), dtype=np.float32))
         t += seconds
 
-    timeline = {'fid': navigator['fid'], 'voice': params.version, 'scenes': []}
+    timeline = {
+        'id': front.get('id'), 'title': front.get('title'), 'app': front.get('app'),
+        'navigator': navigator, 'voice': params.version,
+        'gaps': {'line': LINE_GAP, 'scene': SCENE_GAP},
+        'scenes': [],
+    }
     for si, scene in enumerate(scenes):
         if si:
             silence(SCENE_GAP)
-        entry = {k: scene[k] for k in ('id', 'type', 'title')} | {'start': round(t, 3), 'lines': []}
+        entry = {k: scene[k] for k in ('id', 'type', 'title', 'points', 'ops', 'notes')} | {'start': round(t, 3), 'lines': []}
         for li, text in enumerate(scene['lines']):
             if li:
                 silence(LINE_GAP)
@@ -89,7 +110,8 @@ def main():
             name = f'{scene["id"]}-{li + 1:02}.wav'
             sf.write(build / 'lines' / name, wav, SAMPLE_RATE)
             duration = len(wav) / SAMPLE_RATE
-            entry['lines'].append({'text': text, 'file': f'lines/{name}', 'start': round(t, 3), 'end': round(t + duration, 3)})
+            entry['lines'].append({'text': text, 'file': f'lines/{name}', 'duration': round(duration, 3),
+                                   'start': round(t, 3), 'end': round(t + duration, 3)})
             audio.append(wav)
             t += duration
             print(f'{scene["id"]} {t:6.1f}s  {text}', flush=True)

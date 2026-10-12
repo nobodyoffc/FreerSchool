@@ -18,4 +18,5 @@ uv sync
 .venv/bin/python freer_voice.py --fid <FID> --text "你好" --out a.wav  # 合成
 .venv/bin/python make_samples.py [FID ...]                            # 生成试听页 out/index.html
 .venv/bin/python narrate.py ../episodes/U1/<集目录>                    # 用领航员的声音合成整集旁白 → <集目录>/build/
+.venv/bin/python tone_check.py ../episodes/U1/<集目录>                # 声调自检：列出句末声调可能读歪的字
 ```

@@ -32,17 +32,29 @@ episodes/<编号>/script.md
   ↓ voice/   逐句合成旁白 + 时间戳
   ↓ scrcpy   按脚本录制应用片段 → recordings/
   ↓ video/   Remotion 合成：录屏 + 手机外框 + 标注 + 领航员 + 字幕
-  ↓ renders/ 导出 16:9 成片
+  ↓ renders/ 导出成片：Android 集竖屏 9:16，Mac 集横屏 16:9
 ```
 
-## 常用命令
+## 做一集
+
+以 U1-02 为例：
 
 ```bash
-cd video
-npm install
-npm run studio      # 打开 Remotion Studio 预览
-npm run render -- Sample ../renders/sample.mp4
+# 1. 用领航员的声音合成旁白 → episodes/.../build/（时间轴 timeline.json + 逐句音频）
+cd voice && .venv/bin/python narrate.py "../episodes/U1/U1-02-你的第一个身份"
+.venv/bin/python tone_check.py "../episodes/U1/U1-02-你的第一个身份"   # 声调自检，报警的句子重点试听
+
+# 2. 录屏放到 recordings/U1-02/<场景>.mp4，例如 S3.mp4；没有录屏的场景显示操作步骤占位
+
+# 3. 把旁白与录屏同步进视频工程
+cd ../video && npm run sync -- "../episodes/U1/U1-02-你的第一个身份"
+
+# 4. 预览或导出
+npm run studio
+npx remotion render src/index.ts U1-02 ../renders/U1-02.mp4
 ```
+
+新的一集要在 `video/src/Root.tsx` 的 `EPISODES` 里登记；概念动画在 `video/src/animations/` 里按"集号/场景"登记。
 
 ## 外部依赖
 
