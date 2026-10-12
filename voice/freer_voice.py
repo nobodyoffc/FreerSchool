@@ -67,6 +67,7 @@ LEXICON = {
 # Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
 READINGS = {
     '靓': '亮',  # liàng, not jìng
+    '长数据': '常数据',  # cháng, not zhǎng
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

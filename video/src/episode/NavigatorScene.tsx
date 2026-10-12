@@ -46,8 +46,10 @@ export const NavigatorScene: React.FC<{scene: PlannedScene; base: string; naviga
           ))}
         </div>
         <div>
-          <div style={{fontSize: 40, color: theme.text}}>{navigator.name}</div>
-          <div style={{fontSize: 30, color: theme.muted, fontFamily: 'Menlo, monospace'}}>{navigator.cid ?? navigator.fid}</div>
+          <div style={{fontSize: navigator.cid ? 44 : 24, color: theme.text, fontFamily: navigator.cid ? theme.font : 'Menlo, monospace'}}>
+            {navigator.cid ?? navigator.fid}
+          </div>
+          <div style={{fontSize: 28, color: theme.muted}}>{navigator.name}</div>
         </div>
       </div>
 

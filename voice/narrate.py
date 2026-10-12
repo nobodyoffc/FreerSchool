@@ -29,6 +29,11 @@ PAUSE_MIN = 0.3
 PAUSE_SCALE = 0.75
 
 SCENE = re.compile(r'^### (S\d+) \[(.+?)\]\s*(.*)$')
+# A callout: "圈出 FID @"FID" 370,385,1060,580" (a box, shown when the word is spoken) or
+# "点击 创建 @10.87s 990,2494" (a tap, at that second of the recording). Coordinates are
+# recording pixels. Anything else in a 标注 line stays a plain note.
+CALLOUT = re.compile(r'^(?P<label>.*?)\s*@(?:"(?P<word>[^"]+)"|(?P<sec>-?\d+(?:\.\d+)?)s)\s+(?P<xy>\d+(?:,\d+){1,3})$')
+CJK = re.compile(r'[\u4e00-\u9fff]')
 
 
 def parse(script: str) -> tuple[dict, list[dict]]:
@@ -42,7 +47,7 @@ def parse(script: str) -> tuple[dict, list[dict]]:
     scenes = []
     for raw in script.splitlines():
         if m := SCENE.match(raw):
-            scenes.append({'id': m[1], 'type': m[2], 'title': m[3], 'points': [], 'ops': [], 'notes': [], 'clip': [], 'lines': []})
+            scenes.append({'id': m[1], 'type': m[2], 'title': m[3], 'points': [], 'ops': [], 'notes': [], 'callouts': [], 'clip': [], 'lines': []})
         elif not scenes:
             continue
         elif raw.startswith('> '):
@@ -62,7 +67,15 @@ def parse(script: str) -> tuple[dict, list[dict]]:
                 start, end = part.strip().split('-')
                 scenes[-1]['clip'].append([float(start), float(end)])
         elif raw.startswith('标注：'):
-            scenes[-1]['notes'] += [n.strip() for n in raw[3:].split('；')]
+            for note in (n.strip() for n in raw[3:].split('；')):
+                if c := CALLOUT.match(note):
+                    xy = [int(v) for v in c['xy'].split(',')]
+                    scenes[-1]['callouts'].append({
+                        'label': c['label'], 'word': c['word'], 'rec': float(c['sec']) if c['sec'] else None,
+                        'kind': 'box' if len(xy) == 4 else 'tap', 'xy': xy,
+                    })
+                else:
+                    scenes[-1]['notes'].append(note)
     return front, scenes
 
 
@@ -85,6 +98,31 @@ def tighten(wav: np.ndarray, threshold: float = 0.01, hop: int = 240) -> np.ndar
             keep[middle - cut // 2:middle - cut // 2 + cut] = False
         i = j
     return wav[keep]
+
+
+def word_offset(synth: Synthesizer, params, text: str, word: str, lead: float) -> float:
+    """Seconds from the start of a trimmed line to where `word` begins, from the model's durations."""
+    clean = text.translate(str.maketrans('', '', '"“”「」『』'))
+    target = len(CJK.findall(clean[:clean.index(word)]))
+    starts, before = [], 0.0
+    for r in synth.pipeline(clean, voice=synth.style(params), speed=lambda n: params.speed * 1.1):
+        ps, dur = r.phonemes, r.pred_dur.tolist()
+        acc, syl = dur[0], None
+        for j, c in enumerate(ps):
+            if syl is None and ('\u3100' <= c <= '\u312f' or '\u4e00' <= c <= '\u9fff'):
+                syl = acc
+            if c in '12345' and syl is not None:
+                starts.append(before + syl * 600 / SAMPLE_RATE)
+                syl = None
+            acc += dur[j + 1]
+        before += sum(dur) * 600 / SAMPLE_RATE
+    if not starts:
+        return 0.0
+    at = starts[min(target, len(starts) - 1)]
+    if not CJK.match(word[0]) and target > 0:
+        # An English word has no syllable of its own here; it follows the previous character.
+        at = min(at, starts[target - 1] + 0.3)
+    return max(0.0, at - lead)
 
 
 def main():
@@ -112,11 +150,18 @@ def main():
     for si, scene in enumerate(scenes):
         if si:
             silence(SCENE_GAP)
-        entry = {k: scene[k] for k in ('id', 'type', 'title', 'points', 'ops', 'notes', 'clip')} | {'start': round(t, 3), 'lines': []}
+        entry = {k: scene[k] for k in ('id', 'type', 'title', 'points', 'ops', 'notes', 'clip')} | {'callouts': []} | {'start': round(t, 3), 'lines': []}
         for li, (text, anchor) in enumerate(scene['lines']):
             if li:
                 silence(LINE_GAP)
-            wav = tighten(trim(synth.speak(params, text).astype(np.float32), EDGE))
+            raw = synth.speak(params, text).astype(np.float32)
+            lead = max(0, int(np.flatnonzero(np.abs(raw) > 0.01)[0]) - int(EDGE * SAMPLE_RATE)) / SAMPLE_RATE if np.any(np.abs(raw) > 0.01) else 0.0
+            wav = tighten(trim(raw, EDGE))
+            # Callouts keyed to a word in this line: the first line that says it.
+            for c in scene['callouts']:
+                if c['word'] and 'line' not in c and c['word'] in text.translate(str.maketrans('', '', '"“”')):
+                    c['line'] = li
+                    c['offset'] = round(word_offset(synth, params, text, c['word'], lead), 3)
             name = f'{scene["id"]}-{li + 1:02}.wav'
             sf.write(build / 'lines' / name, wav, SAMPLE_RATE)
             duration = len(wav) / SAMPLE_RATE
@@ -125,6 +170,10 @@ def main():
             audio.append(wav)
             t += duration
             print(f'{scene["id"]} {t:6.1f}s  {text}', flush=True)
+        entry['callouts'] = scene['callouts']
+        for c in scene['callouts']:
+            if c['word'] and 'line' not in c:
+                print(f'警告：{scene["id"]} 的标注关键词"{c["word"]}"不在任何旁白里')
         entry['end'] = round(t, 3)
         timeline['scenes'].append(entry)
 

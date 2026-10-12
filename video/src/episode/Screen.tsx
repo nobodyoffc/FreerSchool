@@ -1,7 +1,8 @@
 import React from 'react';
 import {Freeze, OffthreadVideo, Sequence, staticFile, useVideoConfig} from 'remotion';
 import type {PlannedLine} from './plan';
-import type {Recording} from './types';
+import {Callouts} from './Callouts';
+import type {Callout, Recording} from './types';
 
 // Status bar height as a share of the recording's height; covered so the real clock,
 // battery and notification icons never show (HyperOS ignores Android demo mode).
@@ -9,7 +10,7 @@ const STATUS_BAR = 0.042;
 
 // One stretch of the scene: from `at` for `frames`, showing the recording from `rec`,
 // playing or held still.
-type Piece = {at: number; frames: number; rec: number; hold: boolean};
+export type Piece = {at: number; frames: number; rec: number; hold: boolean};
 
 // How the recording fills the scene.
 // - Lines with anchors: each anchored line starts with the recording at its anchor. Between
@@ -55,19 +56,21 @@ export const planScreen = (lines: PlannedLine[], clip: [number, number][], rec: 
   return pieces;
 };
 
-export const Screen: React.FC<{base: string; recording: Recording; lines: PlannedLine[]; clip: [number, number][]; sceneFrames: number}> = ({
-  base,
-  recording,
-  lines,
-  clip,
-  sceneFrames,
-}) => {
+export const Screen: React.FC<{
+  base: string;
+  recording: Recording;
+  lines: PlannedLine[];
+  clip: [number, number][];
+  callouts: Callout[];
+  sceneFrames: number;
+}> = ({base, recording, lines, clip, callouts, sceneFrames}) => {
   const {fps} = useVideoConfig();
+  const pieces = planScreen(lines, clip, recording, sceneFrames, fps);
   const src = staticFile(`${base}/${recording.file}`);
   const style = {width: '100%', height: '100%', objectFit: 'cover'} as const;
   return (
     <div style={{position: 'relative', width: '100%', height: '100%'}}>
-      {planScreen(lines, clip, recording, sceneFrames, fps).map((p) => (
+      {pieces.map((p) => (
         <Sequence key={`${p.at}-${p.rec}`} from={p.at} durationInFrames={p.frames} layout="none">
           {p.hold ? (
             <Freeze frame={p.rec}>
@@ -79,6 +82,7 @@ export const Screen: React.FC<{base: string; recording: Recording; lines: Planne
         </Sequence>
       ))}
       <div style={{position: 'absolute', left: 0, right: 0, top: 0, height: `${STATUS_BAR * 100}%`, background: '#FFFFFF'}} />
+      <Callouts callouts={callouts} lines={lines} pieces={pieces} />
     </div>
   );
 };

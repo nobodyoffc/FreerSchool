@@ -1,6 +1,18 @@
 // The shape of episodes/<...>/build/timeline.json, written by voice/narrate.py.
 export type Line = {text: string; file: string; duration: number; start: number; end: number; anchor: number | null};
 
+// A highlight on a recording, in recording pixels: a box shown while a word is spoken
+// (line, offset seconds into it), or a tap ring at a second of the recording.
+export type Callout = {
+  label: string;
+  kind: 'box' | 'tap';
+  xy: number[];
+  word: string | null;
+  rec: number | null;
+  line?: number;
+  offset?: number;
+};
+
 export type SceneType = '讲师' | '动画' | '录屏' | '卡片';
 
 export type Scene = {
@@ -11,6 +23,7 @@ export type Scene = {
   ops: string[];
   notes: string[];
   clip: [number, number][]; // seconds of the recording to use, in order; [] = from the start
+  callouts: Callout[];
   lines: Line[];
 };
 

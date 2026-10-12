@@ -17,7 +17,7 @@ export const RecordingScene: React.FC<{scene: PlannedScene; base: string; record
 }) => {
   const portrait = usePortrait();
   const screen = recording ? (
-    <Screen base={base} recording={recording} lines={scene.lines} clip={scene.clip} sceneFrames={scene.frames} />
+    <Screen base={base} recording={recording} lines={scene.lines} clip={scene.clip} callouts={scene.callouts} sceneFrames={scene.frames} />
   ) : (
     <div style={{padding: 28, color: theme.muted, fontSize: 22, lineHeight: 1.6}}>
       <div style={{color: theme.accent, fontSize: 24, marginBottom: 16}}>录屏待补 · {scene.id}</div>
