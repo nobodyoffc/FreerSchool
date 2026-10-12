@@ -4,6 +4,7 @@
 //   npm run sync -- ../episodes/U1/U1-02-你的第一个身份
 import fs from 'node:fs';
 import path from 'node:path';
+import {execFileSync} from 'node:child_process';
 
 const episode = path.resolve(process.argv[2] ?? '');
 const timelinePath = path.join(episode, 'build', 'timeline.json');
@@ -25,7 +26,8 @@ if (fs.existsSync(recDir)) {
   fs.mkdirSync(path.join(out, 'recordings'));
   for (const file of fs.readdirSync(recDir).filter((f) => /\.(mp4|mov|webm)$/i.test(f))) {
     fs.copyFileSync(path.join(recDir, file), path.join(out, 'recordings', file));
-    recordings[path.parse(file).name] = `recordings/${file}`;
+    const duration = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', path.join(recDir, file)]).toString());
+    recordings[path.parse(file).name] = {file: `recordings/${file}`, duration};
   }
 }
 fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({recordings}, null, 2));

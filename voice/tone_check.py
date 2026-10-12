@@ -105,7 +105,7 @@ def main():
     else:
         from narrate import parse
         _, scenes = parse((Path(args.episode) / 'script.md').read_text(encoding='utf-8'))
-        lines = [line for scene in scenes for line in scene['lines']]
+        lines = [text for scene in scenes for text, _ in scene['lines']]
 
     checker = ToneChecker()
     flagged = 0

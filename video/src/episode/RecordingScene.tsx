@@ -1,21 +1,23 @@
 import React from 'react';
-import {AbsoluteFill, OffthreadVideo, staticFile} from 'remotion';
+import {AbsoluteFill} from 'remotion';
 import {Navigator} from '../components/Navigator';
 import {PhoneFrame} from '../components/PhoneFrame';
 import {theme, usePortrait} from '../theme';
 import type {PlannedScene} from './plan';
-import type {NavigatorInfo} from './types';
+import {Screen} from './Screen';
+import type {NavigatorInfo, Recording} from './types';
 
 // A screen recording in a phone frame. Until the recording exists, the phone shows the
 // scene's steps so the cut can be reviewed for timing.
-export const RecordingScene: React.FC<{scene: PlannedScene; recording?: string; navigator: NavigatorInfo}> = ({
+export const RecordingScene: React.FC<{scene: PlannedScene; base: string; recording?: Recording; navigator: NavigatorInfo}> = ({
   scene,
+  base,
   recording,
   navigator,
 }) => {
   const portrait = usePortrait();
   const screen = recording ? (
-    <OffthreadVideo src={staticFile(recording)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+    <Screen base={base} recording={recording} lines={scene.lines} clip={scene.clip} sceneFrames={scene.frames} />
   ) : (
     <div style={{padding: 28, color: theme.muted, fontSize: 22, lineHeight: 1.6}}>
       <div style={{color: theme.accent, fontSize: 24, marginBottom: 16}}>录屏待补 · {scene.id}</div>

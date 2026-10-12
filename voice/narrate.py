@@ -42,15 +42,25 @@ def parse(script: str) -> tuple[dict, list[dict]]:
     scenes = []
     for raw in script.splitlines():
         if m := SCENE.match(raw):
-            scenes.append({'id': m[1], 'type': m[2], 'title': m[3], 'points': [], 'ops': [], 'notes': [], 'lines': []})
+            scenes.append({'id': m[1], 'type': m[2], 'title': m[3], 'points': [], 'ops': [], 'notes': [], 'clip': [], 'lines': []})
         elif not scenes:
             continue
         elif raw.startswith('> '):
-            scenes[-1]['lines'].append(raw[2:].strip())
+            # "> [12.0] 旁白": this line starts when the scene's recording is at 12.0 s.
+            text = raw[2:].strip()
+            anchor = None
+            if m := re.match(r'^\[(-?\d+(?:\.\d+)?)\]\s*', text):
+                anchor, text = float(m[1]), text[m.end():]
+            scenes[-1]['lines'].append((text, anchor))
         elif raw.startswith('- '):
             scenes[-1]['points'].append(raw[2:].strip())
         elif raw.startswith('操作：'):
             scenes[-1]['ops'] += [op.strip() for op in raw[3:].split('→')]
+        elif raw.startswith('剪辑：'):
+            # "剪辑：0-3.8，12-15" — the seconds of the recording to use, in order.
+            for part in re.split(r'[，,]', raw[3:]):
+                start, end = part.strip().split('-')
+                scenes[-1]['clip'].append([float(start), float(end)])
         elif raw.startswith('标注：'):
             scenes[-1]['notes'] += [n.strip() for n in raw[3:].split('；')]
     return front, scenes
@@ -102,8 +112,8 @@ def main():
     for si, scene in enumerate(scenes):
         if si:
             silence(SCENE_GAP)
-        entry = {k: scene[k] for k in ('id', 'type', 'title', 'points', 'ops', 'notes')} | {'start': round(t, 3), 'lines': []}
-        for li, text in enumerate(scene['lines']):
+        entry = {k: scene[k] for k in ('id', 'type', 'title', 'points', 'ops', 'notes', 'clip')} | {'start': round(t, 3), 'lines': []}
+        for li, (text, anchor) in enumerate(scene['lines']):
             if li:
                 silence(LINE_GAP)
             wav = tighten(trim(synth.speak(params, text).astype(np.float32), EDGE))
@@ -111,7 +121,7 @@ def main():
             sf.write(build / 'lines' / name, wav, SAMPLE_RATE)
             duration = len(wav) / SAMPLE_RATE
             entry['lines'].append({'text': text, 'file': f'lines/{name}', 'duration': round(duration, 3),
-                                   'start': round(t, 3), 'end': round(t + duration, 3)})
+                                   'start': round(t, 3), 'end': round(t + duration, 3), 'anchor': anchor})
             audio.append(wav)
             t += duration
             print(f'{scene["id"]} {t:6.1f}s  {text}', flush=True)

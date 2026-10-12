@@ -20,8 +20,7 @@ const SceneVisual: React.FC<{scene: PlannedScene; props: EpisodeProps; base: str
     case '讲师':
       return <NavigatorScene scene={scene} base={base} navigator={navigator} />;
     case '录屏': {
-      const recording = manifest?.recordings[scene.id];
-      return <RecordingScene scene={scene} navigator={navigator} recording={recording && `${base}/${recording}`} />;
+      return <RecordingScene scene={scene} base={base} navigator={navigator} recording={manifest?.recordings[scene.id]} />;
     }
     case '卡片':
       return <CardScene scene={scene} />;

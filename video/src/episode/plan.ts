@@ -7,13 +7,16 @@ import type {Line, Scene, Timeline} from './types';
 export const INTRO = 3; // seconds of title card
 export const OUTRO = 4;
 const CARD_MIN = 6; // a card stays at least this long
+const CARD_READ = 3; // and this long after its last point appears
+const LEAD = 0.4; // seconds from a scene's start to its first line
 const POINT_EVERY = 0.8; // seconds between card points appearing
 
 export type PlannedLine = Line & {from: number; frames: number}; // from: relative to its scene
 export type PlannedScene = Omit<Scene, 'lines'> & {from: number; frames: number; lines: PlannedLine[]};
 export type Plan = {intro: number; scenes: PlannedScene[]; outroFrom: number; total: number};
 
-export const pointDelay = (i: number, fps: number) => Math.round((0.6 + i * POINT_EVERY) * fps);
+// Card points appear one by one from the moment the narration starts.
+export const pointDelay = (i: number, fps: number) => Math.round((LEAD + i * POINT_EVERY) * fps);
 
 export const planEpisode = (timeline: Timeline, fps: number): Plan => {
   const f = (seconds: number) => Math.round(seconds * fps);
@@ -21,15 +24,14 @@ export const planEpisode = (timeline: Timeline, fps: number): Plan => {
   let cursor = intro;
   const scenes = timeline.scenes.map((scene, si): PlannedScene => {
     const last = si === timeline.scenes.length - 1;
-    // Cards: points appear first, then the narration.
-    let t = scene.type === '卡片' ? (pointDelay(scene.points.length, fps) / fps) : 0.4;
+    let t = LEAD;
     const lines = scene.lines.map((line, li): PlannedLine => {
       if (li) t += timeline.gaps.line;
       const planned = {...line, from: f(t), frames: f(line.duration)};
       t += line.duration;
       return planned;
     });
-    if (scene.type === '卡片') t = Math.max(t + 1, CARD_MIN);
+    if (scene.type === '卡片') t = Math.max(t + 1, pointDelay(scene.points.length - 1, fps) / fps + CARD_READ, CARD_MIN);
     t += last ? 1 : timeline.gaps.scene;
     const planned = {...scene, from: cursor, frames: f(t), lines};
     cursor += planned.frames;

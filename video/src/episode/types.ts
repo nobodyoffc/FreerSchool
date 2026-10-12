@@ -1,5 +1,5 @@
 // The shape of episodes/<...>/build/timeline.json, written by voice/narrate.py.
-export type Line = {text: string; file: string; duration: number; start: number; end: number};
+export type Line = {text: string; file: string; duration: number; start: number; end: number; anchor: number | null};
 
 export type SceneType = '讲师' | '动画' | '录屏' | '卡片';
 
@@ -10,6 +10,7 @@ export type Scene = {
   points: string[];
   ops: string[];
   notes: string[];
+  clip: [number, number][]; // seconds of the recording to use, in order; [] = from the start
   lines: Line[];
 };
 
@@ -25,4 +26,5 @@ export type Timeline = {
   scenes: Scene[];
 };
 
-export type Manifest = {recordings: Record<string, string>};
+export type Recording = {file: string; duration: number};
+export type Manifest = {recordings: Record<string, Recording>};

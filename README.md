@@ -44,10 +44,12 @@ episodes/<编号>/script.md
 cd voice && .venv/bin/python narrate.py "../episodes/U1/U1-02-你的第一个身份"
 .venv/bin/python tone_check.py "../episodes/U1/U1-02-你的第一个身份"   # 声调自检，报警的句子重点试听
 
-# 2. 录屏放到 recordings/U1-02/<场景>.mp4，例如 S3.mp4；没有录屏的场景显示操作步骤占位
+# 2. 手机用 USB 连上 Mac（开启 USB 调试），每个场景录一段 → recordings/U1-02/S3.mp4 …
+#    状态栏自动切到演示模式，点按显示为白点；关闭镜像窗口即结束。没有录屏的场景显示操作步骤占位
+cd .. && tools/record.sh U1-02 S3
 
 # 3. 把旁白与录屏同步进视频工程
-cd ../video && npm run sync -- "../episodes/U1/U1-02-你的第一个身份"
+cd video && npm run sync -- "../episodes/U1/U1-02-你的第一个身份"
 
 # 4. 预览或导出
 npm run studio
@@ -59,7 +61,7 @@ npx remotion render src/index.ts U1-02 ../renders/U1-02.mp4
 ## 外部依赖
 
 - Node.js（已有）
-- `brew install scrcpy` — Android 录屏
+- scrcpy（`brew install scrcpy`，已装）— Android 录屏，用 `tools/record.sh`
 - 语音引擎：待定，见 [docs/FID声音.md](docs/FID声音.md)
 
 ## 相关项目
