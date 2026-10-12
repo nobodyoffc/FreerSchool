@@ -5,7 +5,7 @@ Reads episodes/<...>/script.md, synthesizes every "> " line, and writes to <epis
     lines/*.wav     one file per line
     timeline.json   scene and line timings, in seconds, for the video and captions
 
-    python narrate.py ../episodes/U1/U1-02-创建你的第一个身份
+    python narrate.py ../episodes/U1/U1-02-你的第一个身份
 """
 import json
 import re
@@ -15,11 +15,17 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from freer_voice import SAMPLE_RATE, Synthesizer, derive
+from freer_voice import SAMPLE_RATE, Synthesizer, derive, trim
 
 ROOT = Path(__file__).parent.parent
-LINE_GAP = 0.35  # seconds of silence between lines
-SCENE_GAP = 0.8  # between scenes
+# Pauses between speech, in seconds. Each line is trimmed to its speech plus EDGE on
+# either side (the model pads ~0.7 s before and ~1.1 s after), so these set the pause.
+EDGE = 0.05
+LINE_GAP = 1.55  # between lines: ~1.65 s of silence in all
+SCENE_GAP = 1.9  # between scenes: ~2 s
+# Pauses inside a line (at commas and full stops) longer than PAUSE_MIN are cut to PAUSE_SCALE.
+PAUSE_MIN = 0.3
+PAUSE_SCALE = 0.75
 
 SCENE = re.compile(r'^### (S\d+) \[(.+?)\]\s*(.*)$')
 
@@ -32,6 +38,27 @@ def parse(script: str) -> list[dict]:
         elif raw.startswith('> ') and scenes:
             scenes[-1]['lines'].append(raw[2:].strip())
     return scenes
+
+
+def tighten(wav: np.ndarray, threshold: float = 0.01, hop: int = 240) -> np.ndarray:
+    """Shorten each silent run longer than PAUSE_MIN to PAUSE_SCALE of its length, cutting from its middle."""
+    quiet = np.array([np.abs(wav[i:i + hop]).max() <= threshold for i in range(0, len(wav), hop)])
+    keep = np.ones(len(wav), dtype=bool)
+    i = 0
+    while i < len(quiet):
+        if not quiet[i]:
+            i += 1
+            continue
+        j = i
+        while j < len(quiet) and quiet[j]:
+            j += 1
+        run = (j - i) * hop
+        if run >= PAUSE_MIN * SAMPLE_RATE:
+            cut = int(run * (1 - PAUSE_SCALE))
+            middle = i * hop + run // 2
+            keep[middle - cut // 2:middle - cut // 2 + cut] = False
+        i = j
+    return wav[keep]
 
 
 def main():
@@ -58,7 +85,7 @@ def main():
         for li, text in enumerate(scene['lines']):
             if li:
                 silence(LINE_GAP)
-            wav = synth.speak(params, text).astype(np.float32)
+            wav = tighten(trim(synth.speak(params, text).astype(np.float32), EDGE))
             name = f'{scene["id"]}-{li + 1:02}.wav'
             sf.write(build / 'lines' / name, wav, SAMPLE_RATE)
             duration = len(wav) / SAMPLE_RATE

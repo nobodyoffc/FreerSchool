@@ -44,6 +44,9 @@ REVISION = '01e7505bd6a7a2ac4975463114c3a7650a9f7218'
 MODEL_SHA256 = 'b1d8410fa44dfb5c15471fd6c4225ea6b4e9ac7fa03c98e8bea47a9928476e2b'
 MODEL_DIR = Path(__file__).parent / 'models' / 'kokoro-v1.1-zh'
 SAMPLE_RATE = 24000
+# English inside Chinese comes out rushed; its phonemes are held this many times longer.
+ENGLISH_STRETCH = 1.5
+SENTENCE_PAUSE = 0.45  # seconds between chunks of one text, about the model's own sentence pause
 # v1 only. At 0.3 the voices are as far apart as the base voices themselves
 # (ECAPA, compare.py); higher sounds no more distinct to the ear.
 CARICATURE = 0.3
@@ -159,6 +162,14 @@ class Synthesizer:
 
         self.model.predictor.F0Ntrain = scaled_f0n
 
+        # English phonemes are the Latin/IPA tokens; Chinese ones are bopomofo and CJK.
+        import unicodedata
+        latin = [i for c, i in self.model.vocab.items()
+                 if any(k in unicodedata.name(c, '') for k in ('LATIN', 'MODIFIER LETTER', 'GREEK', 'IPA'))]
+        self.english_ids = torch.tensor(latin)
+        self.english_stretch = ENGLISH_STRETCH
+        self.model.forward_with_tokens = self._forward_with_tokens
+
         english = KPipeline(lang_code='a', repo_id=REPO_ID, model=False)
         self.pipeline = KPipeline(
             lang_code='z',
@@ -166,6 +177,37 @@ class Synthesizer:
             model=self.model,
             en_callable=lambda word: LEXICON.get(word) or next(english(word)).phonemes,
         )
+
+    def _forward_with_tokens(self, input_ids, ref_s, speed=1):
+        """KModel.forward_with_tokens (kokoro 0.9.4), with English phonemes held longer."""
+        torch, m = self.torch, self.model
+        with torch.no_grad():
+            return self._forward(torch, m, input_ids, ref_s, speed)
+
+    def _forward(self, torch, m, input_ids, ref_s, speed):
+        input_lengths = torch.full((input_ids.shape[0],), input_ids.shape[-1], device=input_ids.device, dtype=torch.long)
+        text_mask = torch.arange(input_lengths.max()).unsqueeze(0).expand(input_lengths.shape[0], -1).type_as(input_lengths)
+        text_mask = torch.gt(text_mask + 1, input_lengths.unsqueeze(1)).to(m.device)
+        bert_dur = m.bert(input_ids, attention_mask=(~text_mask).int())
+        d_en = m.bert_encoder(bert_dur).transpose(-1, -2)
+        s = ref_s[:, 128:]
+        d = m.predictor.text_encoder(d_en, s, input_lengths, text_mask)
+        x, _ = m.predictor.lstm(d)
+        duration = m.predictor.duration_proj(x)
+        duration = torch.sigmoid(duration).sum(axis=-1) / speed
+        english = torch.isin(input_ids, self.english_ids)
+        duration = torch.where(english, duration * self.english_stretch, duration)
+        pred_dur = torch.round(duration).clamp(min=1).long().squeeze()
+        indices = torch.repeat_interleave(torch.arange(input_ids.shape[1], device=m.device), pred_dur)
+        pred_aln_trg = torch.zeros((input_ids.shape[1], indices.shape[0]), device=m.device)
+        pred_aln_trg[indices, torch.arange(indices.shape[0])] = 1
+        pred_aln_trg = pred_aln_trg.unsqueeze(0).to(m.device)
+        en = d.transpose(-1, -2) @ pred_aln_trg
+        F0_pred, N_pred = m.predictor.F0Ntrain(en, s)
+        t_en = m.text_encoder(input_ids, input_lengths, text_mask)
+        asr = t_en @ pred_aln_trg
+        audio = m.decoder(asr, F0_pred, N_pred, ref_s[:, :128]).squeeze()
+        return audio, pred_dur
 
     def _load(self, name: str):
         return self.torch.load(MODEL_DIR / 'voices' / f'{name}.pt', weights_only=True)
@@ -189,10 +231,31 @@ class Synthesizer:
 
         for word, reading in READINGS.items():
             text = text.replace(word, reading)
+        # The model pauses on quotation marks as if they were commas; captions keep them.
+        text = text.translate(str.maketrans('', '', '"“”「」『』'))
         self.pitch_ratio = 2 ** (p.pitch / 12)
         self.torch.manual_seed(p.seed)
         parts = [r.audio.numpy() for r in self.pipeline(text, voice=style, speed=speed) if r.audio is not None]
-        return np.concatenate(parts)
+        if len(parts) == 1:
+            return parts[0]
+        # The pipeline voices long text in chunks, each padded with ~1.8 s of silence;
+        # join them with a natural sentence pause instead.
+        pause = np.zeros(int(SENTENCE_PAUSE * SAMPLE_RATE), dtype=np.float32)
+        joined = [trim(parts[0])]
+        for part in parts[1:]:
+            joined += [pause, trim(part)]
+        return np.concatenate(joined)
+
+
+def trim(wav, edge: float = 0.05, threshold: float = 0.01):
+    """Cut the silence the model pads around speech, keeping `edge` seconds on either side."""
+    import numpy as np
+
+    loud = np.flatnonzero(np.abs(wav) > threshold)
+    if not len(loud):
+        return wav
+    margin = int(edge * SAMPLE_RATE)
+    return wav[max(0, loud[0] - margin):loud[-1] + margin]
 
 
 def main():

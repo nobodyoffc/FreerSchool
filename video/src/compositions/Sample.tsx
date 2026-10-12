@@ -9,7 +9,7 @@ const NAVIGATOR = {fid: 'FNavigatorDemoFidPaceho1derFreerXY', name: '领航员'}
 export const Sample: React.FC = () => (
   <>
     <Sequence durationInFrames={90}>
-      <TitleCard id="U1-02" title="创建你的第一个身份" />
+      <TitleCard id="U1-02" title="你的第一个身份" />
     </Sequence>
     <Sequence from={90}>
       <EpisodeLayout
