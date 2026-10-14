@@ -31,7 +31,10 @@ PAUSE_SCALE = 0.75
 SCENE = re.compile(r'^### (S\d+) \[(.+?)\]\s*(.*)$')
 # A callout: "圈出 FID @"FID" 370,385,1060,580" (a box, shown when the word is spoken) or
 # "点击 创建 @10.87s 990,2494" (a tap, at that second of the recording). Coordinates are
-# recording pixels. Anything else in a 标注 line stays a plain note.
+# recording pixels. "遮挡 私钥 @12.0-18.5s 60,900,1220,1010" covers a box (e.g. a private key)
+# while the recording shows those seconds; without "@…s" it covers the whole scene.
+# Anything else in a 标注 line stays a plain note.
+MASK = re.compile(r'^遮挡\s*(?P<label>.*?)\s*(?:@(?P<a>\d+(?:\.\d+)?)-(?P<b>\d+(?:\.\d+)?)s\s+)?(?P<xy>\d+,\d+,\d+,\d+)$')
 CALLOUT = re.compile(r'^(?P<label>.*?)\s*@(?:"(?P<word>[^"]+)"|(?P<sec>-?\d+(?:\.\d+)?)s)\s+(?P<xy>\d+(?:,\d+){1,3})$')
 CJK = re.compile(r'[\u4e00-\u9fff]')
 
@@ -68,7 +71,13 @@ def parse(script: str) -> tuple[dict, list[dict]]:
                 scenes[-1]['clip'].append([float(start), float(end)])
         elif raw.startswith('标注：'):
             for note in (n.strip() for n in raw[3:].split('；')):
-                if c := CALLOUT.match(note):
+                if m := MASK.match(note):
+                    scenes[-1]['callouts'].append({
+                        'label': '遮挡 ' + m['label'], 'word': None, 'rec': None, 'kind': 'mask',
+                        'xy': [int(v) for v in m['xy'].split(',')],
+                        'range': [float(m['a']), float(m['b'])] if m['a'] else None,
+                    })
+                elif c := CALLOUT.match(note):
                     xy = [int(v) for v in c['xy'].split(',')]
                     scenes[-1]['callouts'].append({
                         'label': c['label'], 'word': c['word'], 'rec': float(c['sec']) if c['sec'] else None,

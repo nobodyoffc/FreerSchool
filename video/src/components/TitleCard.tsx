@@ -2,10 +2,10 @@ import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 import {theme} from '../theme';
 
-const LINES: Record<string, string> = {U: '用', T: '懂', B: '建'};
+const LINES: Record<string, string> = {U: '使用', T: '理解', B: '建造'};
 const LEVELS: Record<string, string> = {'1': '入门', '2': '进阶', '3': '专业'};
 
-// "U1-04" → "用·入门 04"
+// "U1-04" → "使用·入门 04"
 export const seriesLabel = (id: string): string => {
   const m = /^([UTB])([123])-(\d+)$/.exec(id);
   if (!m) throw new Error(`Bad episode id: ${id}`);

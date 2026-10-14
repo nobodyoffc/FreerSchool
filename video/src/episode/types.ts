@@ -2,15 +2,17 @@
 export type Line = {text: string; file: string; duration: number; start: number; end: number; anchor: number | null};
 
 // A highlight on a recording, in recording pixels: a box shown while a word is spoken
-// (line, offset seconds into it), or a tap ring at a second of the recording.
+// (line, offset seconds into it), a tap ring at a second of the recording, or an opaque
+// mask over a box while the recording shows `range` (seconds; null = the whole scene).
 export type Callout = {
   label: string;
-  kind: 'box' | 'tap';
+  kind: 'box' | 'tap' | 'mask';
   xy: number[];
   word: string | null;
   rec: number | null;
   line?: number;
   offset?: number;
+  range?: [number, number] | null;
 };
 
 export type SceneType = '讲师' | '动画' | '录屏' | '卡片';

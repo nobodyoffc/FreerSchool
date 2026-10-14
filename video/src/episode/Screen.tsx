@@ -15,16 +15,26 @@ export type Piece = {at: number; frames: number; rec: number; hold: boolean};
 // How the recording fills the scene.
 // - Lines with anchors: each anchored line starts with the recording at its anchor. Between
 //   anchors the recording plays; if it runs short it holds, if it runs long the rest is skipped.
+//   Clips, if any, are the parts kept: what lies between them is cut (e.g. a still menu between
+//   two taps). Anchors and taps stay in the recording's own seconds.
 // - Otherwise the clips play in order (or the whole recording).
 // Either way the last frame holds to the end of the scene.
 export const planScreen = (lines: PlannedLine[], clip: [number, number][], rec: Recording, sceneFrames: number, fps: number): Piece[] => {
   const end = Math.max(1, Math.floor(rec.duration * fps) - 1);
   const pieces: Piece[] = [];
+  const kept = clip.length ? clip.map(([a, b]) => [Math.round(a * fps), Math.round(b * fps)]) : [[0, end]];
   const play = (at: number, from: number, to: number, until: number) => {
-    // Play from..to starting at `at`, holding on `to` until `until` if it is shorter.
-    const frames = Math.min(to - from, until - at);
-    if (frames > 0) pieces.push({at, frames, rec: from, hold: false});
-    if (until - at > frames) pieces.push({at: at + Math.max(0, frames), frames: until - at - Math.max(0, frames), rec: Math.max(from, to - 1), hold: true});
+    // Play the kept parts of from..to starting at `at`, holding on the last one shown until `until`.
+    let last = Math.max(from, to - 1);
+    for (const [a, b] of kept) {
+      const s = Math.max(a, from);
+      const frames = Math.min(Math.min(b, to) - s, until - at);
+      if (frames <= 0) continue;
+      pieces.push({at, frames, rec: s, hold: false});
+      at += frames;
+      last = s + frames - 1;
+    }
+    if (until > at) pieces.push({at, frames: until - at, rec: last, hold: true});
   };
   const anchors = lines.filter((l) => l.anchor !== null).map((l) => ({at: l.from, rec: Math.round(l.anchor! * fps)}));
   if (anchors.length) {
@@ -45,13 +55,12 @@ export const planScreen = (lines: PlannedLine[], clip: [number, number][], rec: 
     });
     return pieces;
   }
-  const spans = clip.length ? clip.map(([a, b]) => [Math.round(a * fps), Math.round(b * fps)]) : [[0, end]];
   let at = 0;
-  spans.forEach(([a, b]) => {
+  kept.forEach(([a, b]) => {
     pieces.push({at, frames: b - a, rec: a, hold: false});
     at += b - a;
   });
-  const last = spans[spans.length - 1][1] - 1;
+  const last = kept[kept.length - 1][1] - 1;
   if (sceneFrames > at) pieces.push({at, frames: sceneFrames - at, rec: last, hold: true});
   return pieces;
 };

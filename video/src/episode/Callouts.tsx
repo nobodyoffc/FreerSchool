@@ -17,6 +17,48 @@ const sceneFrameOf = (pieces: Piece[], rec: number) => {
   return p ? p.at + (rec - p.rec) : null;
 };
 
+// Recording frame shown at scene frame `f`.
+const recFrameAt = (pieces: Piece[], f: number) => {
+  const p = pieces.find((x) => f >= x.at && f < x.at + x.frames) ?? pieces[pieces.length - 1];
+  return p ? (p.hold ? p.rec : p.rec + (f - p.at)) : 0;
+};
+
+// Opaque, never faded: a key must not show through for even a frame. A range is padded so
+// a misjudged second leaves it covered rather than bare.
+const MASK_PAD = 0.5;
+
+const Mask: React.FC<{xy: number[]; range: [number, number] | null | undefined; pieces: Piece[]}> = ({xy, range, pieces}) => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  if (range) {
+    const rec = recFrameAt(pieces, frame) / fps;
+    if (rec < range[0] - MASK_PAD || rec > range[1] + MASK_PAD) return null;
+  }
+  const [x1, y1, x2, y2] = xy;
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${(x1 / REC_W) * 100}%`,
+        top: `${(y1 / REC_H) * 100}%`,
+        width: `${((x2 - x1) / REC_W) * 100}%`,
+        height: `${((y2 - y1) / REC_H) * 100}%`,
+        borderRadius: 10,
+        background: 'repeating-linear-gradient(45deg, #5B6170 0 14px, #6B7280 14px 28px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#FFFFFF',
+        fontSize: 30,
+        fontWeight: 700,
+        letterSpacing: 4,
+      }}
+    >
+      已打码
+    </div>
+  );
+};
+
 const Box: React.FC<{xy: number[]; frames: number}> = ({xy, frames}) => {
   const frame = useCurrentFrame();
   const [x1, y1, x2, y2] = xy;
@@ -74,6 +116,7 @@ export const Callouts: React.FC<{callouts: Callout[]; lines: PlannedLine[]; piec
   return (
     <div style={{position: 'absolute', inset: 0, pointerEvents: 'none'}}>
       {callouts.map((c) => {
+        if (c.kind === 'mask') return <Mask key={c.label + c.xy.join()} xy={c.xy} range={c.range} pieces={pieces} />;
         if (c.kind === 'tap' && c.rec !== null) {
           const at = sceneFrameOf(pieces, Math.round(c.rec * fps));
           return at === null ? null : (
