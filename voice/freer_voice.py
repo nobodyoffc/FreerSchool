@@ -62,12 +62,14 @@ EXCLUDED = {
 # English words inside Chinese text go through the English G2P; these override it.
 LEXICON = {
     'FID': 'ˌɛfˌIdˈi',  # spelled out, like CID
+    'FCH': 'ˌɛfsˌiˈAʧə',  # spelled out; the trailing ə keeps the ch from being swallowed (heard as FCA)
 }
 
 # Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
 READINGS = {
     '靓': '亮',  # liàng, not jìng
     '长数据': '常数据',  # cháng, not zhǎng
+    '转来': '转來',  # zhuǎn, not zhuàn: "给你转来" segments as 转来 = zhuàn lái; 來 keeps the 3rd tone
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
