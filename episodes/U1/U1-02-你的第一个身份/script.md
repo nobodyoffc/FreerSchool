@@ -25,6 +25,7 @@ pairs: [T1-01]
 
 ## 核对依据
 
+- FID 全称：Freecash ID，协议 FVEP2（ID 体系）、FVEP9；中文称"自由身份"
 - 首次设好密码后，自动随机创建一个身份并进入主页：`CreatePasswordActivity.bootstrapFirstIdentityAndLaunchHome`
 - 主页顶部"身份菜单"图标 → "退出主身份" → 回到"选择身份"，不用重新输入密码：`PersonPopupMenuHelper.quitMainFid`
 - 创建菜单：`popup_menu_create.xml`（导入密钥、密语生成、输入公钥、输入FID、搜索靓名、随机创建）
@@ -47,7 +48,7 @@ pairs: [T1-01]
 
 > 一个身份，由一对密钥构成：私钥和公钥。
 > 私钥是一串别人猜不到的长数据，只有你知道。
-> 从私钥可以算出公钥，再算出一串以 F 开头的地址，这就是 FID。
+> 从私钥可以算出公钥，再算出一串以 F 开头的地址，这就是 FID，Freecash ID，你的自由身份。
 > 这个计算只能单向进行：从私钥能算出 FID，从 FID 却算不出私钥。
 > 所以，私钥在谁手里，这个身份就属于谁。
 

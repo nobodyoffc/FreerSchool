@@ -63,6 +63,7 @@ EXCLUDED = {
 LEXICON = {
     'FID': 'ˌɛfˌIdˈi',  # spelled out, like CID
     'FCH': 'ˌɛfsˌiˈAʧə',  # spelled out; the trailing ə keeps the ch from being swallowed (heard as FCA)
+    'VkUV': 'vˌikˌAjˌuvˈi',  # the CID suffix in Alice_VkUV, letter by letter
 }
 
 # Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
@@ -70,6 +71,14 @@ READINGS = {
     '靓': '亮',  # liàng, not jìng
     '长数据': '常数据',  # cháng, not zhǎng
     '转来': '转來',  # zhuǎn, not zhuàn: "给你转来" segments as 转来 = zhuàn lái; 來 keeps the 3rd tone
+    '_': '下划线',  # in a CID like Alice_VkUV; otherwise dropped
+    '@': '艾特',  # otherwise unreadable
+    '2027 年': '二零二七年',  # a year is read digit by digit, not 二千零二十七
+}
+
+# Phoneme fixes applied after G2P, for what no homophone can say.
+PHONEMES = {
+    'ㄞ4ㄊㄜ4': 'ㄞ4ㄊㄜ5',  # @ (艾特): 特 in the neutral tone; the 4th tone sounds heavy and odd
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
@@ -180,6 +189,15 @@ class Synthesizer:
             model=self.model,
             en_callable=lambda word: LEXICON.get(word) or next(english(word)).phonemes,
         )
+        g2p = self.pipeline.g2p
+
+        def fixed_g2p(text):
+            ps, tokens = g2p(text)
+            for wrong, right in PHONEMES.items():
+                ps = ps.replace(wrong, right)
+            return ps, tokens
+
+        self.pipeline.g2p = fixed_g2p
 
     def _forward_with_tokens(self, input_ids, ref_s, speed=1):
         """KModel.forward_with_tokens (kokoro 0.9.4), with English phonemes held longer."""
