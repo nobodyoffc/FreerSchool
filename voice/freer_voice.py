@@ -78,6 +78,7 @@ READINGS = {
     '@': '艾特',  # otherwise unreadable
     '2027 年': '二零二七年',  # a year is read digit by digit, not 二千零二十七
     '加为': '加维',  # wéi, not wèi: 把引路人加为联系人
+    '登记为': '登记维',  # wéi, not wèi: 登记为联系人
 }
 
 # Phoneme fixes applied after G2P, for what no homophone can say.
