@@ -63,6 +63,9 @@ EXCLUDED = {
 LEXICON = {
     'FID': 'ˌɛfˌIdˈi',  # spelled out, like CID
     'FCH': 'ˌɛfsˌiˈAʧə',  # spelled out; the trailing ə keeps the ch from being swallowed (heard as FCA)
+    'DOCK': 'dˈɑːkə',  # long vowel and a trailing ə, or the k is swallowed
+    'DISK': 'dˈɪːskə',  # likewise
+    'JSON': 'ʤˈAsən',  # jay-son, not spelled out
     'VkUV': 'vˌikˌAjˌuvˈi',  # the CID suffix in Alice_VkUV, letter by letter
 }
 
@@ -74,6 +77,7 @@ READINGS = {
     '_': '下划线',  # in a CID like Alice_VkUV; otherwise dropped
     '@': '艾特',  # otherwise unreadable
     '2027 年': '二零二七年',  # a year is read digit by digit, not 二千零二十七
+    '加为': '加维',  # wéi, not wèi: 把引路人加为联系人
 }
 
 # Phoneme fixes applied after G2P, for what no homophone can say.
