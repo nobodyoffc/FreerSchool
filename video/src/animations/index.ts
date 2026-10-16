@@ -7,6 +7,7 @@ import {ContactBook} from './ContactBook';
 import {DockDisk} from './DockDisk';
 import {FirstCash} from './FirstCash';
 import {KeyDerivation} from './KeyDerivation';
+import {SquarePlaza} from './SquarePlaza';
 
 // Concept animations, by "<episode>/<scene>".
 export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
@@ -17,4 +18,5 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U1-05/S3': CoinDays,
   'U1-06/S2': DockDisk,
   'U1-07/S2': ContactBook,
+  'U1-08/S2': SquarePlaza,
 };

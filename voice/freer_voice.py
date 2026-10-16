@@ -84,6 +84,8 @@ READINGS = {
 # Phoneme fixes applied after G2P, for what no homophone can say.
 PHONEMES = {
     'ㄞ4ㄊㄜ4': 'ㄞ4ㄊㄜ5',  # @ (艾特): 特 in the neutral tone; the 4th tone sounds heavy and odd
+    'ㄗ为4ㄏㄡ4/ㄧ2ㄒ阳4': 'ㄗ为4ㄏㄡ4ㄧ2ㄒ阳4',  # 最后一项 as one word: the word break paused before 一项
+    'ㄈㄚ1言2/ㄕ为2/ㄉㄡ1': 'ㄈㄚ1言2ㄕ为2ㄉㄡ1',  # 发言谁都 as one word: 谁 was drawn out into a pause before 都
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
