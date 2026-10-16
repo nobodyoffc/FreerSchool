@@ -68,6 +68,8 @@ LEXICON = {
     'JSON': 'ʤˈAsən',  # jay-son, not spelled out
     'VkUV': 'vˌikˌAjˌuvˈi',  # the CID suffix in Alice_VkUV, letter by letter
     'cjWK': 'sˈi ʤˈA dˈʌbᵊlju kˈA',  # 春花_cjWK: each letter apart; run together, cj blurred into one syllable
+    'PtoP': 'pˌi tˈu pˈi',  # P2P: a clear "to" in the middle, not a weak tə
+    'CALL': 'kˈɔːl',  # the CALL server; long vowel so the l is heard (all caps would be spelled out)
 }
 
 # Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
@@ -80,6 +82,8 @@ READINGS = {
     '2027 年': '二零二七年',  # a year is read digit by digit, not 二千零二十七
     '加为': '加维',  # wéi, not wèi: 把引路人加为联系人
     '登记为': '登记维',  # wéi, not wèi: 登记为联系人
+    '弹出': '谈出',  # tán, not dàn: 应用弹出 (弹窗 is read right on its own)
+    'P2P': 'PtoP',  # as people say it, not P 二 P; read through LEXICON
 }
 
 # Phoneme fixes applied after G2P, for what no homophone can say.
