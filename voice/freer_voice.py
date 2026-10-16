@@ -67,6 +67,7 @@ LEXICON = {
     'DISK': 'dˈɪːskə',  # likewise
     'JSON': 'ʤˈAsən',  # jay-son, not spelled out
     'VkUV': 'vˌikˌAjˌuvˈi',  # the CID suffix in Alice_VkUV, letter by letter
+    'cjWK': 'sˈi ʤˈA dˈʌbᵊlju kˈA',  # 春花_cjWK: each letter apart; run together, cj blurred into one syllable
 }
 
 # Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
