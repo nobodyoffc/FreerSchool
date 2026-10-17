@@ -70,6 +70,7 @@ LEXICON = {
     'cjWK': 'sˈi ʤˈA dˈʌbᵊlju kˈA',  # 春花_cjWK: each letter apart; run together, cj blurred into one syllable
     'PtoP': 'pˌi tˈu pˈi',  # P2P: a clear "to" in the middle, not a weak tə
     'CALL': 'kˈɔːl',  # the CALL server; long vowel so the l is heard (all caps would be spelled out)
+    'F': 'ˈɛfə',  # the unit after an amount (1.01 F); a trailing ə, or the f is swallowed
 }
 
 # Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
@@ -84,6 +85,8 @@ READINGS = {
     '登记为': '登记维',  # wéi, not wèi: 登记为联系人
     '弹出': '谈出',  # tán, not dàn: 应用弹出 (弹窗 is read right on its own)
     '值为': '值维',  # wéi, not wèi: 默认值为 0.0001 F
+    '面额为': '面额维',  # wéi, not wèi: 如果面额为 1
+    '教你': '交你',  # jiāo, not jiào: 教你如何……
     'P2P': 'PtoP',  # as people say it, not P 二 P; read through LEXICON
 }
 
@@ -99,9 +102,14 @@ PHONEMES = {
     'ㄊ中1ㄓ十1/ㄈㄟ4': 'ㄊ中1ㄓ十1ㄈㄟ4',  # 通知费 as one word: jieba split it into 通知 | 费
     'ㄙㄭ4ㄐ言4/ㄕ十4': 'ㄙㄭ4ㄐ言4ㄕ十4',  # 四件事 as one word: jieba split it into 四件 | 事
     'ㄏㄜ2ㄅㄧ4/ㄊ言1': 'ㄏㄜ2/ㄅㄧ4ㄊ言1',  # 和 | 币天: jieba grouped 和币
+    'ㄍㄜ4ㄅㄧ4/ㄊ言1': 'ㄍㄜ4/ㄅㄧ4ㄊ言1',  # 个 | 币天: jieba grouped 个币
+    'ㄅㄧ4/ㄊ言1': 'ㄅㄧ4ㄊ言1',  # 币天 as one word wherever else jieba splits it (第一个币 | 天)
     'ㄐ要1ㄧ4/ㄉㄥ2我3ㄇㄣ5': 'ㄐ要1ㄧ4ㄉㄥ3/我3ㄇㄣ5',  # 交易等 | 我们: jieba grouped 等我们 (wait for us)
     'ㄇ言4ㄜ2/ㄐ压1ㄗ中3': 'ㄇ言4ㄜ2, ㄐ压1ㄗ中3',  # 面额, 加总: a short pause after 额, or it is swallowed
     'ㄗ为4/ㄕㄤ4ㄇ言4': 'ㄗ为4ㄕㄤ4ㄇ言5',  # 最上面: 面 in the neutral tone, as one word; the 4th tone sounded odd
+    'ㄉㄥ1ㄌㄨ4/ㄕ十2': 'ㄉㄥ1ㄌㄨ4ㄕ十2',  # 登录时 as one word: jieba split 时 off with a pause before it
+    'ㄕㄡ3ㄅㄧ4/ㄕ十2': 'ㄕㄡ3ㄅㄧ4ㄕ十2',  # 首币时, likewise
+    'ㄑ又2ㄓㄨ4/ㄅㄢ3': 'ㄑ又2ㄓㄨ4ㄅㄢ3',  # 求助板 as one word: jieba split 板 off with a pause before it
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

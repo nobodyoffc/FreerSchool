@@ -8,6 +8,8 @@ import {CoinDays} from './CoinDays';
 import {ContactBook} from './ContactBook';
 import {DockDisk} from './DockDisk';
 import {FirstCash} from './FirstCash';
+import {GuideBond} from './GuideBond';
+import {HelpBoard} from './HelpBoard';
 import {KeyDerivation} from './KeyDerivation';
 import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
@@ -29,4 +31,6 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U1-10/S4': StrangerGate,
   'U1-11/S2': CmailChain,
   'U1-12/S2': CashChange,
+  'U1-13/S2': HelpBoard,
+  'U1-13/S5': GuideBond,
 };
