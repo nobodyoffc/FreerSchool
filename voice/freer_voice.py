@@ -83,6 +83,7 @@ READINGS = {
     '加为': '加维',  # wéi, not wèi: 把引路人加为联系人
     '登记为': '登记维',  # wéi, not wèi: 登记为联系人
     '弹出': '谈出',  # tán, not dàn: 应用弹出 (弹窗 is read right on its own)
+    '值为': '值维',  # wéi, not wèi: 默认值为 0.0001 F
     'P2P': 'PtoP',  # as people say it, not P 二 P; read through LEXICON
 }
 
@@ -91,6 +92,11 @@ PHONEMES = {
     'ㄞ4ㄊㄜ4': 'ㄞ4ㄊㄜ5',  # @ (艾特): 特 in the neutral tone; the 4th tone sounds heavy and odd
     'ㄗ为4ㄏㄡ4/ㄧ2ㄒ阳4': 'ㄗ为4ㄏㄡ4ㄧ2ㄒ阳4',  # 最后一项 as one word: the word break paused before 一项
     'ㄈㄚ1言2/ㄕ为2/ㄉㄡ1': 'ㄈㄚ1言2ㄕ为2ㄉㄡ1',  # 发言谁都 as one word: 谁 was drawn out into a pause before 都
+    'ㄐ压1ㄇㄧ4/ㄏㄡ4ㄕㄤ4/ㄌ言4': 'ㄐ压1ㄇㄧ4ㄏㄡ4ㄕㄤ4ㄌ言4',  # 加密后上链 in one breath: jieba split 后上 off as a word
+    'ㄌ言4/ㄕㄤ4/ㄕ为2/ㄉㄡ1': 'ㄌ言4ㄕㄤ4/ㄕ为2ㄉㄡ1',  # 链上 | 谁都: the pause belongs before 谁, not after it
+    'ㄌ言2ㄒㄧ4ㄖㄣ2/ㄌㄧ2ㄒ元3/阴3': 'ㄌ言2ㄒㄧ4ㄖㄣ2ㄌㄧ3/ㄒ元2阴3',  # 联系人里 | 选引路人: jieba grouped 里选
+    'ㄇㄧ4ㄒ阴4/ㄝ4/ㄉ言3': 'ㄇㄧ4ㄒ阴4ㄝ4/ㄉ言3',  # 密信页 | 点: the pause belongs after 页, not before it
+    'ㄊ中1ㄓ十1/ㄈㄟ4': 'ㄊ中1ㄓ十1ㄈㄟ4',  # 通知费 as one word: jieba split it into 通知 | 费
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

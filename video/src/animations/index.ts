@@ -2,6 +2,7 @@ import type React from 'react';
 import type {PlannedScene} from '../episode/plan';
 import {CidName} from './CidName';
 import {CipherBackup} from './CipherBackup';
+import {CmailChain} from './CmailChain';
 import {CoinDays} from './CoinDays';
 import {ContactBook} from './ContactBook';
 import {DockDisk} from './DockDisk';
@@ -25,4 +26,5 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U1-09/S2': NobodyDeath,
   'U1-10/S2': P2pRoute,
   'U1-10/S4': StrangerGate,
+  'U1-11/S2': CmailChain,
 };
