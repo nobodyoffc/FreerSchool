@@ -97,6 +97,7 @@ PHONEMES = {
     'ㄌ言2ㄒㄧ4ㄖㄣ2/ㄌㄧ2ㄒ元3/阴3': 'ㄌ言2ㄒㄧ4ㄖㄣ2ㄌㄧ3/ㄒ元2阴3',  # 联系人里 | 选引路人: jieba grouped 里选
     'ㄇㄧ4ㄒ阴4/ㄝ4/ㄉ言3': 'ㄇㄧ4ㄒ阴4ㄝ4/ㄉ言3',  # 密信页 | 点: the pause belongs after 页, not before it
     'ㄊ中1ㄓ十1/ㄈㄟ4': 'ㄊ中1ㄓ十1ㄈㄟ4',  # 通知费 as one word: jieba split it into 通知 | 费
+    'ㄙㄭ4ㄐ言4/ㄕ十4': 'ㄙㄭ4ㄐ言4ㄕ十4',  # 四件事 as one word: jieba split it into 四件 | 事
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

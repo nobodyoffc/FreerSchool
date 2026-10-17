@@ -13,8 +13,17 @@ import {theme} from '../theme';
 //   5 Nobody: no one, and anyone
 //   6 the moment of publishing is on the chain: signatures before it hold, after it anyone could have signed
 //   7 you may also publish a key that never leaked, giving the identity up; it cannot be undone
-// The identity is a made-up one, never named; no real key is ever shown.
-const SELF = 'FKr7Vn2pQx9Wt4Ys8Zb3Mc6Nd5Hf2Jg7Lk';
+// The identity is 春花_cjWK, the 明人 the recording shows next: its normal avatar comes from its FID,
+// and once the key is public it takes the app's 明人 mark (NobodyUi.markAvatar). No key is shown here.
+const SELF = 'FEk41Kqjar45fLDriztUDTUkdki7mmcjWK';
+const SELF_NAME = '春花_cjWK';
+const AVATAR = 220;
+// NobodyUi.markAvatar: badge radius 0.2 × size, centred down-right inside the inscribed circle,
+// a white ring 1.12 × the radius, a white skull 1.44 × the radius across.
+const BADGE_R = AVATAR * 0.2;
+const BADGE_C = AVATAR / 2 + (AVATAR / 2 - BADGE_R) * 0.7071;
+const SKULL = 'M12,2C6.48,2 2,6.03 2,11c0,3.05 1.64,5.64 4,7.19V21c0,0.55 0.45,1 1,1h10c0.55,0 1,-0.45 1,-1v-2.81c2.36,-1.55 4,-4.14 4,-7.19C22,6.03 17.52,2 12,2Z M6.3,11.3a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0Z M13.3,11.3a2.2,2.2 0,1 0,4.4 0a2.2,2.2 0,1 0,-4.4 0Z M12,14.2L10.7,16.6H13.3Z M9.9,19.2h0.9v2.1h-0.9Z M13.2,19.2h0.9v2.1h-0.9Z';
+const NOBODY_MARK = '#E65100';
 // Stage 3: the people who now hold the key. Not FIDs: one key means one avatar, so they are
 // drawn as people hiding behind the same identity, never as avatars of their own.
 const PEOPLE = [
@@ -65,7 +74,7 @@ export const NobodyDeath: React.FC<{scene: PlannedScene}> = ({scene}) => {
       {/* The chain, up top: the notice board the key is posted to. */}
       <div style={{position: 'absolute', left: 60, right: 60, top: 100, height: 200, borderRadius: 24,
         background: '#121E33', border: '3px solid #2A3854', opacity: fade(frame)}}>
-        <div style={{position: 'absolute', left: 30, top: 18, fontSize: 32, color: theme.muted}}>⛓ 链上 · 谁都看得见</div>
+        <div style={{position: 'absolute', left: 30, top: 18, fontSize: 32, color: theme.muted}}>链上 · 谁都看得见</div>
         <div style={{position: 'absolute', left: 30, right: 30, top: 80, padding: '16px 22px', borderRadius: 14,
           background: '#1D2C47', border: `3px solid ${ORANGE}`, opacity: posted, fontSize: 32, color: theme.text}}>
           📌 公开私钥 🔑 · 记下这一刻
@@ -80,14 +89,21 @@ export const NobodyDeath: React.FC<{scene: PlannedScene}> = ({scene}) => {
       ))}
       {/* The identity. */}
       <div style={{position: 'absolute', left: 60, top: 360, width: 420, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <div style={{position: 'relative', filter: `grayscale(${marked})`}}>
-          <FidAvatar fid={SELF} size={220} />
+        <div style={{position: 'relative', width: AVATAR, height: AVATAR}}>
+          <div style={{filter: `grayscale(${marked})`}}>
+            <FidAvatar fid={SELF} size={AVATAR} />
+          </div>
+          <svg width={AVATAR} height={AVATAR} style={{position: 'absolute', inset: 0, opacity: marked}}>
+            <circle cx={BADGE_C} cy={BADGE_C} r={BADGE_R * 1.12} fill="#FFFFFF" />
+            <circle cx={BADGE_C} cy={BADGE_C} r={BADGE_R} fill={NOBODY_MARK} />
+            <g transform={`translate(${BADGE_C - BADGE_R * 0.72} ${BADGE_C - BADGE_R * 0.72}) scale(${(BADGE_R * 1.44) / 24})`}>
+              <path d={SKULL} fill="#FFFFFF" fillRule="evenodd" />
+            </g>
+          </svg>
         </div>
-        <div style={{position: 'absolute', left: 250, top: 150, width: 76, height: 76, borderRadius: '50%', background: ORANGE,
-          border: '5px solid #FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 44, opacity: marked}}>💀</div>
         <div style={{marginTop: 18, fontSize: 36, color: theme.text, display: 'flex', alignItems: 'center', gap: 12}}>
-          <span style={{opacity: marked, padding: '2px 12px', borderRadius: 8, background: ORANGE, color: '#FFFFFF', fontSize: 30}}>明人</span>
-          <span>{at(4) ? '' : '你的身份'}</span>
+          {marked > 0 && <span style={{opacity: marked, padding: '2px 12px', borderRadius: 8, background: NOBODY_MARK, color: '#FFFFFF', fontSize: 30}}>明人</span>}
+          <span>{SELF_NAME}</span>
         </div>
       </div>
       {/* Stage 0: the key in your hand; stage 2 sends it up. */}
