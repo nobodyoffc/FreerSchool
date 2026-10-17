@@ -1,5 +1,5 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {AbsoluteFill} from 'remotion';
 import {theme} from '../theme';
 
 const LINES: Record<string, string> = {U: '使用', T: '理解', B: '建造'};
@@ -12,9 +12,8 @@ export const seriesLabel = (id: string): string => {
   return `${LINES[m[1]]}·${LEVELS[m[2]]} ${m[3]}`;
 };
 
+// Shown in full from the first frame: players that take frame 0 as the cover get the title.
 export const TitleCard: React.FC<{id: string; title: string}> = ({id, title}) => {
-  const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 15], [0, 1], {extrapolateRight: 'clamp'});
   return (
     <AbsoluteFill
       style={{
@@ -23,7 +22,6 @@ export const TitleCard: React.FC<{id: string; title: string}> = ({id, title}) =>
         fontFamily: theme.font,
         justifyContent: 'center',
         alignItems: 'center',
-        opacity,
       }}
     >
       <div style={{fontSize: 36, color: theme.muted, letterSpacing: 4}}>飞人学堂 · Freer School</div>
