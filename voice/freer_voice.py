@@ -98,6 +98,10 @@ PHONEMES = {
     'ㄇㄧ4ㄒ阴4/ㄝ4/ㄉ言3': 'ㄇㄧ4ㄒ阴4ㄝ4/ㄉ言3',  # 密信页 | 点: the pause belongs after 页, not before it
     'ㄊ中1ㄓ十1/ㄈㄟ4': 'ㄊ中1ㄓ十1ㄈㄟ4',  # 通知费 as one word: jieba split it into 通知 | 费
     'ㄙㄭ4ㄐ言4/ㄕ十4': 'ㄙㄭ4ㄐ言4ㄕ十4',  # 四件事 as one word: jieba split it into 四件 | 事
+    'ㄏㄜ2ㄅㄧ4/ㄊ言1': 'ㄏㄜ2/ㄅㄧ4ㄊ言1',  # 和 | 币天: jieba grouped 和币
+    'ㄐ要1ㄧ4/ㄉㄥ2我3ㄇㄣ5': 'ㄐ要1ㄧ4ㄉㄥ3/我3ㄇㄣ5',  # 交易等 | 我们: jieba grouped 等我们 (wait for us)
+    'ㄇ言4ㄜ2/ㄐ压1ㄗ中3': 'ㄇ言4ㄜ2, ㄐ压1ㄗ中3',  # 面额, 加总: a short pause after 额, or it is swallowed
+    'ㄗ为4/ㄕㄤ4ㄇ言4': 'ㄗ为4ㄕㄤ4ㄇ言5',  # 最上面: 面 in the neutral tone, as one word; the 4th tone sounded odd
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

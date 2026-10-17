@@ -1,5 +1,6 @@
 import type React from 'react';
 import type {PlannedScene} from '../episode/plan';
+import {CashChange} from './CashChange';
 import {CidName} from './CidName';
 import {CipherBackup} from './CipherBackup';
 import {CmailChain} from './CmailChain';
@@ -27,4 +28,5 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U1-10/S2': P2pRoute,
   'U1-10/S4': StrangerGate,
   'U1-11/S2': CmailChain,
+  'U1-12/S2': CashChange,
 };
