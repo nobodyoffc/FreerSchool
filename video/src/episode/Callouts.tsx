@@ -111,6 +111,13 @@ const Tap: React.FC<{xy: number[]}> = ({xy}) => {
   );
 };
 
+// Scene frames a word-keyed highlight is shown: from just before the word to just after its line.
+export const wordSpan = (c: Callout, lines: PlannedLine[], fps: number) => {
+  const line = lines[c.line!];
+  const from = line.from + Math.round((c.offset ?? 0) * fps) - 3;
+  return {from, frames: line.from + line.frames + 12 - from};
+};
+
 export const Callouts: React.FC<{callouts: Callout[]; lines: PlannedLine[]; pieces: Piece[]}> = ({callouts, lines, pieces}) => {
   const {fps} = useVideoConfig();
   return (
@@ -126,9 +133,7 @@ export const Callouts: React.FC<{callouts: Callout[]; lines: PlannedLine[]; piec
           );
         }
         if (c.kind === 'box' && c.line !== undefined) {
-          const line = lines[c.line];
-          const from = line.from + Math.round((c.offset ?? 0) * fps) - 3;
-          const frames = line.from + line.frames + 12 - from;
+          const {from, frames} = wordSpan(c, lines, fps);
           return (
             <Sequence key={c.label} from={from} durationInFrames={frames} layout="none">
               <Box xy={c.xy} frames={frames} />

@@ -24,6 +24,10 @@ export const TitleCard: React.FC<{id: string; title: string}> = ({id, title}) =>
         alignItems: 'center',
       }}
     >
+      {/* Readable on a thumbnail, a little smaller than the title. */}
+      <div style={{position: 'absolute', left: 56, top: 56, fontSize: 80, fontWeight: 700, color: theme.accent, lineHeight: 1, letterSpacing: 2}}>
+        {id}
+      </div>
       <div style={{fontSize: 36, color: theme.muted, letterSpacing: 4}}>飞人学堂 · Freer School</div>
       <div style={{fontSize: 44, color: theme.accent, marginTop: 48}}>{seriesLabel(id)}</div>
       <div style={{fontSize: 96, fontWeight: 600, marginTop: 16}}>{title}</div>

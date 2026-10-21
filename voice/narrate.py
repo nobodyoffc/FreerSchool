@@ -33,9 +33,10 @@ SCENE = re.compile(r'^### (S\d+) \[(.+?)\]\s*(.*)$')
 # "点击 创建 @10.87s 990,2494" (a tap, at that second of the recording). Coordinates are
 # recording pixels. "遮挡 私钥 @12.0-18.5s 60,900,1220,1010" covers a box (e.g. a private key)
 # while the recording shows those seconds; without "@…s" it covers the whole scene.
+# "圈出领航员头像 @"我的头像" 领航员" rings the Navigator's avatar beside the phone instead.
 # Anything else in a 标注 line stays a plain note.
 MASK = re.compile(r'^遮挡\s*(?P<label>.*?)\s*(?:@(?P<a>\d+(?:\.\d+)?)-(?P<b>\d+(?:\.\d+)?)s\s+)?(?P<xy>\d+,\d+,\d+,\d+)$')
-CALLOUT = re.compile(r'^(?P<label>.*?)\s*@(?:"(?P<word>[^"]+)"|(?P<sec>-?\d+(?:\.\d+)?)s)\s+(?P<xy>\d+(?:,\d+){1,3})$')
+CALLOUT = re.compile(r'^(?P<label>.*?)\s*@(?:"(?P<word>[^"]+)"|(?P<sec>-?\d+(?:\.\d+)?)s)\s+(?P<xy>\d+(?:,\d+){1,3}|领航员)$')
 CJK = re.compile(r'[\u4e00-\u9fff]')
 
 
@@ -78,10 +79,10 @@ def parse(script: str) -> tuple[dict, list[dict]]:
                         'range': [float(m['a']), float(m['b'])] if m['a'] else None,
                     })
                 elif c := CALLOUT.match(note):
-                    xy = [int(v) for v in c['xy'].split(',')]
+                    xy = [] if c['xy'] == '领航员' else [int(v) for v in c['xy'].split(',')]
                     scenes[-1]['callouts'].append({
                         'label': c['label'], 'word': c['word'], 'rec': float(c['sec']) if c['sec'] else None,
-                        'kind': 'box' if len(xy) == 4 else 'tap', 'xy': xy,
+                        'kind': 'navigator' if not xy else 'box' if len(xy) == 4 else 'tap', 'xy': xy,
                     })
                 else:
                     scenes[-1]['notes'].append(note)

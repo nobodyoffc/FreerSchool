@@ -3,10 +3,11 @@ export type Line = {text: string; file: string; duration: number; start: number;
 
 // A highlight on a recording, in recording pixels: a box shown while a word is spoken
 // (line, offset seconds into it), a tap ring at a second of the recording, or an opaque
-// mask over a box while the recording shows `range` (seconds; null = the whole scene).
+// mask over a box while the recording shows `range` (seconds; null = the whole scene), or a ring
+// round the Navigator's avatar beside the phone while a word is spoken (xy unused).
 export type Callout = {
   label: string;
-  kind: 'box' | 'tap' | 'mask';
+  kind: 'box' | 'tap' | 'mask' | 'navigator';
   xy: number[];
   word: string | null;
   rec: number | null;
