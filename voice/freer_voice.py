@@ -71,6 +71,8 @@ LEXICON = {
     'PtoP': 'pˌi tˈu pˈi',  # P2P: a clear "to" in the middle, not a weak tə
     'CALL': 'kˈɔːl',  # the CALL server; long vowel so the l is heard (all caps would be spelled out)
     'F': 'ˈɛfə',  # the unit after an amount (1.01 F); a trailing ə, or the f is swallowed
+    'Safe': 'sˈAfə',  # 密库（Safe）: a trailing ə, or the f is swallowed
+    'Argontoid': 'ˈɑɹɡɑntuˌIdˈi',  # Argon2id in one breath: argon-to-I-D; as separate words it paused between them
 }
 
 # Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
@@ -88,6 +90,27 @@ READINGS = {
     '面额为': '面额维',  # wéi, not wèi: 如果面额为 1
     '教你': '交你',  # jiāo, not jiào: 教你如何……
     'P2P': 'PtoP',  # as people say it, not P 二 P; read through LEXICON
+    # Captions keep Arabic numerals; spoken in Chinese, or G2P breaks the word around the digits.
+    '2013年': '二零一三年',  # a year, digit by digit
+    '256位': '二百五十六位',
+    '256次': '二百五十六次',
+    '32个字节': '三十二个字节',
+    '32次': '三十二次',
+    '64个': '六十四个',
+    '100个': '一百个',
+    '1到16': '一到十六',
+    '0到F': '零到F',
+    '17到20': '十七到二十',
+    '64个十六进制数': '六十四个十六进制数',
+    '重掷': '虫掷',  # chóng, not zhòng
+    '4个环节': '四个环节',
+    '这4点': '这四点',
+    '记0': '记零',
+    '记1': '记一',
+    '猜不中': '猜不众',  # zhòng, not zhōng
+    '长字符': '常字符',  # cháng, not zhǎng: 长字符, 长字符串
+    'SHA256': 'SHA 二五六',  # as people say it, not 二百五十六
+    'Argon2id': 'Argontoid',  # one word, read through LEXICON
 }
 
 # Phoneme fixes applied after G2P, for what no homophone can say.
@@ -110,6 +133,12 @@ PHONEMES = {
     'ㄉㄥ1ㄌㄨ4/ㄕ十2': 'ㄉㄥ1ㄌㄨ4ㄕ十2',  # 登录时 as one word: jieba split 时 off with a pause before it
     'ㄕㄡ3ㄅㄧ4/ㄕ十2': 'ㄕㄡ3ㄅㄧ4ㄕ十2',  # 首币时, likewise
     'ㄑ又2ㄓㄨ4/ㄅㄢ3': 'ㄑ又2ㄓㄨ4ㄅㄢ3',  # 求助板 as one word: jieba split 板 off with a pause before it
+    'ㄇㄧ4/ㄎㄨ4ㄌㄧ3ㄉ言3': 'ㄇㄧ4ㄎㄨ4ㄌㄧ3/ㄉ言3',  # 密库里 | 点: jieba split 密 off and grouped 库里点
+    'ㄇㄧ4/ㄎㄨ4ㄌㄧ3/': 'ㄇㄧ4ㄎㄨ4ㄌㄧ3/',  # 密库里 as one word elsewhere (在密库里试一下)
+    'ㄅㄧ3ㄊㄜ4/ㄅㄧ4': 'ㄅㄧ3ㄊㄜ4ㄅㄧ4',  # 比特币 as one word: no pause after 比特
+    'ㄓ王1/ㄗㄞ4/ㄧ2ㄅㄨ4': 'ㄓ王1ㄗㄞ4/ㄧ2ㄅㄨ4',  # 装在 | 一部: no pause before 在
+    'ㄓㄥ4ㄦ4/ㄕ十2ㄇ言4ㄊㄧ3': 'ㄓㄥ4/ㄦ4ㄕ十2ㄇ言4ㄊㄧ3',  # 正 | 二十面体: jieba split it as 正二 | 十面体
+    'ㄔ文1ㄏ穵1ㄑ又1月4/ㄏㄜ2ㄕ十2/ㄌㄜ5': 'ㄔ文1ㄏ穵1ㄑ又1月4ㄏㄜ2ㄕ十2ㄌ要3',  # 春花秋月何时了 in one breath; 了 is liǎo, not le
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

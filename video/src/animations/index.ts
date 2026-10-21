@@ -13,6 +13,8 @@ import {HelpBoard} from './HelpBoard';
 import {KeyDerivation} from './KeyDerivation';
 import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
+import {PhraseKey} from './PhraseKey';
+import {RandomKey} from './RandomKey';
 import {SquarePlaza} from './SquarePlaza';
 import {StrangerGate} from './StrangerGate';
 
@@ -33,4 +35,6 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U1-12/S2': CashChange,
   'U1-13/S2': HelpBoard,
   'U1-13/S5': GuideBond,
+  'U2-01/S2': RandomKey,
+  'U2-01/S4': PhraseKey,
 };

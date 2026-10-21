@@ -80,7 +80,8 @@ export const Screen: React.FC<{
   return (
     <div style={{position: 'relative', width: '100%', height: '100%'}}>
       {pieces.map((p) => (
-        <Sequence key={`${p.at}-${p.rec}`} from={p.at} durationInFrames={p.frames} layout="none">
+        // Premounted a second early: in the Studio each piece is its own <video>, black while it loads.
+        <Sequence key={`${p.at}-${p.rec}`} from={p.at} durationInFrames={p.frames} premountFor={fps}>
           {p.hold ? (
             <Freeze frame={p.rec}>
               <OffthreadVideo src={src} muted style={style} />

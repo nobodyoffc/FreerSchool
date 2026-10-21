@@ -48,9 +48,11 @@ restore=()
 cleanup() { for cmd in ${restore[@]+"${restore[@]}"}; do eval "$cmd"; done; }
 trap cleanup EXIT
 get() { adb_ shell settings get "$1" "$2" | tr -d '\r'; }
+# Write a setting; fails when the phone refuses (adb prints an Exception, exit status varies).
+put() { local out; out=$(adb_ shell settings put "$@" 2>&1 || true); [[ "${out}" != *Exception* ]]; }
 # Can adb write settings? Write a value back unchanged to find out.
 prevent=$(get system show_touches_preventrecord)
-if adb_ shell settings put system show_touches_preventrecord "${prevent}" 2>&1 | grep -q Exception; then
+if ! put system show_touches_preventrecord "${prevent}"; then
   echo "提示：手机不允许 adb 修改系统设置，跳过演示模式和点按白点。"
   echo "      想要它们：开发者选项 → 打开「USB 调试（安全设置）」；"
   echo "      或者手动：开发者选项 → 打开「显示点按操作」，并开启勿扰、清空通知。"
@@ -60,9 +62,12 @@ else
   # Leave the phone's own demo mode (开发者选项 → 演示模式) alone when it is on.
   if [[ "$(get system sysui_tuner_demo_on)" == "1" || "$(get secure sysui_tuner_demo_on)" == "1" ]]; then
     echo "手机已开启演示模式，沿用。"
+  # Some phones let adb write system settings but not global ones (WRITE_SECURE_SETTINGS);
+  # then there is no demo mode, only the touch dots.
+  elif allowed=$(get global sysui_demo_allowed) && ! put global sysui_demo_allowed 1; then
+    echo "提示：手机不允许 adb 修改全局设置，跳过演示模式（点按白点照常）。"
+    echo "      状态栏请手动整理：开启勿扰、清空通知。"
   else
-    allowed=$(get global sysui_demo_allowed)
-    adb_ shell settings put global sysui_demo_allowed 1
     demo enter
     demo clock -e hhmm 0900
     demo battery -e level 100 -e plugged false
