@@ -73,6 +73,10 @@ LEXICON = {
     'F': 'ˈɛfə',  # the unit after an amount (1.01 F); a trailing ə, or the f is swallowed
     'Safe': 'sˈAfə',  # 密库（Safe）: a trailing ə, or the f is swallowed
     'Argontoid': 'ˈɑɹɡɑntuˌIdˈi',  # Argon2id in one breath: argon-to-I-D; as separate words it paused between them
+    'WiFi': 'wˈIfˌI',  # why-fy, not spelled out
+    'NFC': 'ˌɛnˌɛfsˈi',  # spelled out
+    'A': 'ˈA',  # the letter, not the article ɐ (A、B、C三段)
+    'AB': 'ˌAbˈi',  # spelled out, not the word ab
 }
 
 # Chinese words the G2P misreads, spoken as a homophone instead; captions keep the original.
@@ -139,6 +143,9 @@ PHONEMES = {
     'ㄓ王1/ㄗㄞ4/ㄧ2ㄅㄨ4': 'ㄓ王1ㄗㄞ4/ㄧ2ㄅㄨ4',  # 装在 | 一部: no pause before 在
     'ㄓㄥ4ㄦ4/ㄕ十2ㄇ言4ㄊㄧ3': 'ㄓㄥ4/ㄦ4ㄕ十2ㄇ言4ㄊㄧ3',  # 正 | 二十面体: jieba split it as 正二 | 十面体
     'ㄔ文1ㄏ穵1ㄑ又1月4/ㄏㄜ2ㄕ十2/ㄌㄜ5': 'ㄔ文1ㄏ穵1ㄑ又1月4ㄏㄜ2ㄕ十2ㄌ要3',  # 春花秋月何时了 in one breath; 了 is liǎo, not le
+    '/ㄦ4为2ㄇㄚ3': 'ㄦ4为2ㄇㄚ3',  # 二维码 never split: after a word break 维 was drawn out into a pause
+    'ㄦ4为2ㄇㄚ3/阴4': 'ㄦ4为2ㄇㄚ3, 阴4',  # 二维码 | 印在纸上: run on, 维 trailed into a 0.3 s gap before 码; a pause after 码 keeps 维 short
+    'ㄗㄣ3阳4/ㄍㄥ4': 'ㄗㄣ3阳4ㄍㄥ4',  # 怎样更安全: no pause before 更
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

@@ -15,8 +15,11 @@ import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
 import {PhraseKey} from './PhraseKey';
 import {RandomKey} from './RandomKey';
+import {SocialKey} from './SocialKey';
+import {SplitKey} from './SplitKey';
 import {SquarePlaza} from './SquarePlaza';
 import {StrangerGate} from './StrangerGate';
+import {TamperKey} from './TamperKey';
 
 // Concept animations, by "<episode>/<scene>".
 export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
@@ -37,4 +40,7 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U1-13/S5': GuideBond,
   'U2-01/S2': RandomKey,
   'U2-01/S4': PhraseKey,
+  'U2-02/S4': SplitKey,
+  'U2-02/S5': TamperKey,
+  'U2-02/S6': SocialKey,
 };
