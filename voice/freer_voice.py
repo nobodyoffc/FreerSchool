@@ -146,6 +146,7 @@ PHONEMES = {
     '/ㄦ4为2ㄇㄚ3': 'ㄦ4为2ㄇㄚ3',  # 二维码 never split: after a word break 维 was drawn out into a pause
     'ㄦ4为2ㄇㄚ3/阴4': 'ㄦ4为2ㄇㄚ3, 阴4',  # 二维码 | 印在纸上: run on, 维 trailed into a 0.3 s gap before 码; a pause after 码 keeps 维 short
     'ㄗㄣ3阳4/ㄍㄥ4': 'ㄗㄣ3阳4ㄍㄥ4',  # 怎样更安全: no pause before 更
+    'ㄎㄜ2ㄧ2ㄓ万3/ㄔㄥ2ㄦ4为2ㄇㄚ3/ㄅ': 'ㄎㄜ2ㄧ3/ㄓ万3ㄔㄥ2ㄦ4为2ㄇㄚ3, ㄅ',  # 可以 | 转成二维码, 保存: jieba grouped 可以转; pauses fell after 以 and inside 二维码
 }
 
 BASE58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
