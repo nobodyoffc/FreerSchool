@@ -5,7 +5,7 @@ renders/
 *.mov
 *.wav
 !assets/music/*.wav
-!voice/qwen/ref/*.wav
+!voice/ref/*.wav
 
 # 密钥：任何形式都不得入库
 *.key
@@ -20,12 +20,12 @@ video/out/
 .remotion/
 __pycache__/
 .venv/
-voice/models/
-voice/qwen/cache/
+voice/fid/models/
+voice/cache/
 .DS_Store
 .idea/
 .vscode/
-voice/out/
+voice/fid/out/
 episodes/**/build/
 video/public/episodes/
 music/out/

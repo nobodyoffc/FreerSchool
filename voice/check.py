@@ -3,7 +3,7 @@
 Catches what a sampling TTS can do: skip, repeat or add words, or read a character wrong
 (a same-sounding character is reported too; those are fine). Tones are not checked: listen.
 
-    .venv/bin/python check.py ../../episodes/U2/<集目录>
+    .venv/bin/python check.py ../episodes/<线>/<集目录>
 """
 import difflib
 import json

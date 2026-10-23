@@ -1,12 +1,9 @@
-"""Narrate with Qwen3-TTS, cloning the Navigator's FreerVoice.
+"""Narrate with Qwen3-TTS, cloning the Navigator's FID voice.
 
-The FreerVoice (Kokoro) sets the timbre and the calm delivery; Qwen3-TTS speaks it more
-naturally. The reference is two lines of U2-02 in the Navigator's FreerVoice (ref/领航员.wav).
-Word timings come from Qwen3-ForcedAligner, run on the finished line.
-
-Runs in this directory's own environment (qwen-tts needs an older transformers than kokoro):
-    cd voice/qwen && uv sync
-    .venv/bin/python ../narrate.py --engine qwen ../../episodes/U2/<集目录>
+The Navigator's voice is derived from its FID (fid/freer_voice.py, FreerVoice v1 on Kokoro);
+that sets the timbre and the calm delivery, and Qwen3-TTS speaks it more naturally. The
+reference is two lines of U2-02 in that voice (ref/领航员.wav). Word timings come from
+Qwen3-ForcedAligner, run on the finished line.
 """
 import hashlib
 import re
@@ -31,7 +28,7 @@ READINGS = {
     'Argon2id': 'Argon two id',  # the 2 in English
     '@': '艾特',  # otherwise skipped
     '靓': '亮',  # liàng (搜索靓名 was heard as 废名)
-    # Carried over from FreerVoice's READINGS: polyphones the ear checks, not the ASR, would catch.
+    # Carried over from fid/freer_voice.py's READINGS: polyphones the ear checks, not the ASR, would catch.
     '长数据': '常数据',  # cháng, not zhǎng
     '长字符': '常字符',
     '加为': '加维',  # wéi, not wèi

@@ -6,8 +6,10 @@ Reads episodes/<...>/script.md, synthesizes every "> " line, and writes to <epis
     timeline.json   the episode for the video: id and title, and per scene its type, points,
                     operations, callouts and lines with timings in seconds
 
-    python narrate.py ../episodes/U1/U1-02-你的第一个身份
-    qwen/.venv/bin/python narrate.py --engine qwen ../episodes/U2/U2-03-二维码交互   (see qwen/qwen_voice.py)
+    .venv/bin/python narrate.py ../episodes/U1/U1-02-你的第一个身份
+
+The voice is Qwen3-TTS cloning the Navigator's FID voice (qwen_voice.py). A line already
+synthesized comes from the cache, so a rerun only synthesizes lines that changed.
 """
 import json
 import re
@@ -17,17 +19,14 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from freer_voice import SAMPLE_RATE, Synthesizer, derive, trim
+from qwen_voice import SAMPLE_RATE, VERSION, Synthesizer
 
 ROOT = Path(__file__).resolve().parent.parent
 # Pauses between speech, in seconds. Each line is trimmed to its speech plus EDGE on
-# either side (the model pads ~0.7 s before and ~1.1 s after), so these set the pause.
+# either side, so these set the pause. Pauses inside a line are the model's own.
 EDGE = 0.05
 LINE_GAP = 1.55  # between lines: ~1.65 s of silence in all
 SCENE_GAP = 1.9  # between scenes: ~2 s
-# Pauses inside a line (at commas and full stops) longer than PAUSE_MIN are cut to PAUSE_SCALE.
-PAUSE_MIN = 0.3
-PAUSE_SCALE = 0.75
 
 SCENE = re.compile(r'^### (S\d+) \[(.+?)\]\s*(.*)$')
 # A callout: "圈出 FID @"FID" 370,385,1060,580" (a box, shown when the word is spoken) or
@@ -40,7 +39,6 @@ SCENE = re.compile(r'^### (S\d+) \[(.+?)\]\s*(.*)$')
 # Anything else in a 标注 line stays a plain note.
 MASK = re.compile(r'^遮挡\s*(?P<label>.*?)\s*(?:@(?P<a>\d+(?:\.\d+)?)-(?P<b>\d+(?:\.\d+)?)s\s+)?(?P<xy>\d+,\d+,\d+,\d+)$')
 CALLOUT = re.compile(r'^(?P<label>.*?)\s*@(?:"(?P<word>[^"]+)"(?:-(?P<until>\d+(?:\.\d+)?)s)?|(?P<sec>-?\d+(?:\.\d+)?)s)\s+(?P<xy>\d+(?:,\d+){1,3}|领航员)$')
-CJK = re.compile(r'[\u4e00-\u9fff]')
 
 
 def parse(script: str) -> tuple[dict, list[dict]]:
@@ -93,70 +91,23 @@ def parse(script: str) -> tuple[dict, list[dict]]:
     return front, scenes
 
 
-def tighten(wav: np.ndarray, threshold: float = 0.01, hop: int = 240) -> np.ndarray:
-    """Shorten each silent run longer than PAUSE_MIN to PAUSE_SCALE of its length, cutting from its middle."""
-    quiet = np.array([np.abs(wav[i:i + hop]).max() <= threshold for i in range(0, len(wav), hop)])
-    keep = np.ones(len(wav), dtype=bool)
-    i = 0
-    while i < len(quiet):
-        if not quiet[i]:
-            i += 1
-            continue
-        j = i
-        while j < len(quiet) and quiet[j]:
-            j += 1
-        run = (j - i) * hop
-        if run >= PAUSE_MIN * SAMPLE_RATE:
-            cut = int(run * (1 - PAUSE_SCALE))
-            middle = i * hop + run // 2
-            keep[middle - cut // 2:middle - cut // 2 + cut] = False
-        i = j
-    return wav[keep]
-
-
-def word_offset(synth: Synthesizer, params, text: str, word: str, lead: float) -> float:
-    """Seconds from the start of a trimmed line to where `word` begins, from the model's durations."""
-    clean = text.translate(str.maketrans('', '', '"“”「」『』'))
-    target = len(CJK.findall(clean[:clean.index(word)]))
-    starts, before = [], 0.0
-    for r in synth.pipeline(clean, voice=synth.style(params), speed=lambda n: params.speed * 1.1):
-        ps, dur = r.phonemes, r.pred_dur.tolist()
-        acc, syl = dur[0], None
-        for j, c in enumerate(ps):
-            if syl is None and ('\u3100' <= c <= '\u312f' or '\u4e00' <= c <= '\u9fff'):
-                syl = acc
-            if c in '12345' and syl is not None:
-                starts.append(before + syl * 600 / SAMPLE_RATE)
-                syl = None
-            acc += dur[j + 1]
-        before += sum(dur) * 600 / SAMPLE_RATE
-    if not starts:
-        return 0.0
-    at = starts[min(target, len(starts) - 1)]
-    if not CJK.match(word[0]) and target > 0:
-        # An English word has no syllable of its own here; it follows the previous character.
-        at = min(at, starts[target - 1] + 0.3)
-    return max(0.0, at - lead)
+def trim(wav: np.ndarray, edge: float = EDGE, threshold: float = 0.01) -> np.ndarray:
+    """Cut the silence around speech, keeping `edge` seconds on either side."""
+    loud = np.flatnonzero(np.abs(wav) > threshold)
+    if not len(loud):
+        return wav
+    margin = int(edge * SAMPLE_RATE)
+    return wav[max(0, loud[0] - margin):loud[-1] + margin]
 
 
 def main():
-    args = sys.argv[1:]
-    engine = 'kokoro'
-    if args[0] == '--engine':
-        engine, args = args[1], args[2:]
-    episode = Path(args[0]).resolve()
+    episode = Path(sys.argv[1]).resolve()
     front, scenes = parse((episode / 'script.md').read_text(encoding='utf-8'))
     navigator = json.loads((ROOT / 'school.json').read_text(encoding='utf-8'))['navigator']
-    params = derive(navigator['fid'])
 
     build = episode / 'build'
     (build / 'lines').mkdir(parents=True, exist_ok=True)
-    if engine == 'qwen':
-        sys.path.insert(0, str(Path(__file__).resolve().parent / 'qwen'))
-        import qwen_voice
-        synth = qwen_voice.Synthesizer()
-    else:
-        synth = Synthesizer()
+    synth = Synthesizer()
     audio, t = [], 0.0
 
     def silence(seconds: float):
@@ -166,7 +117,7 @@ def main():
 
     timeline = {
         'id': front.get('id'), 'title': front.get('title'), 'app': front.get('app'),
-        'navigator': navigator, 'voice': qwen_voice.VERSION if engine == 'qwen' else params.version,
+        'navigator': navigator, 'voice': VERSION,
         'gaps': {'line': LINE_GAP, 'scene': SCENE_GAP},
         'scenes': [],
     }
@@ -177,20 +128,14 @@ def main():
         for li, (text, anchor) in enumerate(scene['lines']):
             if li:
                 silence(LINE_GAP)
-            if engine == 'qwen':
-                # Its own pauses sound natural; word times come from aligning the finished line.
-                wav = trim(synth.speak(text), EDGE)
-            else:
-                raw = synth.speak(params, text).astype(np.float32)
-                lead = max(0, int(np.flatnonzero(np.abs(raw) > 0.01)[0]) - int(EDGE * SAMPLE_RATE)) / SAMPLE_RATE if np.any(np.abs(raw) > 0.01) else 0.0
-                wav = tighten(trim(raw, EDGE))
+            wav = trim(synth.speak(text))
             # Callouts keyed to a word in this line: the first line that says it.
             for c in scene['callouts']:
                 if c['word'] and 'line' not in c and c['word'] in text.translate(str.maketrans('', '', '"“”')):
                     c['line'] = li
                     word = c['word']
-                    c['offset'] = round(synth.offset(wav, text, word) if engine == 'qwen'
-                                        else word_offset(synth, params, text, word, lead), 3)
+                    # Word times come from aligning the finished line.
+                    c['offset'] = round(synth.offset(wav, text, word), 3)
             name = f'{scene["id"]}-{li + 1:02}.wav'
             sf.write(build / 'lines' / name, wav, SAMPLE_RATE)
             duration = len(wav) / SAMPLE_RATE

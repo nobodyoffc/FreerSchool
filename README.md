@@ -41,9 +41,10 @@ episodes/<编号>/script.md
 以 U1-02 为例：
 
 ```bash
-# 1. 用领航员的声音合成旁白 → episodes/.../build/（时间轴 timeline.json + 逐句音频）
-cd voice && .venv/bin/python narrate.py "../episodes/U1/U1-02-你的第一个身份"
-.venv/bin/python tone_check.py "../episodes/U1/U1-02-你的第一个身份"   # 声调自检，报警的句子重点试听
+# 1. 用领航员的声音合成旁白 → episodes/.../build/（时间轴 timeline.json + 逐句音频），详见 voice/README.md
+cd voice && .venv/bin/python readings.py "../episodes/U1/U1-02-你的第一个身份"   # 多音字、英文、数字，合成前配好读音
+.venv/bin/python narrate.py "../episodes/U1/U1-02-你的第一个身份"
+.venv/bin/python check.py "../episodes/U1/U1-02-你的第一个身份"      # 识别回文字，报出的句子重点试听
 
 # 2. 手机用 USB 连上 Mac（开启 USB 调试），每个场景录一段 → recordings/U1-02/S3.mp4 …
 #    状态栏自动切到演示模式，点按显示为白点；关闭镜像窗口即结束。没有录屏的场景显示操作步骤占位
@@ -53,7 +54,7 @@ cd .. && tools/record.sh U1-02 S3
 cd video && npm run sync -- "../episodes/U1/U1-02-你的第一个身份"
 
 # 4. 主题音乐（只需一次；曲目在 school.json 里选，换曲后重跑）
-cd ../music && ../voice/.venv/bin/python compose.py --theme
+cd ../music && uv sync && .venv/bin/python compose.py --theme
 
 # 5. 预览，或导出成片（响度统一到 -16 LUFS）→ renders/U1-02.mp4
 cd ../video && npm run studio
@@ -66,7 +67,8 @@ cd .. && tools/finalize.sh U1-02
 
 - Node.js（已有）
 - scrcpy（`brew install scrcpy`，已装）— Android 录屏，用 `tools/record.sh`
-- 语音引擎：待定，见 [docs/FID声音.md](docs/FID声音.md)
+- uv（Python 环境）
+- 语音：Qwen3-TTS 1.7B 克隆领航员的 FID 声音，见 [voice/README.md](voice/README.md)
 
 ## 相关项目
 

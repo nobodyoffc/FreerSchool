@@ -5,7 +5,7 @@ app moves on), the box hangs over the wrong screen. This plays each box the way 
 does, compares the recording under it with how it looked when the box appeared, and reports
 the recording second at which the screen changed, ready for @"词"-秒s.
 
-    .venv/bin/python boxes.py ../../episodes/U1/<集目录>
+    .venv/bin/python boxes.py ../episodes/<线>/<集目录>
 """
 import json
 import subprocess
@@ -39,7 +39,7 @@ def rec_at(pieces: list[dict], f: int) -> int:
 def main():
     episode = Path(sys.argv[1]).resolve()
     t = json.loads((episode / 'build' / 'timeline.json').read_text(encoding='utf-8'))
-    rec_dir = Path(__file__).resolve().parents[2] / 'recordings' / t['id']
+    rec_dir = Path(__file__).resolve().parents[1] / 'recordings' / t['id']
     found = 0
     for s in t['scenes']:
         boxes = [c for c in s['callouts'] if c['kind'] == 'box' and c.get('line') is not None]

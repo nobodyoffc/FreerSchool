@@ -1,4 +1,4 @@
-"""Move an episode's anchors from an old narration to a new one (e.g. Kokoro → Qwen).
+"""Move an episode's anchors from an old narration to a new one (e.g. after the voice or its reference changes).
 
 An anchor ties a line to the recording so that a tap lands on a word. When the voice
 changes, the word moves within its line. For each tap this finds the character it landed
@@ -108,7 +108,7 @@ def main():
     new_build = episode / 'build'
     old_t = json.loads((old_build / 'timeline.json').read_text(encoding='utf-8'))
     new_t = json.loads((new_build / 'timeline.json').read_text(encoding='utf-8'))
-    rec_dir = Path(__file__).resolve().parents[2] / 'recordings' / new_t['id']
+    rec_dir = Path(__file__).resolve().parents[1] / 'recordings' / new_t['id']
     aligner = Aligner()
     shifts = {}  # (scene id, line index) -> new anchor
 

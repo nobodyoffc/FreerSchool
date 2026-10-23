@@ -5,9 +5,9 @@ One 8-bar loop per style. It opens with the 飞人 motif (five notes) which come
 bar 5, over four chords; pad, arpeggio, bass and soft drums underneath. The loop is
 seamless: what rings past its end is wrapped onto its start.
 
-    ../voice/.venv/bin/python compose.py            # every style → out/<style>.wav + out/index.html
-    ../voice/.venv/bin/python compose.py 晨光       # one style
-    ../voice/.venv/bin/python compose.py --theme    # the chosen style (school.json) → video/public/music/{theme,bed}.wav
+    .venv/bin/python compose.py            # every style → out/<style>.wav + out/index.html
+    .venv/bin/python compose.py 晨光       # one style
+    .venv/bin/python compose.py --theme    # the chosen style (school.json) → video/public/music/{theme,bed}.wav
 """
 import html
 import json

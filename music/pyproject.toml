@@ -1,0 +1,13 @@
+[project]
+name = "freer-music"
+version = "0.1.0"
+description = "Compose the school's music in code"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy",
+    "scipy==1.18.1",
+    "soundfile==0.12.1",
+]
+
+[tool.uv]
+package = false
