@@ -29,6 +29,34 @@ READINGS = {
     '骰子': '投子',  # tóu, not shǎi
     'SHA256': '杀二五六',  # SHA came out unclear; 256 digit by digit, as people say it
     'Argon2id': 'Argon two id',  # the 2 in English
+    '@': '艾特',  # otherwise skipped
+    '靓': '亮',  # liàng (搜索靓名 was heard as 废名)
+    # Carried over from FreerVoice's READINGS: polyphones the ear checks, not the ASR, would catch.
+    '长数据': '常数据',  # cháng, not zhǎng
+    '长字符': '常字符',
+    '加为': '加维',  # wéi, not wèi
+    '登记为': '登记维',
+    '值为': '值维',
+    '面额为': '面额维',
+    '弹出': '谈出',  # tán, not dàn
+    '教你': '交你',  # jiāo, not jiào
+    '猜不中': '猜不众',  # zhòng, not zhōng
+    '2027 年': '二零二七年',  # a year, digit by digit
+    # Server names are words; in capitals they are spelled out letter by letter.
+    'BASE': 'Base',
+    'DOCK': 'Dock',
+    'DISK': 'Disk',
+    'CALL': 'Call',
+    'ROAD': 'Road',
+    'MAP': 'Map',
+    'SWAP': 'Swap',
+    'P2P': 'P two P',  # the 2 in English
+}
+# A line that came out wrong is redone with another take (another seed): text -> take.
+TAKES = {
+    '点发送，几分钟后就确认了。': 1,  # U1-12: take 0 said 点点发送
+    '别人怎么知道你的 DOCK 在哪里？看链上的登记。': 2,  # U1-06: take 0 said dog
+    '你的 DOCK 是公开的，谁都能查到。': 1,  # U1-06: take 0 said 道可
 }
 PUNCT = re.compile(r'[\s，。、：；！？“”"「」『』（）,.:;!?()]')
 
@@ -58,11 +86,12 @@ class Synthesizer:
         # Quotation marks are read as pauses; captions keep them.
         return text.translate(str.maketrans('', '', '"“”「」『』'))
 
-    def speak(self, text: str, take: int = 0) -> np.ndarray:
+    def speak(self, text: str, take: int | None = None) -> np.ndarray:
         """One line; float32 at SAMPLE_RATE. The same text and take give the same audio.
 
         Now and then the model does not stop (U2-02 S4-02 ran to 655 s): generation is capped,
         and a take whose length is far off for its text is redone with the next take."""
+        take = TAKES.get(text, 0) if take is None else take
         chars = len(PUNCT.sub('', self.clean(text)))
         # About 4–5 characters a second; outside 2–9 something went wrong.
         lo, hi = chars / 9, chars / 2 + 1.5
