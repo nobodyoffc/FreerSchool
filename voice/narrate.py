@@ -7,6 +7,7 @@ Reads episodes/<...>/script.md, synthesizes every "> " line, and writes to <epis
                     operations, callouts and lines with timings in seconds
 
     python narrate.py ../episodes/U1/U1-02-你的第一个身份
+    qwen/.venv/bin/python narrate.py --engine qwen ../episodes/U2/U2-03-二维码交互   (see qwen/qwen_voice.py)
 """
 import json
 import re
@@ -18,7 +19,7 @@ import soundfile as sf
 
 from freer_voice import SAMPLE_RATE, Synthesizer, derive, trim
 
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).resolve().parent.parent
 # Pauses between speech, in seconds. Each line is trimmed to its speech plus EDGE on
 # either side (the model pads ~0.7 s before and ~1.1 s after), so these set the pause.
 EDGE = 0.05
@@ -136,14 +137,23 @@ def word_offset(synth: Synthesizer, params, text: str, word: str, lead: float) -
 
 
 def main():
-    episode = Path(sys.argv[1]).resolve()
+    args = sys.argv[1:]
+    engine = 'kokoro'
+    if args[0] == '--engine':
+        engine, args = args[1], args[2:]
+    episode = Path(args[0]).resolve()
     front, scenes = parse((episode / 'script.md').read_text(encoding='utf-8'))
     navigator = json.loads((ROOT / 'school.json').read_text(encoding='utf-8'))['navigator']
     params = derive(navigator['fid'])
 
     build = episode / 'build'
     (build / 'lines').mkdir(parents=True, exist_ok=True)
-    synth = Synthesizer()
+    if engine == 'qwen':
+        sys.path.insert(0, str(Path(__file__).resolve().parent / 'qwen'))
+        import qwen_voice
+        synth = qwen_voice.Synthesizer()
+    else:
+        synth = Synthesizer()
     audio, t = [], 0.0
 
     def silence(seconds: float):
@@ -153,7 +163,7 @@ def main():
 
     timeline = {
         'id': front.get('id'), 'title': front.get('title'), 'app': front.get('app'),
-        'navigator': navigator, 'voice': params.version,
+        'navigator': navigator, 'voice': qwen_voice.VERSION if engine == 'qwen' else params.version,
         'gaps': {'line': LINE_GAP, 'scene': SCENE_GAP},
         'scenes': [],
     }
@@ -164,14 +174,20 @@ def main():
         for li, (text, anchor) in enumerate(scene['lines']):
             if li:
                 silence(LINE_GAP)
-            raw = synth.speak(params, text).astype(np.float32)
-            lead = max(0, int(np.flatnonzero(np.abs(raw) > 0.01)[0]) - int(EDGE * SAMPLE_RATE)) / SAMPLE_RATE if np.any(np.abs(raw) > 0.01) else 0.0
-            wav = tighten(trim(raw, EDGE))
+            if engine == 'qwen':
+                # Its own pauses sound natural; word times come from aligning the finished line.
+                wav = trim(synth.speak(text), EDGE)
+            else:
+                raw = synth.speak(params, text).astype(np.float32)
+                lead = max(0, int(np.flatnonzero(np.abs(raw) > 0.01)[0]) - int(EDGE * SAMPLE_RATE)) / SAMPLE_RATE if np.any(np.abs(raw) > 0.01) else 0.0
+                wav = tighten(trim(raw, EDGE))
             # Callouts keyed to a word in this line: the first line that says it.
             for c in scene['callouts']:
                 if c['word'] and 'line' not in c and c['word'] in text.translate(str.maketrans('', '', '"“”')):
                     c['line'] = li
-                    c['offset'] = round(word_offset(synth, params, text, c['word'], lead), 3)
+                    word = c['word']
+                    c['offset'] = round(synth.offset(wav, text, word) if engine == 'qwen'
+                                        else word_offset(synth, params, text, word, lead), 3)
             name = f'{scene["id"]}-{li + 1:02}.wav'
             sf.write(build / 'lines' / name, wav, SAMPLE_RATE)
             duration = len(wav) / SAMPLE_RATE

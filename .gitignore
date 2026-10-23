@@ -5,6 +5,7 @@ renders/
 *.mov
 *.wav
 !assets/music/*.wav
+!voice/qwen/ref/*.wav
 
 # 密钥：任何形式都不得入库
 *.key
