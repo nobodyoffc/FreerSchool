@@ -7,7 +7,8 @@ import {theme} from '../theme';
 // U1-12 S2: the balance is the bills, and paying gives change. One stage per narration line:
 //   0 three bills (1, 0.5, 0.2 F) appear in your wallet; their sum is the balance, 1.7 F
 //   1 paying 0.3 F: the 1 F bill leaves whole and becomes two new bills, 0.3 F to the guide
-//     and 0.69998 F back to you; a tiny fee (0.00002 F) drops out; the balance is 1.39998 F
+//     and 0.69998 F back to you; a tiny fee (0.00002 F) drops out; the balance is 1.39998 F.
+//     The spent bill does not vanish: it stays on the chain, greyed out and stamped 作废.
 // The fee is about what the recording shows (2.19 c). Laid out for portrait (Android episodes).
 const GUIDE = 'FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8';
 const GREEN = '#5BC98C';
@@ -21,18 +22,36 @@ const H = 150;
 const SLOT_Y = 1230;
 const slotX = (i: number) => 90 + i * 310;
 
-const Bill: React.FC<{amount: string; x: number; y: number; opacity: number; glow?: number; scale?: number}> = ({amount, x, y, opacity, glow = 0, scale = 1}) => (
-  <div
-    style={{
-      position: 'absolute', left: x, top: y, width: W, height: H, opacity, borderRadius: 16,
-      transform: `scale(${scale})`,
-      background: 'linear-gradient(135deg, #2F6B4F, #3E8A64)', border: `3px solid ${glow > 0 ? theme.accent : GREEN}`,
-      boxShadow: glow > 0 ? `0 0 ${40 * glow}px rgba(242,180,65,${0.7 * glow})` : 'none',
-      display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: '#FFFFFF',
-    }}
-  >
-    <div style={{fontSize: 26, opacity: 0.85}}>钞票</div>
-    <div style={{fontSize: 44, fontWeight: 700}}>{amount}</div>
+const STAMP = '#D9534F';
+
+// `spent` (0–1) greys the bill out; `stamp` (0–1) presses the 作废 stamp onto it.
+const Bill: React.FC<{amount: string; x: number; y: number; opacity: number; glow?: number; scale?: number; spent?: number; stamp?: number}> = ({amount, x, y, opacity, glow = 0, scale = 1, spent = 0, stamp = 0}) => (
+  <div style={{position: 'absolute', left: x, top: y, width: W, height: H, opacity, transform: `scale(${scale})`}}>
+    <div
+      style={{
+        position: 'absolute', inset: 0, borderRadius: 16,
+        background: 'linear-gradient(135deg, #2F6B4F, #3E8A64)', border: `3px solid ${glow > 0 ? theme.accent : GREEN}`,
+        boxShadow: glow > 0 ? `0 0 ${40 * glow}px rgba(242,180,65,${0.7 * glow})` : 'none',
+        filter: `grayscale(${spent}) brightness(${1 - 0.35 * spent})`,
+        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: '#FFFFFF',
+      }}
+    >
+      <div style={{fontSize: 26, opacity: 0.85}}>钞票</div>
+      <div style={{fontSize: 44, fontWeight: 700}}>{amount}</div>
+    </div>
+    {stamp > 0 && (
+      <div
+        style={{
+          // In the corner, so the amount stays readable.
+          position: 'absolute', left: W - 125, top: -22, width: 140, height: 70, borderRadius: 10,
+          border: `5px solid ${STAMP}`, color: STAMP, fontSize: 40, fontWeight: 800, letterSpacing: 4,
+          display: 'flex', justifyContent: 'center', alignItems: 'center',
+          opacity: Math.min(1, stamp * 2), transform: `rotate(-14deg) scale(${mix(stamp, 1.8, 1)})`,
+        }}
+      >
+        作废
+      </div>
+    )}
   </div>
 );
 
@@ -45,9 +64,11 @@ export const CashChange: React.FC<{scene: PlannedScene}> = ({scene}) => {
   // Stage 1 timeline (frames since the line starts).
   const pick = s1 >= 0 ? fade(s1, 15) : 0; // the 1 F bill lights up
   const lift = s1 >= 0 ? ease(s1, 20, 55) : 0; // ...and moves to the middle
-  const split = s1 >= 0 ? ease(s1, 70, 90) : 0; // it is spent whole: two new bills
-  const fly = s1 >= 0 ? ease(s1, 110, 150) : 0; // 0.3 F to the guide, the change home
-  const drop = s1 >= 0 ? ease(s1, 110, 170) : 0; // the fee falls away
+  const spent = s1 >= 0 ? ease(s1, 60, 80) : 0; // it is spent whole: it greys out
+  const stamp = s1 >= 0 ? ease(s1, 80, 92) : 0; // ...stamped 作废; it stays on the chain
+  const split = s1 >= 0 ? ease(s1, 100, 115) : 0; // two new bills come out of it
+  const fly = s1 >= 0 ? ease(s1, 115, 155) : 0; // 0.3 F to the guide, the change home
+  const drop = s1 >= 0 ? ease(s1, 115, 175) : 0; // the fee falls away
   const settled = s1 >= 0 ? fade(s1 - 160, 15) : 0;
   const cashLike = s1 >= 0 ? fade(s1 - 280, 20) : 0;
 
@@ -56,10 +77,10 @@ export const CashChange: React.FC<{scene: PlannedScene}> = ({scene}) => {
   const bill1X = mix(lift, slotX(0), midX);
   const bill1Y = mix(lift, SLOT_Y, midY);
 
-  // The two new bills come out of the spent one, side by side, then go their ways.
-  const payX = mix(fly, midX - 170, 700);
+  // The two new bills come out of the spent one, then go their ways.
+  const payX = mix(fly, midX, 700);
   const payY = mix(fly, midY, 420);
-  const changeX = mix(fly, midX + 170, slotX(0));
+  const changeX = mix(fly, midX, slotX(0));
   const changeY = mix(fly, midY, SLOT_Y);
 
   const sumOpacity = since(0) >= 0 ? fade(since(0) - 50, 15) : 0;
@@ -89,11 +110,17 @@ export const CashChange: React.FC<{scene: PlannedScene}> = ({scene}) => {
       <Bill amount="0.5 F" x={slotX(1)} y={SLOT_Y} opacity={since(0) >= 0 ? fade(since(0) - 12) : 0} />
       <Bill amount="0.2 F" x={slotX(2)} y={SLOT_Y} opacity={since(0) >= 0 ? fade(since(0) - 24) : 0} />
 
-      {/* The 1 F bill: spent whole in stage 1. */}
-      <Bill amount="1 F" x={bill1X} y={bill1Y} glow={pick} opacity={(since(0) >= 0 ? fade(since(0)) : 0) * (1 - split)} scale={1 + 0.08 * pick * (1 - split)} />
+      {/* The 1 F bill: spent whole in stage 1; it stays, void. */}
+      <Bill amount="1 F" x={bill1X} y={bill1Y} glow={pick * (1 - spent)} spent={spent} stamp={stamp}
+        opacity={since(0) >= 0 ? fade(since(0)) : 0} scale={1 + 0.08 * pick * (1 - spent)} />
       {s1 >= 0 && (
-        <div style={{position: 'absolute', left: 0, right: 0, top: midY - 90, textAlign: 'center', fontSize: 34, color: theme.accent, opacity: fade(s1 - 30) * (1 - fly)}}>
+        <div style={{position: 'absolute', left: bill1X, top: midY - 60, width: W, textAlign: 'center', fontSize: 34, color: theme.accent, opacity: fade(s1 - 30) * (1 - fly)}}>
           整张花掉
+        </div>
+      )}
+      {s1 >= 0 && (
+        <div style={{position: 'absolute', left: bill1X - 60, top: midY - 100, width: W + 120, textAlign: 'center', fontSize: 34, color: theme.muted, opacity: fade(s1 - 150, 15)}}>
+          已作废，仍在链上
         </div>
       )}
 

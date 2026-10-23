@@ -79,7 +79,8 @@ def shown_at(pieces: list[dict], rec: int):
 
 
 class Aligner:
-    def __init__(self):
+    def __init__(self, lang: str = 'zh'):
+        self.lang = lang
         from qwen_asr import Qwen3ForcedAligner
         self.model = Qwen3ForcedAligner.from_pretrained(qwen_voice.ALIGNER, dtype=torch.bfloat16, device_map='mps')
         self.cache = {}
@@ -88,7 +89,7 @@ class Aligner:
         if wav_path not in self.cache:
             wav, sr = sf.read(wav_path, dtype='float32')
             assert sr == qwen_voice.SAMPLE_RATE
-            self.cache[wav_path] = self.model.align(audio=(wav, sr), text=qwen_voice.Synthesizer.clean(text), language='Chinese')[0].items
+            self.cache[wav_path] = self.model.align(audio=(wav, sr), text=qwen_voice.clean(text, self.lang), language=qwen_voice.language(self.lang).name)[0].items
         return self.cache[wav_path]
 
 
@@ -109,7 +110,7 @@ def main():
     old_t = json.loads((old_build / 'timeline.json').read_text(encoding='utf-8'))
     new_t = json.loads((new_build / 'timeline.json').read_text(encoding='utf-8'))
     rec_dir = Path(__file__).resolve().parents[1] / 'recordings' / new_t['id']
-    aligner = Aligner()
+    aligner = Aligner(new_t.get('language', 'zh'))
     shifts = {}  # (scene id, line index) -> new anchor
 
     for old_s, new_s in zip(old_t['scenes'], new_t['scenes']):

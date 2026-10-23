@@ -7,6 +7,7 @@ Qwen3-ForcedAligner, run on the finished line.
 """
 import hashlib
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
@@ -39,6 +40,9 @@ READINGS = {
     '教你': '交你',  # jiāo, not jiào
     '猜不中': '猜不众',  # zhòng, not zhōng
     '2027 年': '二零二七年',  # a year, digit by digit
+    '费为': '费维',  # 交易费为 wéi
+    '0.000001': '百万分之一',  # read digit by digit, a zero went missing
+    '=': '等于',  # otherwise skipped
     # Server names are words; in capitals they are spelled out letter by letter.
     'BASE': 'Base',
     'DOCK': 'Dock',
@@ -58,9 +62,42 @@ TAKES = {
 PUNCT = re.compile(r'[\s，。、：；！？“”"「」『』（）,.:;!?()]')
 
 
+@dataclass(frozen=True)
+class Language:
+    """A narration language: the voice that speaks it and how it reads."""
+    name: str  # Qwen's name for it
+    version: str  # names the voice; part of every cache key and seed
+    ref_audio: Path
+    ref_text: str
+    readings: dict
+    per_second: tuple[float, float]  # characters a second; a take outside this is redone
+
+
+# By the script's `language` field. Only Chinese so far. For English, cloning the Chinese
+# reference gave a Chinese accent, and the preset English voices (Ryan, Aiden) did not suit
+# either (2026-10-23); its voice is chosen when the English version starts.
+LANGUAGES = {
+    'zh': Language('Chinese', VERSION, REF_AUDIO, REF_TEXT, READINGS, (2, 9)),
+}
+
+
+def language(code: str) -> Language:
+    if code not in LANGUAGES:
+        raise SystemExit(f'还没有语言 {code} 的旁白声音（见 voice/qwen_voice.py 的 LANGUAGES）')
+    return LANGUAGES[code]
+
+
+def clean(text: str, lang: str = 'zh') -> str:
+    """The text the model reads: READINGS applied, quotation marks (read as pauses) removed."""
+    for word, reading in language(lang).readings.items():
+        text = text.replace(word, reading)
+    return text.translate(str.maketrans('', '', '"“”「」『』'))
+
+
 class Synthesizer:
-    def __init__(self):
+    def __init__(self, lang: str = 'zh'):
         import torch
+        self.lang, self.language = lang, language(lang)
         from qwen_asr import Qwen3ForcedAligner
         self.torch = torch
         self.kw = dict(device_map='mps', dtype=torch.bfloat16)
@@ -73,15 +110,11 @@ class Synthesizer:
         if self._model is None:
             from qwen_tts import Qwen3TTSModel
             self._model = Qwen3TTSModel.from_pretrained(TTS_MODEL, attn_implementation='sdpa', **self.kw)
-            self.prompt = self._model.create_voice_clone_prompt(ref_audio=str(REF_AUDIO), ref_text=REF_TEXT)
+            self.prompt = self._model.create_voice_clone_prompt(ref_audio=str(self.language.ref_audio), ref_text=self.language.ref_text)
         return self._model
 
-    @staticmethod
-    def clean(text: str) -> str:
-        for word, reading in READINGS.items():
-            text = text.replace(word, reading)
-        # Quotation marks are read as pauses; captions keep them.
-        return text.translate(str.maketrans('', '', '"“”「」『』'))
+    def clean(self, text: str) -> str:
+        return clean(text, self.lang)
 
     def speak(self, text: str, take: int | None = None) -> np.ndarray:
         """One line; float32 at SAMPLE_RATE. The same text and take give the same audio.
@@ -90,21 +123,23 @@ class Synthesizer:
         and a take whose length is far off for its text is redone with the next take."""
         take = TAKES.get(text, 0) if take is None else take
         chars = len(PUNCT.sub('', self.clean(text)))
-        # About 4–5 characters a second; outside 2–9 something went wrong.
-        lo, hi = chars / 9, chars / 2 + 1.5
+        # Chinese runs about 4–5 characters a second; outside 2–9 something went wrong.
+        slow, fast = self.language.per_second
+        lo, hi = chars / fast, chars / slow + 1.5
+        version = self.language.version
         read = text
-        for word, reading in READINGS.items():
+        for word, reading in self.language.readings.items():
             read = read.replace(word, reading)
         for t in range(take, take + 5):
             # A line read differently (READINGS) is a different take of the same text.
-            key = f'{VERSION}/{t}/{text}' + (f'/{read}' if read != text else '')
+            key = f'{version}/{t}/{text}' + (f'/{read}' if read != text else '')
             cached = CACHE / f'{hashlib.sha256(key.encode()).hexdigest()[:24]}.npy'
             if cached.exists():
                 wav = np.load(cached)
             else:
-                seed = int.from_bytes(hashlib.sha256(f'{VERSION}/{t}/{text}'.encode()).digest()[:8], 'big') & 0x7FFF_FFFF
+                seed = int.from_bytes(hashlib.sha256(f'{version}/{t}/{text}'.encode()).digest()[:8], 'big') & 0x7FFF_FFFF
                 self.torch.manual_seed(seed)
-                wavs, sr = self.model.generate_voice_clone(text=self.clean(text), language='Chinese', voice_clone_prompt=self.prompt,
+                wavs, sr = self.model.generate_voice_clone(text=self.clean(text), language=self.language.name, voice_clone_prompt=self.prompt,
                                                            max_new_tokens=int(hi * TOKENS_PER_SECOND) + 12)
                 assert sr == SAMPLE_RATE, sr
                 wav = np.asarray(wavs[0], dtype=np.float32)
@@ -117,7 +152,7 @@ class Synthesizer:
 
     def offset(self, wav: np.ndarray, text: str, word: str) -> float:
         """Seconds from the start of `wav` to where `word` begins."""
-        items = self.aligner.align(audio=(wav, SAMPLE_RATE), text=self.clean(text), language='Chinese')[0].items
+        items = self.aligner.align(audio=(wav, SAMPLE_RATE), text=self.clean(text), language=self.language.name)[0].items
         # Items are characters (Chinese) or words (English); find the one where `word` starts.
         target = len(PUNCT.sub('', self.clean(text[:text.index(word)])))
         at = 0

@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-from qwen_voice import SAMPLE_RATE, VERSION, Synthesizer
+from qwen_voice import SAMPLE_RATE, Synthesizer
 
 ROOT = Path(__file__).resolve().parent.parent
 # Pauses between speech, in seconds. Each line is trimmed to its speech plus EDGE on
@@ -107,7 +107,9 @@ def main():
 
     build = episode / 'build'
     (build / 'lines').mkdir(parents=True, exist_ok=True)
-    synth = Synthesizer()
+    # The script's `language` (default zh) picks the voice and readings; see qwen_voice.LANGUAGES.
+    lang = front.get('language', 'zh')
+    synth = Synthesizer(lang)
     audio, t = [], 0.0
 
     def silence(seconds: float):
@@ -117,7 +119,7 @@ def main():
 
     timeline = {
         'id': front.get('id'), 'title': front.get('title'), 'app': front.get('app'),
-        'navigator': navigator, 'voice': VERSION,
+        'navigator': navigator, 'language': lang, 'voice': synth.language.version,
         'gaps': {'line': LINE_GAP, 'scene': SCENE_GAP},
         'scenes': [],
     }

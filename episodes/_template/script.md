@@ -7,6 +7,7 @@ app: 飞人 Android 版本号   # 用到密库时一并写上，如：飞人 And
 duration: 3min
 status: 草稿      # 草稿 | 定稿 | 已录 | 已发布
 pairs: []         # 配套集，如 [T1-01]
+language: zh      # 旁白语言，不写即 zh；英文版的声音还没定（见 voice/qwen_voice.py 的 LANGUAGES）
 ---
 
 ## 目标

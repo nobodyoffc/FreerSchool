@@ -55,7 +55,9 @@ def fixed(text: str) -> set[int]:
 
 def main():
     episode = Path(sys.argv[1]).resolve()
-    _, scenes = narrate.parse((episode / 'script.md').read_text(encoding='utf-8'))
+    front, scenes = narrate.parse((episode / 'script.md').read_text(encoding='utf-8'))
+    if front.get('language', 'zh') != 'zh':
+        raise SystemExit('readings.py 只查中文旁白')
     found = 0
     for scene in scenes:
         for li, (text, _) in enumerate(scene['lines']):

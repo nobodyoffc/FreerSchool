@@ -13,6 +13,8 @@ from pathlib import Path
 
 import torch
 
+import qwen_voice
+
 PUNCT = re.compile(r'[\s，。、：；！？“”"「」『』（）—…,.:;!?()_-]')
 # Numbers and Latin letters come back as Chinese numerals or spelled out; leave them out of the
 # comparison (listen to those) so a real slip stands out.
@@ -24,10 +26,11 @@ def main():
     from qwen_asr import Qwen3ASRModel
     model = Qwen3ASRModel.from_pretrained('Qwen/Qwen3-ASR-1.7B', dtype=torch.bfloat16, device_map='mps')
     timeline = json.loads((build / 'timeline.json').read_text(encoding='utf-8'))
+    language = qwen_voice.language(timeline.get('language', 'zh')).name
     bad = 0
     for scene in timeline['scenes']:
         for line in scene['lines']:
-            heard = model.transcribe(audio=str(build / line['file']), language='Chinese')[0].text
+            heard = model.transcribe(audio=str(build / line['file']), language=language)[0].text
             a, h = LOOSE.sub('', PUNCT.sub('', line['text'])), LOOSE.sub('', PUNCT.sub('', heard))
             ratio = difflib.SequenceMatcher(None, a, h).ratio()
             rate = len(PUNCT.sub('', line['text'])) / line['duration']
