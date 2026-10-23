@@ -14,6 +14,7 @@ export type Callout = {
   line?: number;
   offset?: number;
   range?: [number, number] | null;
+  until?: number | null; // a box: recording second at which it goes, if before its line ends
 };
 
 export type SceneType = '讲师' | '动画' | '录屏' | '卡片';

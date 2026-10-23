@@ -21,6 +21,7 @@ video/out/
 __pycache__/
 .venv/
 voice/models/
+voice/qwen/cache/
 .DS_Store
 .idea/
 .vscode/

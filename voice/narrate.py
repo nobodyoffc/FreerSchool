@@ -35,9 +35,11 @@ SCENE = re.compile(r'^### (S\d+) \[(.+?)\]\s*(.*)$')
 # recording pixels. "遮挡 私钥 @12.0-18.5s 60,900,1220,1010" covers a box (e.g. a private key)
 # while the recording shows those seconds; without "@…s" it covers the whole scene.
 # "圈出领航员头像 @"我的头像" 领航员" rings the Navigator's avatar beside the phone instead.
+# A box can end before its line does: "圈出 对话框 @"SHA256"-21.5s 75,1035,1205,1740" goes when
+# the recording reaches 21.5 s (e.g. the dialog closes).
 # Anything else in a 标注 line stays a plain note.
 MASK = re.compile(r'^遮挡\s*(?P<label>.*?)\s*(?:@(?P<a>\d+(?:\.\d+)?)-(?P<b>\d+(?:\.\d+)?)s\s+)?(?P<xy>\d+,\d+,\d+,\d+)$')
-CALLOUT = re.compile(r'^(?P<label>.*?)\s*@(?:"(?P<word>[^"]+)"|(?P<sec>-?\d+(?:\.\d+)?)s)\s+(?P<xy>\d+(?:,\d+){1,3}|领航员)$')
+CALLOUT = re.compile(r'^(?P<label>.*?)\s*@(?:"(?P<word>[^"]+)"(?:-(?P<until>\d+(?:\.\d+)?)s)?|(?P<sec>-?\d+(?:\.\d+)?)s)\s+(?P<xy>\d+(?:,\d+){1,3}|领航员)$')
 CJK = re.compile(r'[\u4e00-\u9fff]')
 
 
@@ -83,6 +85,7 @@ def parse(script: str) -> tuple[dict, list[dict]]:
                     xy = [] if c['xy'] == '领航员' else [int(v) for v in c['xy'].split(',')]
                     scenes[-1]['callouts'].append({
                         'label': c['label'], 'word': c['word'], 'rec': float(c['sec']) if c['sec'] else None,
+                        'until': float(c['until']) if c['until'] else None,
                         'kind': 'navigator' if not xy else 'box' if len(xy) == 4 else 'tap', 'xy': xy,
                     })
                 else:

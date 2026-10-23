@@ -133,7 +133,10 @@ export const Callouts: React.FC<{callouts: Callout[]; lines: PlannedLine[]; piec
           );
         }
         if (c.kind === 'box' && c.line !== undefined) {
-          const {from, frames} = wordSpan(c, lines, fps);
+          const span = wordSpan(c, lines, fps);
+          const until = c.until != null ? sceneFrameOf(pieces, Math.round(c.until * fps)) : null;
+          const {from} = span;
+          const frames = until !== null && until > from ? Math.min(span.frames, until - from + 4) : span.frames;
           return (
             <Sequence key={c.label} from={from} durationInFrames={frames} layout="none">
               <Box xy={c.xy} frames={frames} />
