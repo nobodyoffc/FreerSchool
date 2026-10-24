@@ -41,6 +41,7 @@ READINGS = {
     '猜不中': '猜不众',  # zhòng, not zhōng
     '2027 年': '二零二七年',  # a year, digit by digit
     '费为': '费维',  # 交易费为 wéi
+    '设置为': '设置维',  # wéi
     '0.000001': '百万分之一',  # read digit by digit, a zero went missing
     '=': '等于',  # otherwise skipped
     # Server names are words; in capitals they are spelled out letter by letter.

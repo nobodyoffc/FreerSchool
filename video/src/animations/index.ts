@@ -23,6 +23,7 @@ import {SplitKey} from './SplitKey';
 import {SquarePlaza} from './SquarePlaza';
 import {StrangerGate} from './StrangerGate';
 import {TamperKey} from './TamperKey';
+import {WatchIds} from './WatchIds';
 
 // Concept animations, by "<episode>/<scene>".
 export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
@@ -49,4 +50,5 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-04/S2': PasswordGroups,
   'U2-05/S2': MasterKey,
   'U2-05/S5': MasterBond,
+  'U2-06/S2': WatchIds,
 };
