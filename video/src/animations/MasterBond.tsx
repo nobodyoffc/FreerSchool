@@ -114,7 +114,7 @@ export const MasterBond: React.FC<{scene: PlannedScene}> = ({scene}) => {
             <Caption top={380} opacity={show(1, 40)} color={RED}>私钥泄露</Caption>
             <At x={lerp(guard, 160, 540)} y={1180} opacity={show(1, 60)}>
               <div style={{display: 'flex', alignItems: 'center', gap: 20}}>
-                <span style={{fontSize: 70}}>🛡</span>
+                <span style={{fontSize: 80}}>🛡️</span>
                 <Card fid={MASTER.fid} name={MASTER.name} role="主人" color={BLUE} size={100} />
               </div>
             </At>
@@ -199,7 +199,7 @@ export const MasterBond: React.FC<{scene: PlannedScene}> = ({scene}) => {
               </div>
             </At>
             <At x={810} y={1010} opacity={show(5, 60)}>
-              <div style={{fontSize: 34, color: theme.muted}}>✍️̸ 主人未签名</div>
+              <div style={{fontSize: 34, color: theme.muted}}>主人未签名 <span style={{color: RED}}>✗</span></div>
             </At>
             <Caption top={1200} opacity={show(5, 100)} color={RED}>声明对主人没有约束力</Caption>
           </>
