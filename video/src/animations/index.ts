@@ -11,6 +11,8 @@ import {FirstCash} from './FirstCash';
 import {GuideBond} from './GuideBond';
 import {HelpBoard} from './HelpBoard';
 import {KeyDerivation} from './KeyDerivation';
+import {MasterBond} from './MasterBond';
+import {MasterKey} from './MasterKey';
 import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
 import {PasswordGroups} from './PasswordGroups';
@@ -45,4 +47,6 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-02/S5': TamperKey,
   'U2-02/S6': SocialKey,
   'U2-04/S2': PasswordGroups,
+  'U2-05/S2': MasterKey,
+  'U2-05/S5': MasterBond,
 };
