@@ -13,6 +13,7 @@ import {HelpBoard} from './HelpBoard';
 import {KeyDerivation} from './KeyDerivation';
 import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
+import {PasswordGroups} from './PasswordGroups';
 import {PhraseKey} from './PhraseKey';
 import {RandomKey} from './RandomKey';
 import {SocialKey} from './SocialKey';
@@ -43,4 +44,5 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-02/S4': SplitKey,
   'U2-02/S5': TamperKey,
   'U2-02/S6': SocialKey,
+  'U2-04/S2': PasswordGroups,
 };
