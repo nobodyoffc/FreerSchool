@@ -28,7 +28,8 @@ pairs: [T1-04]
   - 离线身份：领航员 cy_qqN8 `FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8`，私钥只在密库里，不在飞人里；已加进 Tom_9yw4 的"观察名单"（它也是 Tom 的主人，所以 S5 菜单顶部显示"Living: Master"）
   - 收款人：No1_NrC7 `FJYN3D7x4yiLF692WUAe7Vfo2nQpYDNrC7`，在"链上搜索FID"页搜"No1_"选中。本集付 1 F，交易费 2.19 c
 - 交易：S3 录的是第一笔（花一张 99570.69981953 F 的钞票，币天销毁 597424）；S4、S5 重录时是第二笔（花第一笔找回的 99569.69981734 F，币天销毁 0），两笔都是付 No1_NrC7 1 F、交易费 2.19 c。画面里的金额对不上，细看才看得出
-- S6 用手机浏览器打开自由宇宙网站。网站源码本机没有找到（`~/WebApp/cidcash` 是旧的英文版 cid.cash），S6 按录屏核对
+- S6 用手机浏览器打开自由宇宙网站（freecash.info 或 cid.cash，同一网站，标题"自由宇宙"`siteTitle`）。菜单"工具"（`tools`）下有"离线交易"（`offlineTX` → `html/offlineTx.html`）和"广播交易"（`broadcastTX` → `html/broadcast-tx.html`）：`modules/Header.js`、`constants/strings.js`
+- 网站"离线交易"页：发送者、选用钞票、付给、金额，"创建"后得到"待签名交易"，旁边的二维码图标显示成二维码（`modules/offlineTx.js` `showAsQrCodes`），可给密库扫。"广播交易"页：把已签名交易填进文本框（`raw-tx-input`，网页上没有扫码），可"解码"查看，点"广播"发出（`modules/broadcastTx.js`）。旁白不提怎样把签好的交易填进网页
 - 二维码不保存：密库的相机直接扫屏幕上显示的二维码，飞人也一样，成片看起来是在两部手机上完成的。两边的交易都分成两张（1/2、2/2）
 - 前置状态：飞人停在主页，当前主身份是 Tom_9yw4；密库停在主页，"待处理交易"为空
 - 安全：录屏不出现私钥；本集只上链一次（付款）
