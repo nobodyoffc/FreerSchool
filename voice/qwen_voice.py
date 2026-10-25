@@ -42,6 +42,10 @@ READINGS = {
     '2027 年': '二零二七年',  # a year, digit by digit
     '费为': '费维',  # 交易费为 wéi
     '设置为': '设置维',  # wéi
+    '声明 A 为主人': '声明 A 维主人',  # wéi (U2-08)
+    '声明身份 5 为主人': '声明身份 5 维主人',
+    '用身份 1 开始': '用身份衣开始',  # yī; the digit came out yì
+    '身份 2 做掌柜': '身份二做掌柜',  # the digit came out odd
     '0.000001': '百万分之一',  # read digit by digit, a zero went missing
     '=': '等于',  # otherwise skipped
     # Server names are words; in capitals they are spelled out letter by letter.
@@ -59,6 +63,8 @@ TAKES = {
     '点发送，几分钟后就确认了。': 1,  # U1-12: take 0 said 点点发送
     '别人怎么知道你的 DOCK 在哪里？看链上的登记。': 2,  # U1-06: take 0 said dog
     '你的 DOCK 是公开的，谁都能查到。': 1,  # U1-06: take 0 said 道可
+    '横着看，三个角色各用各的主人，互不转钱，链上看不出它们属于同一个人。': 2,  # U2-08: 转 came out zhuàn; take 2 is low
+    '用身份 1 开始各种日常社交。': 3,  # U2-08: 衣 high and level in take 3
 }
 PUNCT = re.compile(r'[\s，。、：；！？“”"「」『』（）,.:;!?()]')
 

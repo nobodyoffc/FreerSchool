@@ -6,13 +6,18 @@ import {CipherBackup} from './CipherBackup';
 import {CmailChain} from './CmailChain';
 import {CoinDays} from './CoinDays';
 import {ContactBook} from './ContactBook';
+import {DevTeam} from './DevTeam';
 import {DockDisk} from './DockDisk';
 import {FirstCash} from './FirstCash';
+import {GroupKinds} from './GroupKinds';
 import {GuideBond} from './GuideBond';
 import {HelpBoard} from './HelpBoard';
+import {IdMatrix, MatrixFilled} from './IdMatrix';
 import {KeyDerivation} from './KeyDerivation';
 import {MasterBond} from './MasterBond';
 import {MasterKey} from './MasterKey';
+import {Miser} from './Miser';
+import {Netizen} from './Netizen';
 import {OfflineTx} from './OfflineTx';
 import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
@@ -53,4 +58,10 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-05/S5': MasterBond,
   'U2-06/S2': WatchIds,
   'U2-07/S2': OfflineTx,
+  'U2-08/S2': IdMatrix,
+  'U2-08/S4': Miser,
+  'U2-08/S5': Netizen,
+  'U2-08/S6': DevTeam,
+  'U2-08/S7': MatrixFilled,
+  'U2-09/S2': GroupKinds,
 };
