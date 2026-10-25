@@ -13,6 +13,7 @@ import {HelpBoard} from './HelpBoard';
 import {KeyDerivation} from './KeyDerivation';
 import {MasterBond} from './MasterBond';
 import {MasterKey} from './MasterKey';
+import {OfflineTx} from './OfflineTx';
 import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
 import {PasswordGroups} from './PasswordGroups';
@@ -51,4 +52,5 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-05/S2': MasterKey,
   'U2-05/S5': MasterBond,
   'U2-06/S2': WatchIds,
+  'U2-07/S2': OfflineTx,
 };
