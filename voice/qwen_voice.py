@@ -52,6 +52,9 @@ READINGS = {
     ' cd': ' CD',  # U2-10: the coin-day unit, spelled out
     '40% 、10% 和 50%': '百分之四十、百分之十和百分之五十',  # U2-10
     '面一行': '面一杭',  # U2-10 上面一行、下面一行: háng, not xíng
+    '重组': '崇组',  # U2-11: chóng
+    '重启': '崇启',  # U2-11: chóng
+    '长按': '常按',  # U2-11: cháng
     # Server names are words; in capitals they are spelled out letter by letter.
     'BASE': 'Base',
     'DOCK': 'Dock',

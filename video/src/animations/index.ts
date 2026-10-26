@@ -23,6 +23,7 @@ import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
 import {PasswordGroups} from './PasswordGroups';
 import {PhraseKey} from './PhraseKey';
+import {SecretOnChain} from './SecretOnChain';
 import {RandomKey} from './RandomKey';
 import {SocialKey} from './SocialKey';
 import {SocialRank} from './SocialRank';
@@ -30,6 +31,7 @@ import {SplitKey} from './SplitKey';
 import {SquarePlaza} from './SquarePlaza';
 import {StrangerGate} from './StrangerGate';
 import {TamperKey} from './TamperKey';
+import {Totp} from './Totp';
 import {WatchIds} from './WatchIds';
 
 // Concept animations, by "<episode>/<scene>".
@@ -66,4 +68,6 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-08/S7': MatrixFilled,
   'U2-09/S2': GroupKinds,
   'U2-10/S2': SocialRank,
+  'U2-12/S2': SecretOnChain,
+  'U2-12/S5': Totp,
 };
