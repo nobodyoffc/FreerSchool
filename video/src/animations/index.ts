@@ -25,6 +25,7 @@ import {PasswordGroups} from './PasswordGroups';
 import {PhraseKey} from './PhraseKey';
 import {RandomKey} from './RandomKey';
 import {SocialKey} from './SocialKey';
+import {SocialRank} from './SocialRank';
 import {SplitKey} from './SplitKey';
 import {SquarePlaza} from './SquarePlaza';
 import {StrangerGate} from './StrangerGate';
@@ -64,4 +65,5 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-08/S6': DevTeam,
   'U2-08/S7': MatrixFilled,
   'U2-09/S2': GroupKinds,
+  'U2-10/S2': SocialRank,
 };

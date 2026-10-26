@@ -48,6 +48,10 @@ READINGS = {
     '身份 2 做掌柜': '身份二做掌柜',  # the digit came out odd
     '0.000001': '百万分之一',  # read digit by digit, a zero went missing
     '=': '等于',  # otherwise skipped
+    '2027年': '二零二七年',  # U2-10, no space before 年
+    ' cd': ' CD',  # U2-10: the coin-day unit, spelled out
+    '40% 、10% 和 50%': '百分之四十、百分之十和百分之五十',  # U2-10
+    '面一行': '面一杭',  # U2-10 上面一行、下面一行: háng, not xíng
     # Server names are words; in capitals they are spelled out letter by letter.
     'BASE': 'Base',
     'DOCK': 'Dock',
