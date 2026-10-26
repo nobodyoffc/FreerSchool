@@ -2,6 +2,7 @@ import React from 'react';
 import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 import {lineAt, type PlannedScene} from '../episode/plan';
 import {theme, usePortrait} from '../theme';
+import {Qr, QR_TOTP} from '../components/Qr';
 
 // U2-12 S5: where the codes of two-step verification come from. One stage per narration line:
 //   0 a login box: password, and below it a code
@@ -21,19 +22,6 @@ const CODES = ['502917', '184630'];
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const fade = (t: number, len = 12) => interpolate(t, [0, len], [0, 1], clamp);
 const ease = (p: number) => (1 - Math.cos(Math.PI * Math.min(Math.max(p, 0), 1))) / 2;
-
-const BITS = '1110101110011001010111011010010110100111011011010001101101011011101011100110011010011010';
-const Qr: React.FC<{size: number}> = ({size}) => {
-  const n = 9;
-  const cell = size / n;
-  return (
-    <div style={{position: 'relative', width: size, height: size, background: '#fff', borderRadius: 8}}>
-      {Array.from({length: n * n}, (_, i) => BITS[(i * 7) % BITS.length] === '1' && (
-        <div key={i} style={{position: 'absolute', left: (i % n) * cell, top: Math.floor(i / n) * cell, width: cell, height: cell, background: '#111'}} />
-      ))}
-    </div>
-  );
-};
 
 const Field: React.FC<{label: string; value: string; color?: string}> = ({label, value, color = '#222'}) => (
   <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
@@ -103,7 +91,7 @@ export const Totp: React.FC<{scene: PlannedScene}> = ({scene}) => {
 
         {/* Stages 1–2: the site and the phone each keep the key. */}
         <Side x={LEFT} title="网站" icon="🌐" opacity={sides}>
-          <div style={{opacity: stage === 1 ? 1 : 0, height: stage === 1 ? 'auto' : 0}}><Qr size={220} /></div>
+          <div style={{opacity: stage === 1 ? 1 : 0, height: stage === 1 ? 'auto' : 0}}><Qr rows={QR_TOTP} size={220} /></div>
           <div style={{fontSize: 34, color: theme.accent, fontWeight: 700}}>🔑 密钥</div>
         </Side>
         <Side x={RIGHT} title="手机" icon="📱" opacity={sides}>

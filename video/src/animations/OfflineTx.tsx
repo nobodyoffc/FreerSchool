@@ -3,6 +3,7 @@ import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
 import {FidAvatar} from '../components/FidAvatar';
 import {lineAt, type PlannedScene} from '../episode/plan';
 import {theme, usePortrait} from '../theme';
+import {Qr, QR_TX} from '../components/Qr';
 
 // U2-07 S2: an offline transaction goes back and forth; the private key stays put. One stage per narration line:
 //   0 the online phone (飞人) watches the offline identity, no key, and makes an unsigned transaction
@@ -26,20 +27,6 @@ const RED = '#E5686A';
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 const fade = (t: number, len = 12) => interpolate(t, [0, len], [0, 1], clamp);
 const ease = (p: number) => (1 - Math.cos(Math.PI * Math.min(Math.max(p, 0), 1))) / 2;
-
-// A fixed pattern standing in for a QR code.
-const BITS = '1110101110011001010111011010010110100111011011010001101101011011101011100110011010011010';
-const Qr: React.FC<{size: number}> = ({size}) => {
-  const n = 9;
-  const cell = size / n;
-  return (
-    <div style={{position: 'relative', width: size, height: size, background: '#fff', borderRadius: 8}}>
-      {Array.from({length: n * n}, (_, i) => BITS[i % BITS.length] === '1' && (
-        <div key={i} style={{position: 'absolute', left: (i % n) * cell, top: Math.floor(i / n) * cell, width: cell, height: cell, background: '#111'}} />
-      ))}
-    </div>
-  );
-};
 
 const Phone: React.FC<{x: number; title: string; online: boolean; opacity: number}> = ({x, title, online, opacity}) => (
   <div style={{position: 'absolute', left: x - PHONE_W / 2, top: PHONE_TOP, width: PHONE_W, height: PHONE_H, borderRadius: 44, background: theme.panel,
@@ -145,7 +132,7 @@ export const OfflineTx: React.FC<{scene: PlannedScene}> = ({scene}) => {
             <div style={{fontSize: 24, color: '#333'}}>付给 {PAYEE} · 1 F</div>
           </div>
           <div style={{position: 'absolute', left: 130 - 60, top: 85 - 60, opacity: flying}}>
-            <Qr size={120} />
+            <Qr rows={QR_TX} size={120} />
           </div>
           {/* Stage 1: the key signs, in 密库. */}
           {at(1) && !at(2) && (
