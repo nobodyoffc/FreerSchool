@@ -64,6 +64,8 @@ READINGS = {
     'MAP': 'Map',
     'SWAP': 'Swap',
     'P2P': 'P two P',  # the 2 in English
+    'HAT': 'Hat',  # U2-13: read as the word hat
+    'DID': 'D I D',  # U2-13: run together it came out DIAD or DIED
 }
 # A line that came out wrong is redone with another take (another seed): text -> take.
 TAKES = {

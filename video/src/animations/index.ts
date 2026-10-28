@@ -32,6 +32,7 @@ import {SquarePlaza} from './SquarePlaza';
 import {StrangerGate} from './StrangerGate';
 import {TamperKey} from './TamperKey';
 import {Totp} from './Totp';
+import {DiskHat} from './DiskHat';
 import {WatchIds} from './WatchIds';
 
 // Concept animations, by "<episode>/<scene>".
@@ -70,4 +71,5 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-10/S2': SocialRank,
   'U2-12/S2': SecretOnChain,
   'U2-12/S5': Totp,
+  'U2-13/S2': DiskHat,
 };
