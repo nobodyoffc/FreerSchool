@@ -66,6 +66,9 @@ READINGS = {
     'P2P': 'P two P',  # the 2 in English
     'HAT': 'Hat',  # U2-13: read as the word hat
     'DID': 'D I D',  # U2-13: run together it came out DIAD or DIED
+    'm/n': 'N 分之 M',  # U2-15: as a fraction
+    '2/3': '三分之二',  # U2-15
+    'JSON': '杰森',  # a word, not spelled out
 }
 # A line that came out wrong is redone with another take (another seed): text -> take.
 TAKES = {

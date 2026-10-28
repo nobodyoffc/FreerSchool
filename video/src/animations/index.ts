@@ -33,6 +33,8 @@ import {StrangerGate} from './StrangerGate';
 import {TamperKey} from './TamperKey';
 import {Totp} from './Totp';
 import {DiskHat} from './DiskHat';
+import {AppRegistry} from './AppRegistry';
+import {Multisig} from './Multisig';
 import {WatchIds} from './WatchIds';
 
 // Concept animations, by "<episode>/<scene>".
@@ -72,4 +74,6 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-12/S2': SecretOnChain,
   'U2-12/S5': Totp,
   'U2-13/S2': DiskHat,
+  'U2-14/S2': AppRegistry,
+  'U2-15/S2': Multisig,
 };
