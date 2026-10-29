@@ -6,7 +6,7 @@ import {loadEpisode} from './episode/load';
 import {VIDEO} from './theme';
 
 // Episodes with a synced build in public/episodes/<id>/ (npm run sync).
-const EPISODES = ['U1-02', 'U1-03', 'U1-04', 'U1-05', 'U1-06', 'U1-07', 'U1-08', 'U1-09', 'U1-10', 'U1-11', 'U1-12', 'U1-13', 'U2-01', 'U2-02', 'U2-03', 'U2-04', 'U2-05', 'U2-06', 'U2-07', 'U2-08', 'U2-09', 'U2-10', 'U2-11', 'U2-12', 'U2-13', 'U2-14', 'U2-15', 'U2-16'];
+const EPISODES = ['U1-02', 'U1-03', 'U1-04', 'U1-05', 'U1-06', 'U1-07', 'U1-08', 'U1-09', 'U1-10', 'U1-11', 'U1-12', 'U1-13', 'U2-01', 'U2-02', 'U2-03', 'U2-04', 'U2-05', 'U2-06', 'U2-07', 'U2-08', 'U2-09', 'U2-10', 'U2-11', 'U2-12', 'U2-13', 'U2-14', 'U2-15', 'U2-16', 'U2-17', 'U2-18'];
 
 export const Root: React.FC = () => (
   <>

@@ -23,6 +23,7 @@ import {OfflineTx} from './OfflineTx';
 import {NobodyDeath} from './NobodyDeath';
 import {P2pRoute} from './P2pRoute';
 import {PasswordGroups} from './PasswordGroups';
+import {ProofOnChain} from './ProofOnChain';
 import {PhraseKey} from './PhraseKey';
 import {SecretOnChain} from './SecretOnChain';
 import {RandomKey} from './RandomKey';
@@ -38,6 +39,8 @@ import {AppRegistry} from './AppRegistry';
 import {Multisig} from './Multisig';
 import {WatchIds} from './WatchIds';
 import {TimeLock} from './TimeLock';
+import {TokenBasics} from './TokenBasics';
+import {TokenParams} from './TokenParams';
 
 // Concept animations, by "<episode>/<scene>".
 export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
@@ -80,4 +83,7 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-15/S2': Multisig,
   'U2-16/S2': ChainClock,
   'U2-16/S4': TimeLock,
+  'U2-17/S2': ProofOnChain,
+  'U2-18/S2': TokenBasics,
+  'U2-18/S3': TokenParams,
 };
