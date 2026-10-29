@@ -1,6 +1,7 @@
 import type React from 'react';
 import type {PlannedScene} from '../episode/plan';
 import {CashChange} from './CashChange';
+import {ChainClock} from './ChainClock';
 import {CidName} from './CidName';
 import {CipherBackup} from './CipherBackup';
 import {CmailChain} from './CmailChain';
@@ -36,6 +37,7 @@ import {DiskHat} from './DiskHat';
 import {AppRegistry} from './AppRegistry';
 import {Multisig} from './Multisig';
 import {WatchIds} from './WatchIds';
+import {TimeLock} from './TimeLock';
 
 // Concept animations, by "<episode>/<scene>".
 export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
@@ -76,4 +78,6 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U2-13/S2': DiskHat,
   'U2-14/S2': AppRegistry,
   'U2-15/S2': Multisig,
+  'U2-16/S2': ChainClock,
+  'U2-16/S4': TimeLock,
 };

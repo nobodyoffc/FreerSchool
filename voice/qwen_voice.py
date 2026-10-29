@@ -69,6 +69,9 @@ READINGS = {
     'm/n': 'N 分之 M',  # U2-15: as a fraction
     '2/3': '三分之二',  # U2-15
     'JSON': '杰森',  # a word, not spelled out
+    '这行数字': '这杭数字',  # U2-16: háng
+    '一年长一个': '一年常一个',  # U2-16: cháng
+    '1440': '一千四百四十',  # U2-16: a number, not digit by digit
 }
 # A line that came out wrong is redone with another take (another seed): text -> take.
 TAKES = {
