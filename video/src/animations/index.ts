@@ -41,9 +41,13 @@ import {WatchIds} from './WatchIds';
 import {TimeLock} from './TimeLock';
 import {TokenBasics} from './TokenBasics';
 import {TokenParams} from './TokenParams';
+import {FreeUniverse} from './FreeUniverse';
+import {PasswordVault} from './PasswordVault';
 
 // Concept animations, by "<episode>/<scene>".
 export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
+  'U1-01/S2': FreeUniverse,
+  'U1-01/S6': PasswordVault,
   'U1-02/S2': KeyDerivation,
   'U1-03/S3': CipherBackup,
   'U1-04/S2': FirstCash,

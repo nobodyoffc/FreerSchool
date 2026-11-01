@@ -72,8 +72,15 @@ READINGS = {
     '这行数字': '这杭数字',  # U2-16: háng
     '一年长一个': '一年常一个',  # U2-16: cháng
     '1440': '一千四百四十',  # U2-16: a number, not digit by digit
+    '从零数起': '从零蜀起',  # U2-16: shǔ, not shù
     '什么时候还': '什么时候环',  # U2-17: huán (repay), not hái
     '还了钱': '环了钱',  # U2-17: huán
+    'cy_qqN8': 'C Y Q Q N 八',  # U1-01: the Navigator's CID, letter by letter
+    'freecash.info': 'Freecash 点 info',  # U1-01: the dot is read
+    'cid.cash': 'C I D 点 cash',  # U1-01
+    '加我为': '加我维',  # U1-01: wéi
+    '称为': '称维',  # U1-01: wéi
+    '叫我 cy': '叫我 C Y',  # U1-01: the short name, letter by letter
 }
 # A line that came out wrong is redone with another take (another seed): text -> take.
 TAKES = {
@@ -82,6 +89,7 @@ TAKES = {
     '你的 DOCK 是公开的，谁都能查到。': 1,  # U1-06: take 0 said 道可
     '横着看，三个角色各用各的主人，互不转钱，链上看不出它们属于同一个人。': 2,  # U2-08: 转 came out zhuàn; take 2 is low
     '用身份 1 开始各种日常社交。': 3,  # U2-08: 衣 high and level in take 3
+    '比如高度四百万，换算出来就是第 6 年第 377 天 18 点 40 分，各项都从零数起。': 2,  # U2-16: 蜀 dips and rises in take 2
 }
 PUNCT = re.compile(r'[\s，。、：；！？“”"「」『』（）,.:;!?()]')
 
