@@ -1,0 +1,998 @@
+{
+  "works" : [
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-01-cover.png",
+      "lang" : "zh",
+      "title" : "U1-01 初识飞人 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "e779a3aae5421ec2340b5f7e2456e48bdf524948ff51da6ed007424fb160f131",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "领航员自我介绍，自由宇宙简介，课程简介，入门网站freecash.org，freecash.info，cid.cash，自由宇宙浏览器应用或下载。安装飞人、密库；密码保护本机所有密钥；用领航员身份登录，大致了解飞人的功能",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-01-cover.png",
+      "kind" : "video",
+      "asset" : "U1-01.mp4",
+      "lang" : "zh",
+      "title" : "U1-01 初识飞人",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "086b1af7b7b6238993a0b6928cca4cd0f9757e559387171e40848e7ccd3e11d9",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-02-cover.png",
+      "lang" : "zh",
+      "title" : "U1-02 你的第一个身份 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "dbbe9d0cd13670d967f0b3380455bacd34314e14e3f0322e59e602f21988d3a2",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "设好密码即自动创建并登入；退出主身份后可随机创建；私钥→公钥→FID 单向；头像由 FID 决定",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-02-cover.png",
+      "kind" : "video",
+      "asset" : "U1-02.mp4",
+      "lang" : "zh",
+      "title" : "U1-02 你的第一个身份",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "3a743791e6c1cf608db39d5d0e07c0e2ea5acb2250c28a038ea157a67f084298",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-03-cover.png",
+      "lang" : "zh",
+      "title" : "U1-03 备份私钥 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "b5eb591adc8b397a1adc31e801bb124950fc392ce185c7a25704dac9ec939720",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "私钥只在这部手机上；保存密文，至少两处；密码要够复杂；更安全的方式后面讲",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-03-cover.png",
+      "kind" : "video",
+      "asset" : "U1-03.mp4",
+      "lang" : "zh",
+      "title" : "U1-03 备份私钥",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "b941102e139e0118046f400ddcdedf93cebd0c5f1e5c88b6dce029cb6a9eea9c",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-04-cover.png",
+      "lang" : "zh",
+      "title" : "U1-04 获得第一张钞票 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "c5716f957b34cfcea5ac8eaeef9965027158b2251b74536bb0b4476c7b6e83e3",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "为什么需要 FCH（手续费）；请朋友转或在首币求助板求助；给你第一张钞票的人就是你的引路人",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-04-cover.png",
+      "kind" : "video",
+      "asset" : "U1-04.mp4",
+      "lang" : "zh",
+      "title" : "U1-04 获得第一张钞票",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "36e5e9738f357b1398f10556b5effc286b2f11a3fbbc627dd5cc56c4e4684488",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-05-cover.png",
+      "lang" : "zh",
+      "title" : "U1-05 注册 CID 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "879e69cbc0a88a2299902697dd4d9357b25628e696657e62b604a97b37274fc8",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "CID 是别人找到你的名字（如 Alice_VkUV）；币天与币天销毁（高度 4000000 后上链需销毁 1 cd）；注册同时让公钥上链",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-05-cover.png",
+      "kind" : "video",
+      "asset" : "U1-05.mp4",
+      "lang" : "zh",
+      "title" : "U1-05 注册 CID",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "294fbab2b7a47ef7de73a7d596caffa6e552cc59f88c349185297c83a3f97814",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-06-cover.png",
+      "lang" : "zh",
+      "title" : "U1-06 设置链上服务器 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "f9c2eac0bef81c3f24cd24ea968f03bd330a2b6651c504812efdf7629261c60b",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "DOCK 替你保存离线消息，DISK 保存文件；不登记，别人无处联系你",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-06-cover.png",
+      "kind" : "video",
+      "asset" : "U1-06.mp4",
+      "lang" : "zh",
+      "title" : "U1-06 设置链上服务器",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "581292839924619c853b212c2449d392a6753b941cfbbd93646a3307c050d0bd",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-07-cover.png",
+      "lang" : "zh",
+      "title" : "U1-07 把引路人加为联系人 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "63505f33518df6c9c05acd2498a5e804e8a69b862d3d2df36ccda721a5adc643",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "引路人是你在这里唯一已认识的人；引路关系永久记在链上",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-07-cover.png",
+      "kind" : "video",
+      "asset" : "U1-07.mp4",
+      "lang" : "zh",
+      "title" : "U1-07 把引路人加为联系人",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "1d10e2b6c6bd3180da029af34a969ac6bf2609911b9f0aab60d16a9c01e86758",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-08-cover.png",
+      "lang" : "zh",
+      "title" : "U1-08 加入一个广场 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "d40bd63415308d1d9182988bc79ec16a0e49d5a20c8a9112415328ae7f585fa7",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "广场是公开群聊，成员名单在链上，没有群主，消息不加密；加入飞人广场；确认后打招呼；新手清单完成",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-08-cover.png",
+      "kind" : "video",
+      "asset" : "U1-08.mp4",
+      "lang" : "zh",
+      "title" : "U1-08 加入一个广场",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "99103eb1d4543757d898ee0c4721bc69b3d280266aa4abf13e670118880d4396",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-09-cover.png",
+      "lang" : "zh",
+      "title" : "U1-09 什么是明人 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "4dc57501bd7218e26ab216f00b7512fa4b5f989c38d98a7f952d30bbef4f04ba",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "由飞人广场里一条明人发言引出；私钥公开的身份不代表任何人；私钥泄露就公开它，之前的签名仍有效；成为明人即密码身份的死亡（留问题：与肉体死亡有何不同）；认出明人：灰色头像、骷髅徽章、\"明人\"标签；详情里的私钥，可导入看看，看完删除本号；另一个明人 f_ffff",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-09-cover.png",
+      "kind" : "video",
+      "asset" : "U1-09.mp4",
+      "lang" : "zh",
+      "title" : "U1-09 什么是明人",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "ae04d1da63736d2f0f749d4413e04b63e53d8831d12ac056e62fa1e425320f80",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-10-cover.png",
+      "lang" : "zh",
+      "title" : "U1-10 点对点聊天 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "e4341d485767c4bde4fee29bd00ccfa593f0cfca2be4324b664abc3164421651",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "消息用对方公钥加密，存在对方 DOCK；和引路人聊天：文字、语音、附件；陌生人的消息先进\"消息请求\"；P2P 聊天设置",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-10-cover.png",
+      "kind" : "video",
+      "asset" : "U1-10.mp4",
+      "lang" : "zh",
+      "title" : "U1-10 点对点聊天",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "8ffa424a5c2f5cac34777a848a13bd77898c1ad95dbd415fd4168da6fa29737c",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-11-cover.png",
+      "lang" : "zh",
+      "title" : "U1-11 发一封链上密信 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "b2630ce4e664112ee5d619e6fb421de5adfe83f48adf1310a6fd50a897afeacc",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "密信刻在链上，不需要服务器，只有收发双方能读；每封付手续费和收件人的通知费（默认 0.0001 F）；写给引路人，引路人回信；设置通知费、最大通知费、返还通知费",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-11-cover.png",
+      "kind" : "video",
+      "asset" : "U1-11.mp4",
+      "lang" : "zh",
+      "title" : "U1-11 发一封链上密信",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "917669a628ba5146e4cc97f24d541de8edd9ad130d8a3dd3b2ace202cf7bf5a9",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-12-cover.png",
+      "lang" : "zh",
+      "title" : "U1-12 收款与付款 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "b9ae83a312e3953074db19f1ab256da8385bf1702d5d03d164405f6d0d76d136",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "收款：地址与二维码；支付：转账；\"交易\"里的收支记录；余额由一张张钞票组成，付款整张花掉、找零给自己；主页\"现金\"里的钞票列表",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-12-cover.png",
+      "kind" : "video",
+      "asset" : "U1-12.mp4",
+      "lang" : "zh",
+      "title" : "U1-12 收款与付款",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "73b54fd27bf90afe84803f646b26cbec0e68a155ea0dc80d0f832f7c544f9f50",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U1-13-cover.png",
+      "lang" : "zh",
+      "title" : "U1-13 成为引路人 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "6f5339d0d44d258ee700f10998a06888cefdcb00b98c36164776f6be27beacc9",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "打开\"帮助新人\"；首币求助板就是明人：谁都能读、能冒名发帖，领钞票永不需付款或提供信息，只认到账；只认新人的 FID；给新人转第一张钞票；你成了对方的引路人",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U1-13-cover.png",
+      "kind" : "video",
+      "asset" : "U1-13.mp4",
+      "lang" : "zh",
+      "title" : "U1-13 成为引路人",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "cbe2da126b6623d2a965262e296bc1526be6b21cd3577e19aef47994f04315fc",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-01-cover.png",
+      "lang" : "zh",
+      "title" : "U2-01 更安全的私钥 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "fae10dd4900842f98360a3d0a5c7ae116478e956ef2cfbc387fc240b4d1fb094",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "私钥安全四环节（一句）：生成、保存、转移、使用，本集讲生成；私钥是 256 位随机数，伪随机数要信任代码，掷硬币或骰子得真随机；密库\"输入私钥\"导入 Hex；密语生成：SHA256 以\"春花秋月何时了\"→春花_cjWK 为例，改选 Argon2id；脑钱包与乱码两种用法。安装密库一句带过。控制在 4 分钟内",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-01-cover.png",
+      "kind" : "video",
+      "asset" : "U2-01.mp4",
+      "lang" : "zh",
+      "title" : "U2-01 更安全的私钥",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "f7f70cbea8c2e8faf09f2788da854c18003d73e395a7d78db0e812808630f832",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-02-cover.png",
+      "lang" : "zh",
+      "title" : "U2-02 私钥备份进阶 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "c502c13ad36683f038749c618a4f664df6217c9ca9eefd9d391de63157ec3cc6",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "五种备份：离线备份（断网设备、纸或钢板）；加密备份：密库随机密码加密导出，密码与密文分开存；分解备份：分段分处存放；篡改备份：篡改后的私钥与篡改策略分开存，策略不能太简单；社交备份：分段写进密信发给朋友。以讲师讲解和动画为主",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-02-cover.png",
+      "kind" : "video",
+      "asset" : "U2-02.mp4",
+      "lang" : "zh",
+      "title" : "U2-02 私钥备份进阶",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "856c4b23bd2d5f999f34de714b799c7b5452fa4907715406ffdaf22b54d02d71",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-03-cover.png",
+      "lang" : "zh",
+      "title" : "U2-03 二维码交互 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "3c34009d8d308e9e9dc868904afc43df66cdfed2f309468670a3224b5ab51877",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "设备之间不经网络传递私钥和其他隐私数据。重点讲主页右上角的扫描工具：扫描（连扫多张时内容依次接在后面）、从相册识别、复制、清除；输入内容后点\"生成\"出二维码，长内容自动分成多张（每张约 300 字节），可保存到相册。飞人和密库广泛使用二维码交互重要信息",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-03-cover.png",
+      "kind" : "video",
+      "asset" : "U2-03.mp4",
+      "lang" : "zh",
+      "title" : "U2-03 二维码交互",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "468254956cd3e2849f1e0cdcf7d4e67b9228cb0649a16b6b2f9fcbdb4319c4c9",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-04-cover.png",
+      "lang" : "zh",
+      "title" : "U2-04 多重身份 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "1c2c4f3bbfbf8dcfcc2d25217878d86f707c0eb9d9c02051dbf8db3b8b281aa5",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "一个密码下的多个身份，切换当前身份；多个密码管理多组身份",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-04-cover.png",
+      "kind" : "video",
+      "asset" : "U2-04.mp4",
+      "lang" : "zh",
+      "title" : "U2-04 多重身份",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "554781d12b6dd4e9b13b7f43fb854a3fcc296b4b78b1b2c05025b60348519920",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-05-cover.png",
+      "lang" : "zh",
+      "title" : "U2-05 主人与仆人 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "2e86f722e5302e46d656ee344ca857af970c3bb4893cdeeca11b1a2d1fbb3711",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "设置主人：私钥加密上链，主人可解密，一个 FID 只能设一次、不可撤销（FEIP6）；主人的安全级别要高于仆人；主仆关系公开、仆人无法抵赖，主人可在仆人私钥泄露时保护其链下权益；声明是仆人单向发出的，不约束主人；我的仆人",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-05-cover.png",
+      "kind" : "video",
+      "asset" : "U2-05.mp4",
+      "lang" : "zh",
+      "title" : "U2-05 主人与仆人",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "4f44c17ce025fc1794ad6b6c2edf81815fec6a21df83d037c6af67a96c2c252d",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-06-cover.png",
+      "lang" : "zh",
+      "title" : "U2-06 主身份与附属身份 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "8c42a0bb59ba19e28828f93f8b06632a635957c1d26a0e2629ae78e9bcc6689d",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "本地保存私钥，购买服务的是主身份。没有私钥，借用主身份服务的为附属身份，包括主人、仆人、观察身份、多签身份等",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-06-cover.png",
+      "kind" : "video",
+      "asset" : "U2-06.mp4",
+      "lang" : "zh",
+      "title" : "U2-06 主身份与附属身份",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "115e7d63ae9c8f1ad21a34c62f40817634a178a2c259d8a65277b4e685d651b8",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-07-cover.png",
+      "lang" : "zh",
+      "title" : "U2-07 离线交易 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "8a170e88f1e49ada3ef433bf3412cb33a22b82e68b213d894d0b6d4b2bf8049a",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "观察身份在飞人里构建交易 → 二维码传给密库离线签名 → 二维码传回飞人广播",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-07-cover.png",
+      "kind" : "video",
+      "asset" : "U2-07.mp4",
+      "lang" : "zh",
+      "title" : "U2-07 离线交易",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "af5c14ff5e72e8e0b78ada4da12456fb59b267ddbb9b69aa317d92626f702b98",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-08-cover.png",
+      "lang" : "zh",
+      "title" : "U2-08 身份策略 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "035b1f07edcfe82a05d7740526c2e03198080aaa77449b5b332e67190c32c4d2",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "角色身份分工与安全分级；飞人保存在线身份，声明主人快速备份私钥（入门任务的私钥备份时可以声明主人），密库保存离线身份；角色策略表格（本组前几集的总结）；用附属身份观察离线身份。极简方案是主人与后代",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-08-cover.png",
+      "kind" : "video",
+      "asset" : "U2-08.mp4",
+      "lang" : "zh",
+      "title" : "U2-08 身份策略",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "5262cc1af988e6954c8596f1b7be363868aa8e9a7f738eb4c270afd9af030cfc",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-09-cover.png",
+      "lang" : "zh",
+      "title" : "U2-09 团队与房间 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "0dd97fa4efeff548260b10171da6282aee8321a975db726a8cfa6444e171823a",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "三种群体组织方式：广场自由进出、无人管理；团队链上注册、成员公开、签署共识，便于积累信用、开展商业；房间私下社交、不上链、房主负责。创建团队（共识文档、DOCK 和 DISK）、邀请成员，都上链；团队的管理：管理员、共识变更、转让与解散、评价；创建房间不上链；成员之间可以分享密钥",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-09-cover.png",
+      "kind" : "video",
+      "asset" : "U2-09.mp4",
+      "lang" : "zh",
+      "title" : "U2-09 团队与房间",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "0615b3b17478e9882749a83db28cfe49e703d608c4f4191d3f856341c0b28a63",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-10-cover.png",
+      "lang" : "zh",
+      "title" : "U2-10 社会地位 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "2e0c2908340f2200536528c1a0baeec0be3c890dbc6b80ccc69e00525ab1dc55",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "余额可转移、不足以衡量地位；币天（面额 × 天数）是基本信用单位，币天销毁；声誉（好评差评的币天净值）、热度（绝对值之和）；重量（总币天 40%、总币天销毁 10%、声誉 50%），但不是唯一指标；聊天里点头像评价飞人；看领航员的卡片和评价记录",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-10-cover.png",
+      "kind" : "video",
+      "asset" : "U2-10.mp4",
+      "lang" : "zh",
+      "title" : "U2-10 社会地位",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "896e10eb654f42c31cb7f6002b8b0ee87d63bac8be1ef534972e028c0a6594b9",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-11-cover.png",
+      "lang" : "zh",
+      "title" : "U2-11 高级交易 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "12a89ba9a66e4f429af675643945a6a9e45b8af6790844510e430b52e1445886",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "发送交易页重选钞票少销毁币天；重组：合并没有币天的小额钞票、拆分大钞票；入口：交易页\"+\"、钞票页\"发送\"；清空账户（Rest，无找零）、刻字上链、付给多人、飞人名单（按名单发）、导入付款数组批量支付",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-11-cover.png",
+      "kind" : "video",
+      "asset" : "U2-11.mp4",
+      "lang" : "zh",
+      "title" : "U2-11 高级交易",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "2967d303f91fe7a533f71d812ed450e8953f098176d8e5349813fe42893c896b",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-12-cover.png",
+      "lang" : "zh",
+      "title" : "U2-12 链上秘密 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "5d17dc09173272cd3bc4a130394b9a9b73da0320b5d04864dd4885aada3beaaf",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "秘密加密上链保存；备份链下秘密；验证码（两步验证）导入与使用",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-12-cover.png",
+      "kind" : "video",
+      "asset" : "U2-12.mp4",
+      "lang" : "zh",
+      "title" : "U2-12 链上秘密",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "4478d489e29c5ec6c80c8f0d8af593dd165e50b53e4cfc8ee278f59acaa86132",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-13-cover.png",
+      "lang" : "zh",
+      "title" : "U2-13 管理文件 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "000fa703e1267f8ac7b31208dc05ffffe4b77328994702198d4c1f11a0881f67",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "文件、DID、密文文件、HAT 与 DISK 的关系；添加、上传、移除本地文件、下载、导出导入 HAT",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-13-cover.png",
+      "kind" : "video",
+      "asset" : "U2-13.mp4",
+      "lang" : "zh",
+      "title" : "U2-13 管理文件",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "54cc22e986d3fe3bffc052bf93e40e9bc5040eeb5b606887602db6c95942b7fc",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-14-cover.png",
+      "lang" : "zh",
+      "title" : "U2-14 应用与服务 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "fba1dc3fdcc661634118eecc87226285054e62aa31943b692e5ab1e12cdc1b41",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "应用和服务是链上登记的目录，谁都能发布、无人审批；服务是收费的服务器（BASE、DOCK、DISK），应用连接服务工作；AID、SID 即发布交易的 ID；服务有掌柜管收支，应用和服务有服务员接待客户；浏览、排序、看详情；按币天销毁加权评分；隐藏只在本机；设置链上服务器时按评分挑选 DISK 等服务；协议和代码用法相同，供开发者",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-14-cover.png",
+      "kind" : "video",
+      "asset" : "U2-14.mp4",
+      "lang" : "zh",
+      "title" : "U2-14 应用与服务",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "8ea438d4e3b60c537166ac3d4ddf7881f5c36394237998d9741bf5ea1ea3692a",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-15-cover.png",
+      "lang" : "zh",
+      "title" : "U2-15 多签 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "5f267235bce9bdcf1fb75b1d81f829e632297e6b83c59324169c53f0a5a370f7",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "创建多签身份，发起多签交易，签署多签交易，整合多签交易，广播多签交易",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-15-cover.png",
+      "kind" : "video",
+      "asset" : "U2-15.mp4",
+      "lang" : "zh",
+      "title" : "U2-15 多签",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "6a2aa7fb0212a92d37fcce113134c32bbab8f1ca7a5cc7500c19e5dde596ea0b",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-16-cover.png",
+      "lang" : "zh",
+      "title" : "U2-16 时间锁与自由宇宙时间 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "01ede1f6d1cefc0db23c47a84137d9f015c0f4273d3a2a735e8af5accd6c67e1",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "时间锁交易。时间由区块高度计量。飞人首页的时间标志：始于 2020-01-01 00:00，格式\"年.天.时.分\"。",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-16-cover.png",
+      "kind" : "video",
+      "asset" : "U2-16.mp4",
+      "lang" : "zh",
+      "title" : "U2-16 时间锁与自由宇宙时间",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "9fb2b67f259369c82eaf6f943ccb0f57568142ce86a736b02f02d7658aee33ee",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-17-cover.png",
+      "lang" : "zh",
+      "title" : "U2-17 凭据上链 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "c37774ab37f5a6699a8a31ee021769088b81b2f741fc4819265d2f1dcd58eee9",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "社会契约上链。发行、查看、销毁与恢复链上凭据，如借据、合同",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-17-cover.png",
+      "kind" : "video",
+      "asset" : "U2-17.mp4",
+      "lang" : "zh",
+      "title" : "U2-17 凭据上链",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "2c549c5392a3e8b88e7b62ccbca54088149c1d53a8e3e0e447d22d1176cc8a40",
+      "format" : "video/mp4"
+    },
+    {
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "kind" : "image",
+      "asset" : "U2-18-cover.png",
+      "lang" : "zh",
+      "title" : "U2-18 通证 封面",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "e8bf70e9c5d7006509a1e7453deb5cfa081a2d3ce01d01ef744cd65150240d81",
+      "format" : "image/png"
+    },
+    {
+      "summary" : "可以看作标准化的凭据。列表解释参数意义。查看、发送、创建通证。领航员给Tom颁发毕业证",
+      "mirrors" : [
+        "https://cid.cash/download/FreerSchool/{tag}/{name}",
+        "https://freecash.info/download/FreerSchool/{tag}/{name}"
+      ],
+      "cover" : "U2-18-cover.png",
+      "kind" : "video",
+      "asset" : "U2-18.mp4",
+      "lang" : "zh",
+      "title" : "U2-18 通证",
+      "authors" : [
+        "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+      ],
+      "id" : "55b327a36e433862a980d424b45668668dc3991266860e3daf64dc964a3ee467",
+      "format" : "video/mp4"
+    }
+  ],
+  "github" : "nobodyoffc/FreerSchool",
+  "owner" : "FQ8KKsMFYXkmNPDVauEMWFBnd7yfhiqqN8"
+}
