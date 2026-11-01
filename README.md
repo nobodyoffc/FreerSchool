@@ -81,10 +81,11 @@ cd .. && tools/finalize.sh U1-02
 
 ## 相关项目
 
-- 协议、服务端、Java SDK：`~/Freeverse`
-- Android 版飞人：`~/AndroidStudioProjects/Freer`
-- Mac 版飞人：`~/MacApp/FreerForMac`
-- 理论著作《密码经济》：`~/Desktop/CryptoEconomics/working`
+- 协议、服务端、Java SDK：[nobodyoffc/Freeverse](https://github.com/nobodyoffc/Freeverse)
+- Android 版飞人：[nobodyoffc/Freer](https://github.com/nobodyoffc/Freer)
+- Mac 版飞人：[nobodyoffc/freer-mac](https://github.com/nobodyoffc/freer-mac)
+- 密库：[nobodyoffc/Safe](https://github.com/nobodyoffc/Safe)
+- 理论著作《密码经济》：尚未公开
 
 ## 许可
 
