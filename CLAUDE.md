@@ -20,7 +20,7 @@
 - **画面方向**：Android 集竖屏 1080×1920，Mac 集横屏 1920×1080，由脚本 `app` 字段决定（含"Android"即竖屏）。
 - **两个应用**：密库（Safe，`~/AndroidStudioProjects/Safe`）是单独的私钥应用，录制方式与飞人相同。`app` 字段写明用到的每个应用及版本，如 `飞人 Android x.y；密库 Android x.y`；每个场景只录一个应用，切换应用用动画或旁白过渡。
 - **提交**：用户说"提交并推送"时才提交，推送到 `nobodyoffc/FreerSchool`（公开，CC0）。公开仓库里同样不得出现私钥、密码等敏感内容。
-- **发布**：成片发到 GitHub Releases，附 DID 清单（`DIDS.txt`，sha256x2）和 SHA-256 清单，各由领航员在飞人"工具"→"签名"里签名（`*.sig.json`），用 `tools/verify.py` 验证；重新导出任何一集都要出新清单、重新签名。
+- **发布**：成片发到 GitHub Releases，附 DID 清单（`DIDS.txt`，sha256x2）和 SHA-256 清单，各由领航员在飞人"工具"→"签名"里签名（`*.sig.json`），用 `tools/verify.py` 验证；重新导出任何一集都要出新清单、重新签名。发布后用 `tools/explorer.py <标签>` 生成 FreeverseExplorer 学堂页的数据（`modules/school-data.js`），再在 Explorer 里运行 `deploy.sh`：服务器从 GitHub 镜像视频并在学堂页播放。
 
 ## 讲师
 
