@@ -8,6 +8,7 @@ import {CmailChain} from './CmailChain';
 import {CoinDays} from './CoinDays';
 import {ContactBook} from './ContactBook';
 import {DevTeam} from './DevTeam';
+import {DiceCard} from './DiceCard';
 import {DockDisk} from './DockDisk';
 import {FirstCash} from './FirstCash';
 import {GroupKinds} from './GroupKinds';
@@ -65,6 +66,7 @@ export const ANIMATIONS: Record<string, React.FC<{scene: PlannedScene}>> = {
   'U1-13/S5': GuideBond,
   'U2-01/S2': RandomKey,
   'U2-01/S4': PhraseKey,
+  'U2-01/S6': DiceCard,
   'U2-02/S4': SplitKey,
   'U2-02/S5': TamperKey,
   'U2-02/S6': SocialKey,

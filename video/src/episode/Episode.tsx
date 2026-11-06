@@ -23,8 +23,11 @@ const SceneVisual: React.FC<{scene: PlannedScene; props: EpisodeProps; base: str
     case '录屏': {
       return <RecordingScene scene={scene} base={base} navigator={navigator} recording={manifest?.recordings[scene.id]} />;
     }
-    case '卡片':
-      return <CardScene scene={scene} />;
+    case '卡片': {
+      // A card can have its own component too, e.g. to add a photo.
+      const Card = ANIMATIONS[`${episode}/${scene.id}`];
+      return Card ? <Card scene={scene} /> : <CardScene scene={scene} />;
+    }
     case '动画': {
       const Animation = ANIMATIONS[`${episode}/${scene.id}`];
       return Animation ? <Animation scene={scene} /> : <CardScene scene={{...scene, points: [scene.title, ...scene.notes]}} />;

@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import {DICE_PHOTO} from './DiceCard';
 import {lineAt, type PlannedScene} from '../episode/plan';
 import {theme, usePortrait} from '../theme';
 
@@ -7,7 +8,7 @@ import {theme, usePortrait} from '../theme';
 //   0 256 bits = 32 bytes; 2²⁵⁶ ≈ 10⁷⁷, about the atoms in the universe
 //   1 truly random: nobody can guess it
 //   2 256 coin flips, heads 0 tails 1
-//   3 a d20: 1–16 → 0–F, 17–20 thrown away; 64 hex digits
+//   3 a d20: the photo first, then 1–16 → 0–F, 17–20 thrown away; 64 hex digits
 //   4 software: a formula from a seed; guess the seed and the whole stream follows
 //   5 2013: Android's random numbers had a flaw, Bitcoin wallets were robbed
 //   6 today: hardware noise seeds the formula; safe if the code is sound
@@ -33,6 +34,9 @@ const rollRng = generator(20);
 while (ROLLS.filter((r) => r <= 16).length < 64) ROLLS.push(1 + Math.floor(rollRng() * 20));
 const streamRng = generator(7);
 const STREAM = Array.from({length: 40}, () => Math.floor(streamRng() * 10)).join('');
+
+// Stage 3 opens with the dice photo for this long before the rolls start.
+const PHOTO = 60;
 
 // Stage 2 and 3 pacing: the first few slowly enough to follow, then the rest in a rush.
 const paced = (t: number, slow: number, each: number, fastPerFrame: number, total: number) =>
@@ -143,8 +147,9 @@ export const RandomKey: React.FC<{scene: PlannedScene}> = ({scene}) => {
   // Stages 0–2: the 256-bit grid; stage 3: the 64-digit grid; from stage 4 the software side.
   const coinFlips = at(2) ? paced(since(2), 8, 12, 3.5, 256) : 0;
   const bitsShown = at(2) ? coinFlips : Math.round(256 * fade(frame, 60));
-  const rollIndex = at(3) ? paced(since(3), 8, 26, 0.34, ROLLS.length - 1) : 0;
-  const hexDone = ROLLS.slice(0, at(3) ? rollIndex + 1 : 0).filter((r) => r <= 16);
+  const rollIndex = at(3) ? paced(Math.max(0, since(3) - PHOTO), 6, 26, 0.5, ROLLS.length - 1) : 0;
+  const photoOn = at(3) && !at(4) && since(3) < PHOTO + 12;
+  const hexDone = ROLLS.slice(0, at(3) && since(3) >= PHOTO ? rollIndex + 1 : 0).filter((r) => r <= 16);
   const roll = ROLLS[rollIndex];
 
   return (
@@ -194,8 +199,13 @@ export const RandomKey: React.FC<{scene: PlannedScene}> = ({scene}) => {
         )}
 
         {/* Stage 3: d20, 1–16 → 0–F, 17–20 thrown away. */}
+        {photoOn && (
+          <div style={{position: 'absolute', left: 0, right: 0, top: 1060, display: 'flex', justifyContent: 'center', opacity: Math.min(fade(since(3)), 1 - fade(since(3) - PHOTO))}}>
+            <Img src={staticFile(DICE_PHOTO)} style={{width: 900, borderRadius: 20}} />
+          </div>
+        )}
         {at(3) && !at(4) && (
-          <div style={{position: 'absolute', left: 0, right: 0, top: 1060, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, opacity: fade(since(3))}}>
+          <div style={{position: 'absolute', left: 0, right: 0, top: 1060, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, opacity: fade(since(3) - PHOTO)}}>
             <div style={{display: 'flex', alignItems: 'center', gap: 40}}>
               <D20 value={roll} spin={(rollIndex * 47) % 360} bad={roll > 16} />
               <div style={{fontSize: 56, fontWeight: 700, color: roll > 16 ? RED : theme.accent, width: 340}}>

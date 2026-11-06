@@ -29,6 +29,12 @@ if (fs.existsSync(recDir)) {
     const duration = Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', path.join(recDir, file)]).toString());
     recordings[path.parse(file).name] = {file: `recordings/${file}`, duration};
   }
+  // Photos shown in animations or cards, e.g. recordings/U2-01/d20.jpg → images/d20.jpg.
+  const images = fs.readdirSync(recDir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f));
+  if (images.length) {
+    fs.mkdirSync(path.join(out, 'images'));
+    for (const file of images) fs.copyFileSync(path.join(recDir, file), path.join(out, 'images', file));
+  }
 }
 fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify({recordings}, null, 2));
 console.log(`${timeline.id}: ${timeline.scenes.length} scenes, ${Object.keys(recordings).length} recordings → ${out}`);
